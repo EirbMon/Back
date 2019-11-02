@@ -1,12 +1,16 @@
 const express = require('express');
 const app = express();
-const port = 3000 || process.env.PORT;
+const port = 4000 || process.env.PORT;
 const Web3 = require('web3');
 const truffle_connect = require('./connection/app.js');
 const bodyParser = require('body-parser');
 const contract = require('truffle-contract');
 const eirbmon_artifact = require(truffle_connect.PATH_TO_BLOCKCHAIN + 'build/contracts/Eirbmon.json');
 var Eirbmon = contract(eirbmon_artifact);
+var cors = require('cors');
+
+// Then use it before your routes are set up:
+app.use(cors());
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -27,7 +31,7 @@ app.get('/getAccounts', (req, res) => {
 // afficher mes eirbmon
 app.get('/getMyEirbmon', (req, res) => {
   console.log("**** GET /getMyEirbmon ****");
-  truffle_connect.getMyEirbmon(function (answer) {
+  truffle_connect.getMyEirbmon(req.query.address,function (answer) {
     res.send(answer);
   })
 });

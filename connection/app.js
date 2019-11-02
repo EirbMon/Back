@@ -36,23 +36,32 @@ module.exports = {
       callback(self.accounts);
     });
   },
-  getMyEirbmon: function(callback) {
+  getMyEirbmon: function(account,callback) {
     var self = this;
 
     // Bootstrap the Eirbmon abstraction for Use.
     Eirbmon.setProvider(self.web3.currentProvider);
-
+    
     Eirbmon.deployed().then(function(instance) {
       eirbmonInstance = instance;
-      return eirbmonInstance.pokemonsCount();
-    }).then(function(pokemonsCount) {
-      var response = [];
+      return eirbmonInstance.eirbmonsCount();
+    }).then(function(eirbmonsCount) {
+      console.log(eirbmonsCount)
+      var response = {"Pokemons":[]};
       var tabProm = [];
-      for (var i = 1; i <= pokemonsCount; i++) {
-        tabProm[i] = eirbmonInstance.pokemons(i);
-        tabProm[i].then(function(pokemon) {
-          response.push(pokemon);
+      for (var i = 0; i < eirbmonsCount; i++) {
+        tabProm[i] = eirbmonInstance._Eirbmons(i);
+        tabProm[i].then(function(eirbmon) {
+          console.log(eirbmon[2],account)
+          // console.log(eirbmon)
+          let item = {"type":eirbmon[7],"name":eirbmon[1],"color":eirbmon[4],"position_x":Number(eirbmon[5]),"position_y":Number(eirbmon[6])};
+          console.log(item)
+          response.Pokemons.push(item);
 
+          // if(eirbmon[2] == account){
+          //   console.log('ok')
+          //   response.push(eirbmon);
+          // }
          })
       }
       Promise.all(tabProm).then(()=>callback(response),()=>console.log('error'));
@@ -61,7 +70,6 @@ module.exports = {
     })
 
   },
-
 }
 
 
