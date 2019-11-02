@@ -1,6 +1,8 @@
 module.exports = function(app,User) {
     const UserCtrl = require('../controllers/user.controller.js');
     const GlobalCtrl = require('../controllers/global.controller.js');
+    const truffle_connect = require('../connection/app.js');
+
 
     // Create a new User
     app.post('/api/inscription', (req, res) => {
@@ -55,5 +57,24 @@ module.exports = function(app,User) {
     // Test token
     app.get('/api/test', (req, res) => {
       GlobalCtrl.TestToken(req, res, User, 'user');
+    });
+
+    /*
+    partie blockchain
+    */
+    // renvoi tout les comptes
+    app.get('/getAccounts', (req, res) => {
+        console.log("**** GET /getAccounts ****");
+        truffle_connect.start(function (answer) {
+        res.send(answer);
+        })
+    });
+    
+    // afficher mes eirbmon
+    app.get('/getMyEirbmon', (req, res) => {
+        console.log("**** GET /getMyEirbmon ****");
+        truffle_connect.getMyEirbmon(function (answer) {
+        res.send(answer);
+        })
     });
 }
