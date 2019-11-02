@@ -56,4 +56,25 @@ module.exports = function(app,User) {
     app.get('/api/test', (req, res) => {
       GlobalCtrl.TestToken(req, res, User, 'user');
     });
+
+
+
+    /*Routes pour blockchain*/
+
+    // renvoi tout les comptes
+    app.get('/getAccounts', (req, res) => {
+        console.log("**** GET /getAccounts ****");
+        truffle_connect.start(function (answer) {
+        res.send(answer);
+        })
+    });
+    
+    // afficher mes eirbmon
+    app.get('/getMyEirbmon', (req, res) => {
+        console.log("**** GET /getMyEirbmon ****");
+        truffle_connect.getMyEirbmon(req.query.address,function (answer) {
+        res.send(answer);
+        })
+    });
+  
 }
