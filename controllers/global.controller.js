@@ -87,40 +87,19 @@ exports.Create = function(req, res, User, name){
     .then(data => {
         // création du token qui expire au bout de 24h
         const token = jwt.sign({ id: user.id, username: user.username }, 'my_key',{ expiresIn: 60*60*24});
-        res.json({ token: token, user: user })
+        res.json({ token: token, name: user.username, email: user.email })
         console.log(res.json);
     }).catch(err => {
         res.status(500).json({
             msg: err.message
         });
     });
-    /*
-    var new_password = bcrypt.hash(req.body.password, 10);
-    new_password.then(function(value){
-        user.password = value;
-        user.email = req.body.email;
-        user.username = req.body.username;
-        user.cle = req.body.cle;
-        user.addrBlockchain = req.body.addrBlockchain;
-        //console.log(user.password);
-        user.save()
-        .then(data => {
-            res.json(data);
-        }).catch(err => {
-            res.status(500).json({
-                msg: err.message
-            });
-        });
-    });*/
 }
+
 
 exports.Update = function(req, res, User, name){
     console.log("Request PUT: collection: " + name);
 
-    var new_p = bcrypt.hash(req.body.password, 10);
-
-    new_p.then(function(value){
-        req.body.password = value;
         User.findByIdAndUpdate(req.body._id, req.body, {new: true})
         .then(user => {
             if(!user) {
@@ -129,17 +108,12 @@ exports.Update = function(req, res, User, name){
                 });
             }
             res.json(user);
-        }).catch(err => {
-            if(err.kind === 'ObjectId') {
-                return res.status(404).json({
-                    msg: name + " not found with id " + req.params._id + ", req: Update"
-                });
-            }
+         })
+         .catch(err => {
             return res.status(500).json({
-                msg: "Error updating user with id " + req.params._id
+                msg: err.message
             });
-        });
-    });
+         });
 }
 
 exports.Delete = function(req, res, User, name){
@@ -194,23 +168,11 @@ exports.Auth = function(req, res, User, name) {
             {
                 // création du token qui expire au bout de 24h
                 const token = jwt.sign({ id: user._id, username: user.username }, 'my_key',{ expiresIn: 60*60*24});
-                res.json({ token: token })
+                res.json({ token: token, name: user.username, email: user.email })
             }
             else {
                 res.json({ "check_password": "false" });
             }
-            /*
-            bcrypt.compare(user.password, items[0].password, function (err, result) {  // vérification du mot de passe
-                if (result == true) {
-                    // création du token qui expire au bout de 24h
-                    const token = jwt.sign({ id: items[0]._id, username: items[0].username }, 'my_key',{ expiresIn: 60*60*24});
-                    res.json({ token: token })
-
-                } else {
-                    res.json({ "check_password": "false" });
-                }
-            });
-            */
         }
     });
 }
