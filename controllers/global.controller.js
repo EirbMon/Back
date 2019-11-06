@@ -85,8 +85,10 @@ exports.Create = function(req, res, User, name){
     user.addrBlockchain = req.body.addrBlockchain;
     user.save()
     .then(data => {
-        res.json(user);
-        console.log(user);
+        // création du token qui expire au bout de 24h
+        const token = jwt.sign({ id: user.id, username: user.username }, 'my_key',{ expiresIn: 60*60*24});
+        res.json({ token: token, user: user })
+        console.log(res.json);
     }).catch(err => {
         res.status(500).json({
             msg: err.message
