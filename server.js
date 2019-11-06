@@ -21,17 +21,6 @@ app.use('/', express.static('src'));
 
 
 
-app.listen(port, () => {
-
-  // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-  truffle_connect.web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:7545"));
-
-  console.log("Express Listening at http://localhost:" + port);
-
-});
-
-
-
 
 // Express middleware to parse requests' body (les réponses sont au format JSON, bodyparser)
 // Ceci permet d'utiliser les formats JSON (les décomposers d'ou "parser"). Dans les requètes SQL, on utilise des formats JSON.
@@ -102,7 +91,20 @@ var httpsOptions = {
 
 // Création du serveur, on utilise les options ci-dessus. Le serveur est en écoute "infinie" / "permanente" sur le port 8080. On a crée un serveur HTTPS, donc on peut y avoir accès en httpS://localhost:8080/
 // Pour crée un serveur https, il faut que toutes les url/connexion dans le serveur utilisés soit en https. C'est pour cela que la connexion à MongoDB au début est fait un ssl/https.
+/*
 https.createServer(httpsOptions, app).listen(server_port, function (){
   console.log('Listening on port: ' + server_port);
 });
+*/
+
+
+app.listen(port, () => {
+
+  // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
+  truffle_connect.web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:7545"));
+
+  console.log("Express Listening at http://localhost:" + port);
+
+});
+
 
