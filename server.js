@@ -70,8 +70,6 @@ var User = require('./schemas/user.schema.js');
 // Exemple: Le frontend envoie un "GET" (dans le header de la requète http) sur https://localhost:8080/api/users/ enclenche un GetAll de la part du serveur)
 require('./routes/user.routes.js')(app,User);
 
-// Port d'écoute du serveur. Le frontend devra envoie des requètes sur ce port. Ce sera utilisé à la création du serveur ci-dessous.
-var server_port = 8080;
 
 // Options du serveur. En cas de bonne réception du message, on envoie le message "200: OK" au front end). Ce sera utilisé à la création du serveur ci-dessous.
 app.options('*', function (request, response) {
