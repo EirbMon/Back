@@ -75,24 +75,36 @@ exports.GetByUsername = function(req, res, User, name){
 
 
 exports.Create = function(req, res, User, name){
-    user = new User();
-    user.time = Date.now(); // Directly set "time" as the current date.
-    console.log("Request POST: collection: "+ name);
-    user.password = req.body.password;
-    user.email = req.body.email;
-    user.username = req.body.username;
-    user.cle = req.body.cle;
-    user.addrBlockchain = req.body.addrBlockchain;
-    user.save()
-    .then(data => {
-        // création du token qui expire au bout de 24h
-        const token = jwt.sign({ id: user.id, username: user.username }, 'my_key',{ expiresIn: 60*60*24});
-        res.json({ token: token, name: user.username, email: user.email })
-        console.log(res.json);
-    }).catch(err => {
-        res.status(500).json({
-            msg: err.message
-        });
+    var userExiste = false;
+    User.findOne({ 'username': req.body.username })
+    .then(user => {
+        if (user != null) {
+            res.json({ "exist_user": "true" });
+        } 
+        else {
+            user = new User();
+            user.time = Date.now(); // Directly set "time" as the current date.
+            console.log("Request POST: collection: "+ name);
+            user.password = req.body.password;
+            user.email = req.body.email;
+            user.username = req.body.username;
+            user.cle = req.body.cle;
+            user.addrBlockchain = req.body.addrBlockchain;
+            user.save()
+            .then(data => {
+                // création du token qui expire au bout de 24h
+                const token = jwt.sign({ id: user.id, username: user.username }, 'my_key',{ expiresIn: 60*60*24});
+                res.json({ token: token, name: user.username, email: user.email })
+                console.log(res.json);
+            }).catch(err => {
+                res.status(500).json({
+                    msg: err.message
+                });
+            });
+        }
+    })
+    .catch(err => {
+        res.json({ "err": err.message });
     });
 }
 
@@ -160,10 +172,10 @@ exports.verifyToken = function(req,res,next) {
 exports.Auth = function(req, res, User, name) {
     User.findOne({ 'username': req.body.username })
     .then(user => {
-        if (user.length === 0) {
+        console.log(user);
+        if (user == null) {
             res.json({ "check_user": "false" });
         } else {
-            console.log(user);
             if(req.body.password === user.password)
             {
                 // création du token qui expire au bout de 24h
@@ -174,7 +186,10 @@ exports.Auth = function(req, res, User, name) {
                 res.json({ "check_password": "false" });
             }
         }
-    });
+    })
+    .catch(err => {
+        res.json({ "err": err.message});
+    })
 }
 
 exports.TestJeton = function(req, res, User, name) {
