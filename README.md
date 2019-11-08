@@ -7,8 +7,11 @@ You need to specify your Blockchain root with PATH_TO_BLOCKCHAIN variable.
 npm install
  
 
- #run server
- npm run start
+#run server
+npm start
 
 
-open a browser in http://localhost:3000/getAccounts
+open a browser in (for example) :
+ http://localhost:8080/getAccounts 
+ http://localhost:8080/api/users
+

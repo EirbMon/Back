@@ -1,29 +1,16 @@
-const express = require('express');
-const app = express();
-const port = 4000 || process.env.PORT;
-const Web3 = require('web3');
-const bodyParser = require('body-parser');
-
-const truffle_connect = require('./connection/app.js');
-
-
+// Express: framework for NodeJS
+const express = require('express'); // express framework pour les applications de base avec NodeJS
+const app = express(); // express framework pour les applications de base avec NodeJS
 const fs = require('fs'); // module "File System" pour pouvoir intéragir avec le système, ici c'est pour récupéré/lire le contenu de fichiers txt (comme un "cat").
 const https = require('https'); // module pour crée un serveur https.
-
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-
-// parse application/json
-app.use(bodyParser.json());
-
-app.use('/', express.static('src'));
-
-
 
 
 // Express middleware to parse requests' body (les réponses sont au format JSON, bodyparser)
 // Ceci permet d'utiliser les formats JSON (les décomposers d'ou "parser"). Dans les requètes SQL, on utilise des formats JSON.
 // Exemple: POST http//..../users --data {name:"Valentin", age:"69"}
+const bodyParser = require('body-parser');
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 
 
 // Cross-origin resource sharing (CORS) adds HEADER to HTTP Request in order to allow an user
@@ -69,6 +56,8 @@ var User = require('./schemas/user.schema.js');
 // Exemple: Le frontend envoie un "GET" (dans le header de la requète http) sur https://localhost:8080/api/users/ enclenche un GetAll de la part du serveur)
 require('./routes/user.routes.js')(app,User);
 
+// Port d'écoute du serveur. Le frontend devra envoie des requètes sur ce port. Ce sera utilisé à la création du serveur ci-dessous.
+var server_port = 8080;
 
 // Options du serveur. En cas de bonne réception du message, on envoie le message "200: OK" au front end). Ce sera utilisé à la création du serveur ci-dessous.
 app.options('*', function (request, response) {
@@ -88,20 +77,30 @@ var httpsOptions = {
 
 // Création du serveur, on utilise les options ci-dessus. Le serveur est en écoute "infinie" / "permanente" sur le port 8080. On a crée un serveur HTTPS, donc on peut y avoir accès en httpS://localhost:8080/
 // Pour crée un serveur https, il faut que toutes les url/connexion dans le serveur utilisés soit en https. C'est pour cela que la connexion à MongoDB au début est fait un ssl/https.
-/*
 https.createServer(httpsOptions, app).listen(server_port, function (){
   console.log('Listening on port: ' + server_port);
 });
-*/
 
+// L'écoute est non blocante donc le code en dessous est bien exécuté
 
-app.listen(port, () => {
+// Testing:
 
-  // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-  truffle_connect.web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:7545"));
+// Tester rapidement si le Serveur fonctionne.
+// Simplement allez sur: https://localhost:8080/api/users/
+// Ensuite regarder dans la console.
 
-  console.log("Express Listening at http://localhost:" + port);
+// Tester si la connexion avec MongoDB fonctionne.
+// Il faut placer le code ci-dessous au dessus de https.createServer et en dessous de la connexion avec MongoDB
+// Voir le BDD: https://cloud.mongodb.com/ et id: valmalay@gmail.com et mdp: E******!
 
-});
+// POST:
+//const newUser = {
+//  "name": "Plastic Bricks",
+//  "lastname": "toys",
+//  "email": "test1@gmail.com",
+//  "password": "jedetestelesfrites"
+//};
+//User.create(newUser);
 
-
+// GET :
+//User.findOne({ name: 'Plastic Bricks' }, function (err, doc) {console.log(doc);});

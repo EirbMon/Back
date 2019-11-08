@@ -1,7 +1,7 @@
 const contract = require('truffle-contract');
 const PATH_TO_BLOCKCHAIN = "../Blockchain/";
-const eirbmon_artifact = require('../' + PATH_TO_BLOCKCHAIN + 'build/contracts/Eirbmon.json');
-var Eirbmon = contract(eirbmon_artifact);
+// const eirbmon_artifact = require('../' + PATH_TO_BLOCKCHAIN + 'build/contracts/Eirbmon.json');
+// var Eirbmon = contract(eirbmon_artifact);
 
 module.exports = {
   PATH_TO_BLOCKCHAIN : PATH_TO_BLOCKCHAIN,
