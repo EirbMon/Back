@@ -242,3 +242,21 @@ exports.CreateEirbmonModel = function(req, res, EirbmonModel, name){
         res.json({ "err": err.message });
     });
 }
+
+exports.CreateFiliere = function(req, res, Filiere, name){
+    Filiere.findOne({ 'name': req.body.name })
+    .then(filiere => {
+        if (filiere != null) {
+            res.json({ "exist_filiere": "true" });
+        } 
+        else {
+            filiere = new EirbmonModel();
+            filiere.name = req.body.name;
+            filiere.save();
+            res.json({filiere})
+        }
+    })
+    .catch(err => {
+        res.json({ "err": err.message });
+    });
+}
