@@ -5,7 +5,7 @@ const Web3 = require('web3');
 const truffle_connect = require('./connection/app.js');
 const bodyParser = require('body-parser');
 const contract = require('truffle-contract');
-const eirbmon_artifact = require(truffle_connect.PATH_TO_BLOCKCHAIN + 'build/contracts/Eirbmon.json');
+const eirbmon_artifact = require('./build/contracts/Eirbmon.json');
 var Eirbmon = contract(eirbmon_artifact);
 
 const fs = require('fs'); // module "File System" pour pouvoir intéragir avec le système, ici c'est pour récupéré/lire le contenu de fichiers txt (comme un "cat").
