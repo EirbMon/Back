@@ -63,12 +63,16 @@ mongoose.connect(url, {useNewUrlParser: true,
 
 //Schemas : correspond à la structure des "Documents", même s'ils sont dynamiques ça permet de controler les données, le type, ou autre verification.
 var User = require('./schemas/user.schema.js');
+var Eirbmon = require('./schemas/eirbmon.schema.js');
+var EirbmonModel = require('./schemas/eirbmonModel.schema.js');
 
 // Correspond aux routes emprumter par les requètes. Ceci permet au Frontend de déclencher des requètes grâce au route.
 // Create all CRUD SQL/Routing functions (GET,POST,PUT,DELETE). On traduit la requete HTTP envoyé par le front-end en des nouvelles fonctions gérées par le serveur.
 // On utilise les fonctions dans le dossier controllers.
 // Exemple: Le frontend envoie un "GET" (dans le header de la requète http) sur https://localhost:8080/api/users/ enclenche un GetAll de la part du serveur)
 require('./routes/user.routes.js')(app,User);
+require('./routes/eirbmon.routes.js')(app,Eirbmon);
+require('./routes/eirbmonModel.routes.js')(app,EirbmonModel);
 
 
 // Options du serveur. En cas de bonne réception du message, on envoie le message "200: OK" au front end). Ce sera utilisé à la création du serveur ci-dessous.

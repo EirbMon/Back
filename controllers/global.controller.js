@@ -206,3 +206,39 @@ exports.TestJeton = function(req, res, User, name) {
     });
   });
 }
+
+
+
+exports.CreateEirbmon = function(req, res, Eirbmon, name){
+            eirbmon = new Eirbmon();
+            eirbmon.time = Date.now(); // Directly set "time" as the current date.
+            console.log("Request POST: collection: "+ name);
+            eirbmon.name = req.body.name;
+            eirbmon.userOwnerId = req.body.userOwnerId;
+            eirbmon.filiereId = req.body.filiereId;
+            eirbmon.pv = req.body.pv;
+            eirbmon.attaque = req.body.attaque;
+            eirbmon.xp = req.body.xp;
+            eirbmon.lvl = req.body.lvl;
+            eirbmon.save()
+            res.json({eirbmon})
+}
+
+exports.CreateEirbmonModel = function(req, res, EirbmonModel, name){
+    EirbmonModel.findOne({ 'name': req.body.name })
+    .then(eirbmonModel => {
+        if (eirbmonModel != null) {
+            res.json({ "exist_eirbmon": "true" });
+        } 
+        else {
+            eirbmonModel = new EirbmonModel();
+            eirbmonModel.name = req.body.name;
+            eirbmonModel.pathImage = req.body.pathImage;
+            eirbmonModel.save();
+            res.json({eirbmonModel})
+        }
+    })
+    .catch(err => {
+        res.json({ "err": err.message });
+    });
+}
