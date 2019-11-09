@@ -33,7 +33,7 @@ pipeline {
     }
     stage('Run prod container') {
       steps {
-        sh 'docker run -p 4000:4000 -d --name eirbmon-back eirbmon/back'
+        sh 'docker run -p 4000:4000 -it -v /home/eirbmon/Documents/Blockchain/build/contracts:/Blockchain/build/contracts -d --name eirbmon-back eirbmon/back'
         echo 'Prod container ready !'
       }
     }
