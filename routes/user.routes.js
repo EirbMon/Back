@@ -6,32 +6,32 @@ module.exports = function(app,User) {
 
     // Create a new User
     app.post('/api/inscription', (req, res) => {
-        GlobalCtrl.Create(req, res, User, 'user');
+        UserCtrl.Create(req, res, User, 'user');
     });
 
     // Retrieve all User
     app.get('/api/users', (req, res) => {
-        GlobalCtrl.GetAll(req, res, User, 'user');
+        UserCtrl.GetAll(req, res, User, 'user');
     });
 
     // Retrieve a single User by Id
     app.get('/api/users/:_id', (req, res) => {
-        GlobalCtrl.GetById(req, res, User, 'user');
+        UserCtrl.GetById(req, res, User, 'user');
     });
 
     // Retrieve a single User by Cle
     app.get('/api/users/cle/:cle', (req, res) => {
-        GlobalCtrl.GetByCle(req, res, User, 'cle');
+        UserCtrl.GetByCle(req, res, User, 'cle');
     });
 
     // Retrieve a single User by Email
     app.get('/api/users/email/:email', (req, res) => {
-        GlobalCtrl.GetByEmail(req, res, User, 'email');
+        UserCtrl.GetByEmail(req, res, User, 'email');
     });
 
     // Retrieve a single User by Username
     app.get('/api/users/email/:username', (req, res) => {
-        GlobalCtrl.GetByUsername(req, res, User, 'email');
+        UserCtrl.GetByUsername(req, res, User, 'username');
     });
 
     // Send mail to an user
@@ -41,22 +41,22 @@ module.exports = function(app,User) {
 
    // Update a User with Id
     app.put('/api/users', (req, res) => {
-        GlobalCtrl.Update(req, res, User, 'user');
+        UserCtrl.Update(req, res, User, 'user');
     });
 
     // Delete a User with Id
     app.delete('/api/users/:_id', (req, res) => {
-        GlobalCtrl.Delete(req, res, User, 'user');
+        UserCtrl.Delete(req, res, User, 'user');
     });
 
     // Authentification
     app.post('/api/connexion', (req, res) => {
-        GlobalCtrl.Auth(req, res, User, 'user');
+        UserCtrl.Auth(req, res, User, 'user');
     });
 
     // Test token
     app.get('/api/test', (req, res) => {
-      GlobalCtrl.TestToken(req, res, User, 'user');
+      UserCtrl.TestToken(req, res, User, 'user');
     });
 
     /*

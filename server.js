@@ -65,7 +65,7 @@ mongoose.connect(url, {useNewUrlParser: true,
 var User = require('./schemas/user.schema.js');
 var Eirbmon = require('./schemas/eirbmon.schema.js');
 var EirbmonModel = require('./schemas/eirbmonModel.schema.js');
-var filiere = require('./schemas/filiere.schema.js');
+var Filiere = require('./schemas/filiere.schema.js');
 
 // Correspond aux routes emprumter par les requètes. Ceci permet au Frontend de déclencher des requètes grâce au route.
 // Create all CRUD SQL/Routing functions (GET,POST,PUT,DELETE). On traduit la requete HTTP envoyé par le front-end en des nouvelles fonctions gérées par le serveur.
