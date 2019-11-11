@@ -1,9 +1,6 @@
-
 const nodemailer = require("nodemailer");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
-
 
 exports.SendEmail = function(req, User){
 
@@ -39,43 +36,9 @@ exports.SendEmail = function(req, User){
         });
     });
 
-    res.json([]);
+    res.json([]); 
     next();
-}
-
-exports.GetAll = function(req, res, User, name){
-    console.log("Request GET All: collection: " + name);
-    User.find()
-    .then(req => {
-        res.json(req);
-    }).catch(err => {
-        res.status(500).send({
-            msg: err.message
-        });
-    });
-};
-
-exports.GetById = function (req, res, User, name){
-    console.log("Request GET by ID: collection: " + name);
-    User.findById(req.params._id)
-    .then(user => {
-        if(!user) {
-            return res.status(404).json({
-                msg: name + " not found with id " + req.params._id + ", req: GetById"
-            });
-        }
-        res.json(user);
-    }).catch(err => {
-        if(err.kind === 'ObjectId') {
-            return res.status(404).json({
-                msg: name + " not found with id " + req.params._id + ", req: GetById"
-            });
-        }
-        return res.status(500).json({
-            msg: "Error retrieving User with id " + req.params._id + ", req: GetById"
-        });
-    });
-}
+} 
 
 exports.GetByEmail = function(req, res, User, name){
     console.log("Request GET by email, collection: " + name);
@@ -149,47 +112,6 @@ exports.Create = function(req, res, User, name){
     });
 }
 
-
-exports.Update = function(req, res, User, name){
-    console.log("Request PUT: collection: " + name);
-
-        User.findByIdAndUpdate(req.body._id, req.body, {new: true})
-        .then(user => {
-            if(!user) {
-                return res.status(404).json({
-                    msg: name + " not found with id " + req.params._id  + ", req: Update"
-                });
-            }
-            res.json(user);
-         })
-         .catch(err => {
-            return res.status(500).json({
-                msg: err.message
-            });
-         });
-}
-
-exports.Delete = function(req, res, User, name){
-    console.log("Request DELETE byID: collection: " + name);
-    User.findByIdAndRemove(req.params._id)
-    .then(user => {
-        if(!user) {
-            return res.status(404).json({
-                msg: name + " not found with id " + req.params._id + ", req: Delete"
-            });
-        }
-        res.json({msg: "User deleted successfully!"});
-    }).catch(err => {
-        if(err.kind === 'ObjectId' || err.name === 'NotFound') {
-            return res.status(404).json({
-                msg: name + "not found with id " + req.params._id + ", req: Delete"
-            });
-        }
-        return res.status(500).json({
-            msg: "Could not delete user with id " + req.params._id + ", req: Delete"
-        });
-    });
-}
 
 exports.Auth = function(req, res, User, name) {
     User.findOne({ 'username': req.body.username })
