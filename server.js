@@ -3,7 +3,7 @@ const app = express();
 const port = 4000 || process.env.PORT;
 const Web3 = require('web3');
 const bodyParser = require('body-parser');
-
+const ip = '192.168.0.23';
 const truffle_connect = require('./connection/app.js');
 
 
@@ -95,7 +95,7 @@ https.createServer(httpsOptions, app).listen(server_port, function (){
 */
 
 
-app.listen(port, () => {
+app.listen(port,ip, () => {
 
   // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
   truffle_connect.web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:7545"));
