@@ -30,7 +30,7 @@ module.exports = function(app,User) {
     });
 
     // Retrieve a single User by Username
-    app.get('/api/users/email/:username', (req, res) => {
+    app.get('/api/users/username/:username', (req, res) => {
         UserCtrl.GetByUsername(req, res, User, 'username');
     });
 
@@ -69,7 +69,7 @@ module.exports = function(app,User) {
         res.send(answer);
         })
     });
-    
+
     // afficher mes eirbmon
     app.get('/getMyEirbmon', (req, res) => {
         console.log("**** GET /getMyEirbmon ****");

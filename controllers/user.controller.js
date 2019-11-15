@@ -17,17 +17,17 @@ exports.SendEmail = function(req, User){
             pass: "Winenote1$"
         }
         });
-             
+
         let mailOptions = {
             from: "winenote33@gmail.com",
             to:  req.body.email,
-            subject: "[WineNote] - Password forgot",
+            subject: "[Eirbmon] - Password forgot",
             html: `<p style="color:black;"> Bonjour, <br /><br /> Vous avez fait une demande de mot de passe oublié.
-                Si vous n'etes pas l'auteur de cette demande, ignorez ce message. <br /> 
+                Si vous n'etes pas l'auteur de cette demande, ignorez ce message. <br />
                 Sinon, vous pouvez récupérer le code d'activation pour changer de mot de passe: <br /> <br />
-                `+ req.body.name + ` <br /> <br /> Cordialement, <br /> L'équipe EnseirbMon. </p> `
+                `+ req.body.name + ` <br /> <br /> Cordialement, <br /> L'équipe Eirbmon. </p> `
         };
-             
+
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 return console.log(error);
@@ -36,9 +36,9 @@ exports.SendEmail = function(req, User){
         });
     });
 
-    res.json([]); 
+    res.json([]);
     next();
-} 
+}
 
 exports.GetByEmail = function(req, res, User, name){
     console.log("Request GET by email, collection: " + name);
@@ -84,7 +84,7 @@ exports.Create = function(req, res, User, name){
     .then(user => {
         if (user != null) {
             res.json({ "exist_user": "true" });
-        } 
+        }
         else {
             user = new User();
             user.time = Date.now(); // Directly set "time" as the current date.
