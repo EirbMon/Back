@@ -13,7 +13,7 @@ pipeline {
         echo 'Everything is okay, we can continue !'
       }
     }
-        stage('Build') {
+    stage('Build') {
       parallel {
         stage('Build dev') {
           when {
@@ -57,22 +57,26 @@ pipeline {
         }
       }
     }
-    stage('Run dev container') {
-      when {
-        branch "dev"
-      }
-      steps {
-        sh 'docker run --network="host" -it -v /home/eirbmon/Documents/SharedFile:/Blockchain/build/contracts -d --name eirbmon-back-dev eirbmon/back-dev'
-        echo 'Dev container ready !'
-      }
-    }
-    stage('Run prod container') {
-      when {
-        branch "master"
-      }
-      steps {
-        sh 'docker run --network="host" -it -v /home/eirbmon/Documents/SharedFile:/Blockchain/build/contracts -d --name eirbmon-back eirbmon/back'
-        echo 'Prod container ready !'
+    stage('Run') {
+      parallel {
+        stage('Run dev container') {
+          when {
+            branch "dev"
+          }
+          steps {
+            sh 'docker run --network="host" -it -v /home/eirbmon/Documents/SharedFile:/Blockchain/build/contracts -d --name eirbmon-back-dev eirbmon/back-dev'
+            echo 'Dev container ready !'
+          }
+        }
+        stage('Run prod container') {
+          when {
+              branch "master"
+          }
+          steps {
+            sh 'docker run --network="host" -it -v /home/eirbmon/Documents/SharedFile:/Blockchain/build/contracts -d --name eirbmon-back eirbmon/back'
+            echo 'Prod container ready !'
+          }
+        }
       }
     }
   }
