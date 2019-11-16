@@ -7,6 +7,12 @@ module.exports = function(app,Eirbmon) {
         EirbmonCtrl.CreateEirbmon(req, res, Eirbmon, 'eirbmon');
     });
 
+    // Retrieve all User
+    app.get('/api/eirbmon/owner/:owner_id', (req, res) => {
+        EirbmonCtrl.GetOwnerEirbmons(req, res, Eirbmon, 'eirbmon');
+    });
+       
+
     // Retrieve a single Eirbmon by Id
     app.get('/api/eirbmon/:_id', (req, res) => {
         GlobalCtrl.GetById(req, res,  Eirbmon, 'eirbmon');

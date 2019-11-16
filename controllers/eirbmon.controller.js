@@ -16,3 +16,14 @@ exports.CreateEirbmon = function(req, res, Eirbmon, name){
     res.json({eirbmon})
 }
 
+exports.GetOwnerEirbmons = function(req, res, Eirbmon, name){
+    console.log("Request GetOwnerEirbmons, collection: " + name);
+    Eirbmon.find({'owner_id': req.params.owner_id})
+    .then(users => {
+        res.json(users);
+    }).catch(err => {
+        res.status(500).send({
+            msg: err.message
+        });
+    });
+}
