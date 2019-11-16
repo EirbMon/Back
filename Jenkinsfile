@@ -68,7 +68,7 @@ pipeline {
     }
     stage('Run prod container') {
       when {
-        branch "dev"
+        branch "master"
       }
       steps {
         sh 'docker run --network="host" -it -v /home/eirbmon/Documents/SharedFile:/Blockchain/build/contracts -d --name eirbmon-back eirbmon/back'
