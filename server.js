@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 4000 || process.env.PORT;
+const port = 4040 || process.env.PORT;
 const Web3 = require('web3');
 const bodyParser = require('body-parser');
 const ip = '192.168.0.23';
