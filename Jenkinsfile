@@ -57,7 +57,7 @@ pipeline {
         }
       }
     }
-    stage('Run') {
+    stage('Run container') {
       parallel {
         stage('Run dev container') {
           when {
