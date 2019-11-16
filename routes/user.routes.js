@@ -5,23 +5,29 @@ module.exports = function(app,User) {
 
 
     // Create a new User
-    app.post('/api/inscription', (req, res) => {
+    app.post('/api/users', (req, res) => {
         UserCtrl.Create(req, res, User, 'user');
     });
 
     // Retrieve all User
     app.get('/api/users', (req, res) => {
-        UserCtrl.GetAll(req, res, User, 'user');
+        GlobalCtrl.GetAll(req, res, User, 'user');
     });
 
     // Retrieve a single User by Id
     app.get('/api/users/:_id', (req, res) => {
-        UserCtrl.GetById(req, res, User, 'user');
+        GlobalCtrl.GetById(req, res, User, 'user');
     });
 
+    // Retrieve a single User by Name
+    app.get('/api/users/name/:name', (req, res) => {
+         GlobalCtrl.GetByName(req, res, User, 'name');
+    });
+    
+
     // Retrieve a single User by Cle
-    app.get('/api/users/cle/:cle', (req, res) => {
-        UserCtrl.GetByCle(req, res, User, 'cle');
+    app.get('/api/users/key/:key', (req, res) => {
+        UserCtrl.GetByKey(req, res, User, 'key');
     });
 
     // Retrieve a single User by Email
@@ -29,28 +35,23 @@ module.exports = function(app,User) {
         UserCtrl.GetByEmail(req, res, User, 'email');
     });
 
-    // Retrieve a single User by Username
-    app.get('/api/users/username/:username', (req, res) => {
-        UserCtrl.GetByUsername(req, res, User, 'username');
-    });
-
     // Send mail to an user
     app.post('/api/users/send/', (req, res) => {
-        UserCtrl.SendMail(req, res, User, 'user');
+        UserCtrl.SendEmail(req, res);
     });
 
    // Update a User with Id
     app.put('/api/users', (req, res) => {
-        UserCtrl.Update(req, res, User, 'user');
+        GlobalCtrl.Update(req, res, User, 'user');
     });
 
     // Delete a User with Id
     app.delete('/api/users/:_id', (req, res) => {
-        UserCtrl.Delete(req, res, User, 'user');
+        GlobalCtrl.Delete(req, res, User, 'user');
     });
 
     // Authentification
-    app.post('/api/connexion', (req, res) => {
+    app.post('/api/auth', (req, res) => {
         UserCtrl.Auth(req, res, User, 'user');
     });
 

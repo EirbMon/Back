@@ -1,12 +1,34 @@
 module.exports = function(app,Eirbmon) {
-    //const EirbmonCtrl = require('../controllers/eirbmon.controller.js');
+    const EirbmonCtrl = require('../controllers/eirbmon.controller.js');
     const GlobalCtrl = require('../controllers/global.controller.js');
-    const truffle_connect = require('../connection/app.js');
-
 
     // Create a new Eirbmon
-    app.post('/api/createEirbmon', (req, res) => {
-        GlobalCtrl.CreateEirbmon(req, res, Eirbmon, 'eirbmon');
+    app.post('/api/eirbmon', (req, res) => {
+        EirbmonCtrl.CreateEirbmon(req, res, Eirbmon, 'eirbmon');
     });
 
+    // Retrieve a single Eirbmon by Id
+    app.get('/api/eirbmon/:_id', (req, res) => {
+        GlobalCtrl.GetById(req, res,  Eirbmon, 'eirbmon');
+    });
+
+    // Retrieve All Eirbmon 
+    app.get('/api/eirbmon', (req, res) => {
+        GlobalCtrl.GetAll(req, res, Eirbmon, 'eirbmon');
+    });
+
+    // Retrieve a single Eirbmon by name
+    app.get('/api/eirbmon/name/:name', (req, res) => {
+        GlobalCtrl.GetByName(req, res, Eirbmon, 'eirbmon');
+    });
+
+    // Update a Eirbmon with Id
+    app.put('/api/eirbmon', (req, res) => {
+        GlobalCtrl.Update(req, res,  Eirbmon, 'eirbmon');
+    });
+
+    // Delete a Eirbmon with Id
+    app.delete('/api/eirbmon/:_id', (req, res) => {
+        GlobalCtrl.Delete(req, res, Eirbmon, 'eirbmon');
+    });
 }
