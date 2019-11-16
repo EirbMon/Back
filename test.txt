@@ -44,7 +44,7 @@ POST http://localhost:4000/api/eirbmon/
 {
   "type": "Pikachu", 
   "name": "Gerard le pikachu", 
-  "owner_id": "user.test@gmail.com",
+  "owner_id": "xxx_userOwnerId_xxx",
   "skills_id": [1,7,32],
   "field": "telecom", 
   "hp": 110,

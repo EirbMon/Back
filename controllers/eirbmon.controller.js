@@ -10,6 +10,7 @@ exports.CreateEirbmon = function(req, res, Eirbmon, name){
     eirbmon.xp = req.body.xp;
     eirbmon.lvl = req.body.lvl;
     eirbmon.created_date = Date.now(); // Directly set "time" as the current date.
+    eirbmon.updated_date = Date.now(); // Directly set "time" as the current date.
     eirbmon.save()
     res.json({eirbmon})
 }

@@ -16,4 +16,4 @@ const EirbmonSchema = new Schema({
   catched_date: Date
 });
 
-module.exports = mongoose.model('Eirbmon', EirbmonSchema, 'eirbmon');
+module.exports = mongoose.model('Eirbmon', EirbmonSchema, 'eirbmons');
