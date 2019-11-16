@@ -57,8 +57,6 @@ pipeline {
         }
       }
     }
-    stage('Run container') {
-      parallel {
         stage('Run dev container') {
           when {
             branch "dev"
@@ -76,8 +74,6 @@ pipeline {
             sh 'docker run --network="host" -it -v /home/eirbmon/Documents/SharedFile:/Blockchain/build/contracts -d --name eirbmon-back eirbmon/back'
             echo 'Prod container ready !'
           }
-        }
-      }
     }
   }
 }
