@@ -3,7 +3,12 @@ exports.CreateEirbmon = function(req, res, Eirbmon, name){
     console.log("Request POST: collection: "+ name);
     eirbmon.type = req.body.type;
     eirbmon.name = req.body.name;
-    eirbmon.owner_id = req.body.owner_id;
+
+    if (!req.body.owner_id)
+        eirbmon.owner_id = "admin_id";
+    else
+        eirbmon.owner_id = req.body.owner_id;
+
     eirbmon.skills_id = req.body.skills_id;
     eirbmon.hp = req.body.hp;
     eirbmon.field = req.body.field;
