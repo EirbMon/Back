@@ -9,7 +9,7 @@ exports.CreateSkill = function(req, res, Skill, name){
             skill.id = req.body.id;
             skill.name = req.body.name;
             skill.pp = req.body.pp;
-            skill.atk = req.body.atk;
+            skill.damage = req.body.damage;
             skill.field = req.body.field;
             skill.save();
             res.json({skill})

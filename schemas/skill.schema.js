@@ -5,7 +5,7 @@ const SkillSchema = new Schema({
   name: {type: String, required: true},
   id: {type: Number, required: true},
   pp: {type: Number, required: true},
-  atk: {type: Number, required: true},
+  damage: {type: Number, required: true},
   field: String
 });
 

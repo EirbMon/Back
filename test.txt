@@ -74,7 +74,7 @@ POST http://localhost:4000/api/skill/
   "name": "Surf",
   "id": 4,
   "pp": 15,
-  "atk": 25,
+  "damage": 25,
   "field": "telecom"
 }
 
