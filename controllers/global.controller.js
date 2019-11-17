@@ -1,6 +1,6 @@
-exports.GetAll = function(req, res, Object, name){
+exports.GetAll = function(req, res, Collection, name){
     console.log("Request GET All: collection: " + name);
-    Object.find()
+    Collection.find()
     .then(req => {
         res.json(req);
     }).catch(err => {
@@ -11,9 +11,9 @@ exports.GetAll = function(req, res, Object, name){
 };
 
 
-exports.GetById = function (req, res, Object, name){
+exports.GetById = function (req, res, Collection, name){
     console.log("Request GET by ID: collection: " + name);
-    Object.findById(req.params._id)
+    Collection.findById(req.params._id)
     .then(object => {
         if(!object) {
             return res.status(404).json({
@@ -33,11 +33,23 @@ exports.GetById = function (req, res, Object, name){
     });
 }
 
+exports.GetByName = function (req, res, Collection, name){
+    console.log("Request GET by email, collection: " + name);
+    Collection.findOne({ 'name': req.params.name })
+    .then(object => {
+        res.json(object);
+    }).catch(err => {
+        res.status(500).send({
+            msg: err.message
+        }); 
+    });
+}
 
-exports.Update = function(req, res, Object, name){
+
+exports.Update = function(req, res, Collection, name){
     console.log("Request PUT: collection: " + name);
 
-        Object.findByIdAndUpdate(req.body._id, req.body, {new: true})
+        Collection.findByIdAndUpdate(req.body._id, req.body, {new: true})
         .then(object => {
             if(!object) {
                 return res.status(404).json({
@@ -53,9 +65,9 @@ exports.Update = function(req, res, Object, name){
          });
 }
 
-exports.Delete = function(req, res, Object, name){
+exports.Delete = function(req, res, Collection, name){
     console.log("Request DELETE byID: collection: " + name);
-    Object.findByIdAndRemove(req.params._id)
+    Collection.findByIdAndRemove(req.params._id)
     .then(object => {
         if(!object) {
             return res.status(404).json({
