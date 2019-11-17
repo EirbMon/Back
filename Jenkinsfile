@@ -62,7 +62,7 @@ pipeline {
             branch "dev"
           }
           steps {
-            sh 'docker run --network="host" -it -v /home/eirbmon/Documents/SharedFile:/Blockchain/build/contracts -d --name eirbmon-back-dev eirbmon/back-dev'
+            sh 'docker run --network="host" -it -v /home/eirbmon/Documents/SharedFileDev:/Blockchain/build/contracts -d --name eirbmon-back-dev eirbmon/back-dev'
             echo 'Dev container ready !'
           }
         }
