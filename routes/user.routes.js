@@ -23,12 +23,6 @@ module.exports = function(app,User) {
     app.get('/api/users/name/:name', (req, res) => {
          GlobalCtrl.GetByName(req, res, User, 'name');
     });
-    
-
-    // Retrieve a single User by Cle
-    app.get('/api/users/key/:key', (req, res) => {
-        UserCtrl.GetByKey(req, res, User, 'key');
-    });
 
     // Retrieve a single User by Email
     app.get('/api/users/email/:email', (req, res) => {

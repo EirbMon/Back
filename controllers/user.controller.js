@@ -48,19 +48,6 @@ exports.GetByEmail = function(req, res, User, name){
     });
 }
 
-// ??? A quoi ça sert ?
-exports.GetByKey = function(req, res, User, name){
-    console.log("Request GET by name, collection: " + name);
-    User.findOne({ 'key': req.params.key })
-    .then(users => {
-        res.json(users);
-    }).catch(err => {
-        res.status(500).send({
-            msg: err.message
-        });
-    });
-}
-
 
 exports.Auth = function(req, res, User, name) {
     User.findOne({ 'email': req.body.email })
