@@ -74,7 +74,7 @@ module.exports = function(app,User) {
     // afficher mes eirbmon
     app.get('/getMyEirbmon', (req, res) => {
         console.log("**** GET /getMyEirbmon ****");
-        truffle_connect.getMyEirbmon(function (answer) {
+        truffle_connect.getMyEirbmon(req.query.account,function (answer) {
         res.send(answer);
         })
     });

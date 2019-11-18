@@ -1,5 +1,5 @@
 const contract = require('truffle-contract');
-const eirbmon_artifact = require('../../Blockchain/build/contracts/Eirbmon.json');
+const eirbmon_artifact = require('../../Blockchain_Eirbmon/build/contracts/Eirbmon.json');
 var Eirbmon = contract(eirbmon_artifact);
 
 module.exports = {
@@ -34,7 +34,7 @@ module.exports = {
       callback(self.accounts);
     });
   },
-  getMyEirbmon: function(callback) {
+  getMyEirbmon: function(account,callback) {
     var self = this;
 
     // Bootstrap the Eirbmon abstraction for Use.
@@ -42,15 +42,16 @@ module.exports = {
 
     Eirbmon.deployed().then(function(instance) {
       eirbmonInstance = instance;
-      return eirbmonInstance.pokemonsCount();
+      return eirbmonInstance.getEirbmonCount();
     }).then(function(pokemonsCount) {
       var response = [];
       var tabProm = [];
       for (var i = 1; i <= pokemonsCount; i++) {
-        tabProm[i] = eirbmonInstance.pokemons(i);
+        tabProm[i] = eirbmonInstance._Eirbmons(i);
         tabProm[i].then(function(pokemon) {
-          response.push(pokemon);
-
+          if(account == pokemon[2]){
+            response.push(pokemon);
+          }
          })
       }
       Promise.all(tabProm).then(()=>callback(response),()=>console.log('error'));
