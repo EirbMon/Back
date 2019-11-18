@@ -17,8 +17,6 @@ exports.Create = function(req, res, User, name){
             user.password = bcrypt.hashSync(req.body.password,10); // Hash Real Password
             user.email = req.body.email;
             user.name = req.body.name;
-            user.key = req.body.key; // ??? C'est quoi ?
-            user.addrBlockchain = req.body.addrBlockchain; // ??? C'est quoi ?
             user.permission = req.body.permission;
             user.save()
             .then(data => {
@@ -50,7 +48,7 @@ exports.GetByEmail = function(req, res, User, name){
     });
 }
 
-// ??? A quoi ça sert ? 
+// ??? A quoi ça sert ?
 exports.GetByKey = function(req, res, User, name){
     console.log("Request GET by name, collection: " + name);
     User.findOne({ 'key': req.params.key })
@@ -76,7 +74,7 @@ exports.Auth = function(req, res, User, name) {
             {
                 // création du token qui expire au bout de 24h
                 const token = jwt.sign({ id: user._id, email: user.email }, 'my_key',{ expiresIn: 60*60*24});
-                res.json({ token: token, email: user.email })
+                res.json({ token: token, username: user.name, email: user.email })
             }
             else {
                 res.json({ "check_password": "false" });
@@ -100,7 +98,7 @@ exports.TestToken = function(req, res, User, name) {
           data: data
         });
       }
-    }); 
+    });
 // });
 }
 
