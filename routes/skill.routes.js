@@ -7,17 +7,17 @@ module.exports = function(app,Skill) {
         SkillCtrl.CreateSkill(req, res, Skill, 'skill');
     });
 
-    // Retrieve All Eirbmon
+    // Retrieve All skills
     app.get('/api/skill', (req, res) => {
         GlobalCtrl.GetAll(req, res, Skill, 'skill');
     });
 
-    // Retrieve a single Eirbmon by Id
+    // Retrieve a single skill by Id
     app.get('/api/skill/:_id', (req, res) => {
         GlobalCtrl.GetById(req, res, Skill, 'skill');
     });
 
-    // Retrieve a single Eirbmon by name
+    // Retrieve a single skill by name
     app.get('/api/skill/name/:name', (req, res) => {
         GlobalCtrl.GetByName(req, res, Skill, 'skill');
     });
@@ -32,4 +32,3 @@ module.exports = function(app,Skill) {
         GlobalCtrl.Delete(req, res, Skill, 'skill');
     });
 }
- 

@@ -4,8 +4,8 @@ const port = 4000 || process.env.PORT;
 const Web3 = require('web3');
 const truffle_connect = require('./connection/app.js');
 const bodyParser = require('body-parser');
-const ip = '192.168.0.23';
-//const ip = 'localhost';
+//const ip = '192.168.0.23';
+const ip = 'localhost';
 
 // parse application/x-www-form-urlencoded & application/json
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -26,7 +26,7 @@ const url = "mongodb+srv://vmalay:1234@cluster0-4ygx9.mongodb.net/enseirbmon?ssl
 const mongoose = require('mongoose'); // import des fonctions du module 'mongoose' (module de MongoDB Cloud pour NodeJS)
 mongoose.set('useFindAndModify', false); // [OPTINAL] Empeche certains warnings inutiles
 
-// Connecting to the database en http. 
+// Connecting to the database en http.
 mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => {
     console.log("Successfully connected to MongoDB.");     // Print in console.
@@ -44,6 +44,7 @@ var Skill = require('./schemas/skill.schema.js');
 require('./routes/user.routes.js')(app,User);
 require('./routes/eirbmon.routes.js')(app,Eirbmon);
 require('./routes/skill.routes.js')(app,Skill);
+require('./routes/doc.routes.js')(app);
 
 // Options du serveur. En cas de bonne réception du message, on envoie le message "200: OK" au front end). Ce sera utilisé à la création du serveur ci-dessous.
 app.options('*', function (request, response) {
