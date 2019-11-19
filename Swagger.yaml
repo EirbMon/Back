@@ -1,0 +1,611 @@
+swagger: "2.0"
+info:
+  description: "This is the documentation."
+  version: "1.0.0"
+  title: "Eirbmon"
+externalDocs:
+  description: Link to the game
+  url: "http://eirbmon.hopto.org:3000/"
+tags:
+- name: "users"
+  description: "Information about the users"
+- name: "eirbmons"
+  description: "Information about the Eirbmons"
+- name: "skills"
+  description: "Information about the skills"
+- name: "blockchain"
+  description: "Information about the blockchain"
+
+  
+paths:
+  /api/inscription:
+    post:
+      tags:
+      - "users"
+      summary: "Create a new user"
+      operationId: "Create"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User that must be added to MongoDB"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ReturnUser"
+        500:
+          description: "ERROR"
+          
+  /api/users:
+    get:
+      tags:
+      - "users"
+      summary: "Retrieve all users"
+      operationId: "GetAll"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ListUser"
+
+    put:
+      tags:
+      - "users"
+      summary: "Update an user with id"
+      operationId: "Update"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User information that need to be updated"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Update"
+        404:
+          description: "User not found with id"
+        
+  /api/auth:
+    post:
+      tags:
+      - "users"
+      summary: "Authentification of an user"
+      operationId: "Auth"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "query"
+        description: "Username of the user"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "query"
+        description: "Password of the user"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ReturnUser"
+      
+  /api/test:
+    get:
+      tags:
+      - "users"
+      summary: "Test a token"
+      operationId: "TestToken"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "token"
+        in: "path"
+        description: "Token provided"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        200:
+          description: "OK"
+        403:
+          description: "Token wrong"
+      
+  /api/users/:_id:
+    get:
+      tags:
+      - "users"
+      summary: "Retrieve a single user by id"
+      operationId: "GetById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of the user"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        200:
+          description: "OK"
+        404:
+          description: "User not found by id"
+
+    delete:
+      tags:
+      - "users"
+      summary: "Delete an user by id"
+      operationId: "Delete"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "The id of the user that needs to be deleted"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        200:
+          description: "OK"
+        404:
+          description: "User not found"
+        500:
+          description: "Could not delete user"
+          
+  /api/users/email/:email:
+    get:
+      tags:
+      - "users"
+      summary: "Retrieve a single user by email"
+      operationId: "GetByEmail"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "email"
+        in: "path"
+        description: "Email of the user"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        200:
+          description: "OK"
+        404:
+          description: "User not found by email"
+          
+  /api/users/name/:name:
+    get:
+      tags:
+      - "users"
+      summary: "Retrieve a single user by username"
+      operationId: "GetByUsername"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "Username of the user"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        200:
+          description: "successful operation"
+        404:
+          description: "User not found by username"
+          
+  /api/users/send:
+    post:
+      tags:
+      - "users"
+      summary: "Send an email to the user to reinitialize password"
+      operationId: "SendMail"
+      parameters:
+      - name: "email"
+        in: "path"
+        description: "Email of the user"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+    
+  /api/createEirbmon:
+    post:
+      tags:
+      - "eirbmons"
+      summary: "Create a new Eirbmon"
+      operationId: "CreateEirbmon"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Eirbmon that must be added to MongoDB"
+        required: true
+        schema:
+          $ref: "#/definitions/Eirbmon"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Eirbmon"
+            
+  /api/eirbmon:
+    get:
+      tags:
+      - "eirbmons"
+      summary: "Retrieve all Eirbmons"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ListEirbmon"
+
+    put:
+      tags:
+      - "eirbmons"
+      summary: "Update an Eirbmon with id"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Eirbmon information that need to be updated"
+        required: true
+        schema:
+          $ref: "#/definitions/Eirbmon"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Eirbmon"
+        404:
+          description: "Eirbmon not found with id"
+      
+  /api/eirbmon/:_id:
+    get:
+      tags:
+      - "eirbmons"
+      summary: "Retrieve a single Eirbmon by id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of the Eirbmon"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        200:
+          description: "OK"
+        404:
+          description: "User not found by id"
+
+    delete:
+      tags:
+      - "eirbmons"
+      summary: "Delete an Eirbmon by id"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "The id of the Eirbmon that needs to be deleted"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        200:
+          description: "OK"
+        404:
+          description: "Eirbmon not found"
+        500:
+          description: "Could not delete Eirbmon"
+          
+          
+  /api/eirbmon/name/:name:
+    get:
+      tags:
+      - "eirbmons"
+      summary: "Retrieve a single Eirbmon by username"
+      operationId: "GetByName"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "name"
+        in: "path"
+        description: "Name of the Eirbmon"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        200:
+          description: "successful operation"
+        404:
+          description: "Eirbmon not found by name"
+          
+          
+  /getAccounts:
+    get:
+      tags:
+      - "blockchain"
+      summary: "Renvoie tous les comptes"
+      operationId: "truffle_connect.start"
+      responses:
+        200:
+          description: "OK"
+          
+  /getMyEirbmon:
+    get:
+      tags:
+      - "blockchain"
+      summary: "Affiche les Eirbmons"
+      operationId: "truffle_connect.getMyEirbmon"
+      responses:
+        200:
+          description: "OK"
+          
+    
+            
+  /api/skill:
+    post:
+      tags:
+      - "skills"
+      summary: "Create a new skill"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Eirbmon that must be added to MongoDB"
+        required: true
+        schema:
+          $ref: "#/definitions/Eirbmon"
+      responses:
+        200:
+          description: "OK"
+        500:
+          description: "ERROR"
+          
+    get:
+      tags:
+      - "skills"
+      summary: "Retrieve all skills"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ListSkill"
+
+    put:
+      tags:
+      - "skills"
+      summary: "Update an skill with id"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Skill information that need to be updated"
+        required: true
+        schema:
+          $ref: "#/definitions/Skill"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Skill"
+        404:
+          description: "Skill not found with id"
+      
+  /api/skill/:_id:
+    get:
+      tags:
+      - "skills"
+      summary: "Retrieve a single skill by id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of the skill"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        200:
+          description: "OK"
+        404:
+          description: "User not found by id"
+
+    delete:
+      tags:
+      - "skills"
+      summary: "Delete a skill by id"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "The id of the skill that needs to be deleted"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        200:
+          description: "OK"
+        404:
+          description: "Skill not found"
+        500:
+          description: "Could not delete skill"
+          
+          
+  /api/skill/name/:name:
+    get:
+      tags:
+      - "skills"
+      summary: "Retrieve a single skill by username"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "name"
+        in: "path"
+        description: "Name of the skill"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        200:
+          description: "successful operation"
+        404:
+          description: "Skill not found by name"
+
+    
+          
+definitions:
+  Eirbmon:
+    type: "object"
+    properties:
+      skills_id:
+        type: "array"
+        items:
+          $ref: "#/definitions/Skill"
+      type:
+        type: "string"
+      name:
+        type: "string"
+      owner_id:
+        type: "string"
+      hp:
+        type: "integer"
+        format: "int32"
+      force:
+        type: "integer"
+        format: "int32"
+      xp:
+        type: "integer"
+        format: "int32"
+      lvl:
+        type: "integer"
+        format: "int32"
+        default: 0
+      field:
+        type: "string"
+        
+  ListEirbmon:
+    type: "array"
+    items:
+      type: "object"
+      properties:
+        schema:
+          $ref: "#/definitions/Eirbmon"
+
+  User:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      wallet_id:
+        type: "string"
+      permission:
+        type: "integer"
+        format: "int32"
+    required:
+      - username
+      - email
+      - password
+
+  ReturnUser:
+    type: "object"
+    properties:
+      token:
+        type: "integer"
+        format: "int32"
+      username:
+        type: "string"
+      email:
+        type: "string"
+    required:
+      - token
+      - username
+      - email
+      
+  ListUser:
+    type: "array"
+    items:
+      type: "object"
+      properties:
+        schema:
+          $ref: "#/definitions/User"
+          
+  Skill:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int32"
+      name:
+        type: "string"
+      atk:
+        type: "integer"
+        format: "int32"
+      pp:
+        type: "integer"
+        format: "int32"
+      field:
+        type: "string"
+        
+  ListSkill:
+    type: "array"
+    items:
+      type: "object"
+      properties:
+        schema:
+          $ref: "#/definitions/Skill"
+    
+      
+      
+  Update:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      wallet_id:
+        type: "string"
+      permission:
+        type: "integer"
+        format: "int32"
