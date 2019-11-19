@@ -73,10 +73,9 @@ exports.Auth = function(req, res, User, name) {
     })
 }
 
-// ??? Ne marche pas
 exports.TestToken = function(req, res, User, name) {
     //app.get('/api/test', ensureToken, (req, res) => {
-    jwt.verify(req.token, 'my_key', (err, data) => {
+    jwt.verify(req.body.token, 'my_key', (err, data) => {
       if (err) {
         res.status(403).json(err);
       } else {
@@ -109,7 +108,7 @@ exports.SendEmail = function(req, res){
             to:  req.body.email,
             subject: "[Eirbmon] - Password forgot",
             html: `<p style="color:black;"> Bonjour, <br /><br /> Vous avez fait une demande de mot de passe oublié.
-                Si vous n'etes pas l'auteur de cette demande, ignorez ce message. <br />
+                Si vous n'êtes pas l'auteur de cette demande, ignorez ce message. <br />
                 Sinon, vous pouvez récupérer le code d'activation pour changer de mot de passe: <br /> <br />
                 `+ req.body.name + ` <br /> <br /> Cordialement, <br /> L'équipe Eirbmon. </p> `
         };
