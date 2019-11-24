@@ -68,29 +68,4 @@ module.exports = function(app,User) {
       UserCtrl.TestToken(req, res, User, 'user');
     });
 
-    /*
-    partie blockchain
-    */
-    // renvoi tout les comptes
-    app.get('/getAccounts', (req, res) => {
-        console.log("**** GET /getAccounts ****");
-        truffle_connect.start(function (answer) {
-        res.send(answer);
-        })
-    });
-
-    // afficher mes eirbmon
-    app.get('/getMyEirbmon', (req, res) => {
-        console.log("**** GET /getMyEirbmon ****");
-        if (UserCtrl.VerifyRights(req.body._id, req.body.token)) {
-          truffle_connect.getMyEirbmon(req.query.account,function (answer) {
-          res.send(answer);
-          })
-        } else {
-          console.log("ERROR NO RIGHTS");
-          res.status(500).json({
-            msg: "ERROR NO RIGHTS"
-          })
-        }
-    });
 }
