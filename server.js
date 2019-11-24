@@ -1,3 +1,5 @@
+const ConfParam = require('./conf.js');
+
 const express = require('express');
 const app = express();
 const port = 4000 || process.env.PORT;
@@ -5,7 +7,7 @@ const Web3 = require('web3');
 const truffle_connect = require('./connection/app.js');
 const bodyParser = require('body-parser');
 //const ip = '192.168.0.23';
-const ip = 'localhost';
+const ip = ConfParam.ip;
 //const ip = 'eirbmon.hopto.org';
 
 // parse application/x-www-form-urlencoded & application/json
