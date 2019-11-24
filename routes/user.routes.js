@@ -64,7 +64,7 @@ module.exports = function(app,User) {
     });
 
     // Test token
-    app.get('/api/test', (req, res) => {
+    app.post('/api/test', (req, res) => {
       UserCtrl.TestToken(req, res, User, 'user');
     });
 
