@@ -15,3 +15,11 @@ open a browser in (for example) :
  http://localhost:8080/getAccounts 
  http://localhost:8080/api/users
 
+
+UTILISATION EN LOCAL:
+
+dans server.js : 
+
+Commenter la ligne 7 et décommenter la ligne 8.
+Autrement dit: Il faut commenter "const ip = '192.168.0.23';" et décommenter  "const ip = 'localhost';"
+
