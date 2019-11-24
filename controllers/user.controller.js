@@ -88,6 +88,10 @@ exports.TestToken = function(req, res, User, name) {
 // });
 }
 
+exports.VerifyRights = function(id, token) {
+  return true;
+}
+
 exports.SendEmail = function(req, res){
 
     console.log("Request POST ENVOIE EMAIL à: " +  req.body);
