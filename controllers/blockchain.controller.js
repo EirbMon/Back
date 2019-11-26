@@ -22,3 +22,10 @@ exports.getMyEirbmon = function(req, res){
       })
     }
 }
+
+exports.getAllEirbmons = function(callback){
+  console.log("**** GET /getAllEirbmon ****");
+  // if (UserCtrl.VerifyRights(req.body._id, req.body.token)) {
+    truffle_connect.getAllEirbmons(callback)
+  // }
+}

@@ -43,10 +43,10 @@ module.exports = {
     Eirbmon.deployed().then(function(instance) {
       eirbmonInstance = instance;
       return eirbmonInstance.getEirbmonCount();
-    }).then(function(pokemonsCount) {
+    }).then(function(eirbmonsCount) {
       var response = [];
       var tabProm = [];
-      for (var i = 1; i <= pokemonsCount; i++) {
+      for (var i = 1; i <= eirbmonsCount; i++) {
         tabProm[i] = eirbmonInstance._Eirbmons(i);
         tabProm[i].then(function(pokemon) {
           if(account == pokemon[2]){
@@ -55,8 +55,25 @@ module.exports = {
          })
       }
       Promise.all(tabProm).then(()=>callback(response),()=>console.log('error'));
+    })
 
-      
+  },
+  getAllEirbmons: function(callback) {
+    var self = this;
+    Eirbmon.setProvider(self.web3.currentProvider);
+    Eirbmon.deployed().then(function(instance) {
+      eirbmonInstance = instance;
+      return eirbmonInstance.getEirbmonCount();
+    }).then(function(eirbmonsCount) {
+      var response = [];
+      var tabProm = [];
+      for (var i = 1; i <= eirbmonsCount; i++) {
+        tabProm[i] = eirbmonInstance._Eirbmons(i);
+        tabProm[i].then(function(pokemon) {
+            response.push(pokemon);
+         })
+      }
+      Promise.all(tabProm).then(()=>callback(response),()=>console.log('error'));
     })
 
   },

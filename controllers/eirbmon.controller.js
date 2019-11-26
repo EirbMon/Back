@@ -32,3 +32,33 @@ exports.GetOwnerEirbmons = function(req, res, Eirbmon, name){
         });
     });
 }
+
+
+exports.UpdateEirbmonTable = function(res,Eirbmon,EirbmonCtrl,blockchainCtrl,name){
+    // Eirbmon.find()
+    // .then(_Eirbmons => {
+    //     _Eirbmons.forEach(_Eirbmon => {
+    //         console.log(_Eirbmon.name)
+    //     });
+    // });
+    blockchainCtrl.getAllEirbmons(function (_EirbmonsFromBlockchain) {
+        for (let index = 0; index < _EirbmonsFromBlockchain.length; index++) {
+            console.log(_EirbmonsFromBlockchain[index][0].toNumber())
+            let req = {
+                body:{
+                    idInBlockchain : _EirbmonsFromBlockchain[index][0].toNumber(),
+                    type : _EirbmonsFromBlockchain[index][1],
+                    name : _EirbmonsFromBlockchain[index][1],
+                    owner_id :  _EirbmonsFromBlockchain[index][2],
+                    skills_id : [0],
+                    hp : _EirbmonsFromBlockchain[index][6].toNumber(),
+                    field : _EirbmonsFromBlockchain[index][4],
+                    force : 0,
+                    xp : 0,
+                    lvl : _EirbmonsFromBlockchain[index][3].toNumber(),
+                    }
+                } 
+                EirbmonCtrl.CreateEirbmon(req,res,Eirbmon,name);
+        }
+    })
+}
