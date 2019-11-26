@@ -34,9 +34,15 @@ module.exports = function(app,User) {
         UserCtrl.SendEmail(req, res);
     });
 
+    // Retrieve a single User by Token
+    app.get('/api/users/token/:token', (req, res) => {
+        UserCtrl.GetByToken(req, res, User, 'token');
+    });
+    
+
    // Update a User with Id
     app.put('/api/users', (req, res) => {
-      if (UserCtrl.VerifyRights(req.body._id, req.body.token)) {
+      if (UserCtrl.VerifyRights(req.body._id, req.body.token, User, "user")) {
         GlobalCtrl.Update(req, res, User, 'user');
       } else {
         console.log("ERROR NO RIGHTS");
@@ -48,7 +54,7 @@ module.exports = function(app,User) {
 
     // Delete a User with Id
     app.delete('/api/users/:_id', (req, res) => {
-      if (UserCtrl.VerifyRights(req.body._id, req.body.token)) {
+      if (UserCtrl.VerifyRights(req.body._id, req.body.token, User, "user")) {
         GlobalCtrl.Delete(req, res, User, 'user');
       } else {
         console.log("ERROR NO RIGHTS");
