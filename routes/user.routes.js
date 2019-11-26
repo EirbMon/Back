@@ -36,12 +36,26 @@ module.exports = function(app,User) {
 
    // Update a User with Id
     app.put('/api/users', (req, res) => {
+      if (UserCtrl.VerifyRights(req.body._id, req.body.token)) {
         GlobalCtrl.Update(req, res, User, 'user');
+      } else {
+        console.log("ERROR NO RIGHTS");
+        res.status(500).json({
+          msg: "ERROR NO RIGHTS"
+        })
+      }
     });
 
     // Delete a User with Id
     app.delete('/api/users/:_id', (req, res) => {
+      if (UserCtrl.VerifyRights(req.body._id, req.body.token)) {
         GlobalCtrl.Delete(req, res, User, 'user');
+      } else {
+        console.log("ERROR NO RIGHTS");
+        res.status(500).json({
+          msg: "ERROR NO RIGHTS"
+        })
+      }
     });
 
     // Authentification
@@ -50,26 +64,8 @@ module.exports = function(app,User) {
     });
 
     // Test token
-    app.get('/api/test', (req, res) => {
+    app.post('/api/test', (req, res) => {
       UserCtrl.TestToken(req, res, User, 'user');
     });
 
-    /*
-    partie blockchain
-    */
-    // renvoi tout les comptes
-    app.get('/getAccounts', (req, res) => {
-        console.log("**** GET /getAccounts ****");
-        truffle_connect.start(function (answer) {
-        res.send(answer);
-        })
-    });
-
-    // afficher mes eirbmon
-    app.get('/getMyEirbmon', (req, res) => {
-        console.log("**** GET /getMyEirbmon ****");
-        truffle_connect.getMyEirbmon(req.query.account,function (answer) {
-        res.send(answer);
-        })
-    });
 }

@@ -1,3 +1,4 @@
+
 exports.GetAll = function(req, res, Collection, name){
     console.log("Request GET All: collection: " + name);
     Collection.find()
@@ -41,14 +42,13 @@ exports.GetByName = function (req, res, Collection, name){
     }).catch(err => {
         res.status(500).send({
             msg: err.message
-        }); 
+        });
     });
 }
 
 
 exports.Update = function(req, res, Collection, name){
     console.log("Request PUT: collection: " + name);
-
         Collection.findByIdAndUpdate(req.body._id, req.body, {new: true})
         .then(object => {
             if(!object) {

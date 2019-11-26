@@ -1,11 +1,12 @@
+const ConfParam = require('./conf.js');
+
 const express = require('express');
 const app = express();
 const port = 4000 || process.env.PORT;
 const Web3 = require('web3');
 const truffle_connect = require('./connection/app.js');
 const bodyParser = require('body-parser');
-//const ip = '192.168.0.23';
-const ip = 'localhost';
+const ip = ConfParam.ip;
 
 // parse application/x-www-form-urlencoded & application/json
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -45,6 +46,7 @@ require('./routes/user.routes.js')(app,User);
 require('./routes/eirbmon.routes.js')(app,Eirbmon);
 require('./routes/skill.routes.js')(app,Skill);
 require('./routes/doc.routes.js')(app);
+require('./routes/blockchain.routes.js')(app);
 
 // Options du serveur. En cas de bonne réception du message, on envoie le message "200: OK" au front end). Ce sera utilisé à la création du serveur ci-dessous.
 app.options('*', function (request, response) {

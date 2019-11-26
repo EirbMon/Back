@@ -61,7 +61,7 @@ exports.Auth = function(req, res, User, name) {
             {
                 // création du token qui expire au bout de 24h
                 const token = jwt.sign({ id: user._id, email: user.email }, 'my_key',{ expiresIn: 60*60*24});
-                res.json({ token: token, username: user.name, email: user.email })
+                res.json({ token: token, name: user.name, email: user.email })
             }
             else {
                 res.json({ "check_password": "false" });
@@ -86,6 +86,10 @@ exports.TestToken = function(req, res, User, name) {
       }
     });
 // });
+}
+
+exports.VerifyRights = function(id, token) {
+  return true;
 }
 
 exports.SendEmail = function(req, res){

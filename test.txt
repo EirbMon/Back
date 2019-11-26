@@ -59,6 +59,10 @@ GET http://localhost:4000/api/eirbmon/5dce5a981c9d4400003fefdc/
 
 GET http://localhost:4000/api/eirbmon/name/Gerard le pikachu/
 
+GET http://localhost:4000/api/eirbmon/owner/admin_id
+
+GET http://localhost:4000/api/eirbmon/owner/xxx_userOwnerId_xxx
+
 PUT http://localhost:4000/api/eirbmon/
 {
   "_id": "5dce5a981c9d4400003fefdc",
