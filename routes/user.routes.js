@@ -42,7 +42,10 @@ module.exports = function(app,User) {
 
    // Update a User with Id
     app.put('/api/users', (req, res) => {
-      if (UserCtrl.VerifyRights(req.body._id, req.body.token, User, "user")) {
+      console.log("bonjour", (UserCtrl.VerifyRights(req.body._id, req.body.token, User, "user")));
+      a = UserCtrl.VerifyRights(req.body._id, req.body.token, User, "user");
+      a.then(val => {console.log(val)})
+      if (UserCtrl.VerifyRights(req.body._id, req.body.token, User, "user") == 1) {
         GlobalCtrl.Update(req, res, User, 'user');
       } else {
         console.log("ERROR NO RIGHTS");

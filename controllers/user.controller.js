@@ -82,9 +82,10 @@ exports.Auth = function(req, res, User, name) {
             {
                 // création du token qui expire au bout de 24h
                 const token = jwt.sign({ id: user._id, email: user.email }, keyToken,{ expiresIn: 60*60*24});
-                var monJson = {_id: user._id, token:token}
-                User.findByIdAndUpdate(monJson._id, monJson, {new: false}).then(data => {
-                    res.json({ data })
+                var monJson = {_id: user._id, token: token}
+                User.findByIdAndUpdate(monJson._id, monJson, {new: true}).then(data => {
+                    //data.token = monJson.token;
+                    res.json(data)
                     console.log("Create new user" + user);
                 })
                 .catch(err => {
@@ -103,26 +104,65 @@ exports.Auth = function(req, res, User, name) {
 }
 
 exports.VerifyRights = function(idUser, token, User, name) {
-    jwt.verify(token, keyToken, (err, data) => {
-      if (err) {
-        return false
-      } else {
-          jsonToken = { 'token': token };
-          console.log(jsonToken)
-          User.findOne(jsonToken)
-          .then(users => {
-              console.log(user)
-              if(users._id == idUser)
-                return true;
-              else
+            jsonToken = { 'token': token };
+            return Promise.resolve(
+            jwt.verify(token, keyToken, (err, data) => {  
+                if (err) {
+                    return Promise.resolve(false);
+                }
+                return Promise.resolve(User.findOne(jsonToken)
+                .then(users => {
+                    console.log(users._id, idUser)
+                    if(users._id == idUser)
+                    {
+                        console.log("yeees");
+                        return true;
+                    }
+                    else
+                    {
+                        console.log("nooo");
+                        return false;
+                    }
+                })
+                .catch());
+              })
+            .then(data =>{return data})
+            .catch());
+
+
+/*
+    return new Promise(function(idUser, token, User, name)
+    {
+        jwt.verify(token, keyToken, (err, data) => {
+        if (err) {
+            return false;
+        } else {
+            jsonToken = { 'token': token };
+            User.findOne(jsonToken)
+            .then(users => {
+                console.log(users._id, idUser)
+                if(users._id == idUser)
+                {
+                    console.log("yeees");
+                    return true;
+                }
+                else
+                {
+                    console.log("nooo");
+                    return false;
+                }
+                
+            })
+            .catch(err => {
+                console.log(err);
                 return false;
-            
-          }).catch(err => {
-              console.log(err);
-              return false;
-      });
-     }
-    });
+        });
+        }
+        })
+    })
+    .then( data => {console.log("ta maman"); return data;})
+    .catch(err => {console.log(err.message)})
+*/
 }
 
 exports.TestToken = function(req, res, User, name) {
