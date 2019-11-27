@@ -58,14 +58,19 @@ module.exports = function(app,User) {
 
     // Delete a User with Id
     app.delete('/api/users/:_id', (req, res) => {
-      if (UserCtrl.VerifyRights(req.body._id, req.body.token, User, "user")) {
-        GlobalCtrl.Delete(req, res, User, 'user');
-      } else {
-        console.log("ERROR NO RIGHTS");
-        res.status(500).json({
-          msg: "ERROR NO RIGHTS"
-        })
-      }
+      a = UserCtrl.VerifyRights(req.body._id, req.body.token, User, "user");
+      a.then(val => 
+      {
+        if (val) {
+          GlobalCtrl.Delete(req, res, User, 'user');
+        } else {
+          console.log("ERROR NO RIGHTS");
+          res.status(500).json({
+            msg: "ERROR NO RIGHTS"
+          })
+        }
+      })
+      .catch(err => {console.log(err.message)});
     });
 
     // Authentification

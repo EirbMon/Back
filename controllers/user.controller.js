@@ -127,7 +127,7 @@ exports.VerifyRights = function(idUser, token, User, name) {
                 .catch());
               })
             .then(data =>{return data})
-            .catch());
+            .catch(err => {return err.message}));
 
 
 /*

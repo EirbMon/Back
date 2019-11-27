@@ -10,8 +10,10 @@ exports.getAccounts = function(req, res){
 }
 
 exports.getMyEirbmon = function(req, res){
-    console.log("**** GET /getMyEirbmon ****");
-    if (UserCtrl.VerifyRights(req.body._id, req.body.token)) {
+  a = UserCtrl.VerifyRights(req.body._id, req.body.token, User, "user");
+  a.then(val => 
+  {
+    if (val) {
       truffle_connect.getMyEirbmon(req.query.account,function (answer) {
       res.send(answer);
       })
@@ -21,4 +23,6 @@ exports.getMyEirbmon = function(req, res){
         msg: "ERROR NO RIGHTS"
       })
     }
+  })
+  .catch(err => {console.log(err.message)});
 }
