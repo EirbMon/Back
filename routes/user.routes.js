@@ -42,17 +42,18 @@ module.exports = function(app,User) {
 
    // Update a User with Id
     app.put('/api/users', (req, res) => {
-      console.log("bonjour", (UserCtrl.VerifyRights(req.body._id, req.body.token, User, "user")));
       a = UserCtrl.VerifyRights(req.body._id, req.body.token, User, "user");
-      a.then(val => {console.log(val)})
-      if (UserCtrl.VerifyRights(req.body._id, req.body.token, User, "user") == 1) {
-        GlobalCtrl.Update(req, res, User, 'user');
-      } else {
-        console.log("ERROR NO RIGHTS");
-        res.status(500).json({
-          msg: "ERROR NO RIGHTS"
-        })
-      }
+      a.then(val => 
+      {
+        if (val) {
+          GlobalCtrl.Update(req, res, User, 'user');
+        } else {
+          console.log("ERROR NO RIGHTS");
+          res.status(500).json({
+            msg: "ERROR NO RIGHTS"
+          })
+        }
+      });
     });
 
     // Delete a User with Id
