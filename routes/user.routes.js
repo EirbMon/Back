@@ -34,28 +34,43 @@ module.exports = function(app,User) {
         UserCtrl.SendEmail(req, res);
     });
 
+    // Retrieve a single User by Token
+    app.get('/api/users/token/:token', (req, res) => {
+        UserCtrl.GetByToken(req, res, User, 'token');
+    });
+    
+
    // Update a User with Id
     app.put('/api/users', (req, res) => {
-      if (UserCtrl.VerifyRights(req.body._id, req.body.token)) {
-        GlobalCtrl.Update(req, res, User, 'user');
-      } else {
-        console.log("ERROR NO RIGHTS");
-        res.status(500).json({
-          msg: "ERROR NO RIGHTS"
-        })
-      }
+      a = UserCtrl.VerifyRights(req.body._id, req.body.token, User, "user");
+      a.then(val => 
+      {
+        if (val) {
+          GlobalCtrl.Update(req, res, User, 'user');
+        } else {
+          console.log("ERROR NO RIGHTS");
+          res.status(500).json({
+            msg: "ERROR NO RIGHTS"
+          })
+        }
+      });
     });
 
     // Delete a User with Id
     app.delete('/api/users/:_id', (req, res) => {
-      if (UserCtrl.VerifyRights(req.body._id, req.body.token)) {
-        GlobalCtrl.Delete(req, res, User, 'user');
-      } else {
-        console.log("ERROR NO RIGHTS");
-        res.status(500).json({
-          msg: "ERROR NO RIGHTS"
-        })
-      }
+      a = UserCtrl.VerifyRights(req.body._id, req.body.token, User, "user");
+      a.then(val => 
+      {
+        if (val) {
+          GlobalCtrl.Delete(req, res, User, 'user');
+        } else {
+          console.log("ERROR NO RIGHTS");
+          res.status(500).json({
+            msg: "ERROR NO RIGHTS"
+          })
+        }
+      })
+      .catch(err => {console.log(err.message)});
     });
 
     // Authentification

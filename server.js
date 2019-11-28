@@ -52,12 +52,12 @@ require('./routes/eirbmon.routes.js')(app,Eirbmon);
 require('./routes/skill.routes.js')(app,Skill);
 require('./routes/doc.routes.js')(app);
 require('./routes/blockchain.routes.js')(app);
+require('./routes/pusher.routes.js')(app);
 
 // Options du serveur. En cas de bonne réception du message, on envoie le message "200: OK" au front end). Ce sera utilisé à la création du serveur ci-dessous.
 app.options('*', function (request, response) {
   response.send(200);
 });
-
 
 
 app.listen(port,ip, () => {

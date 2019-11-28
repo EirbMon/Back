@@ -1,7 +1,8 @@
 const nodemailer = require("nodemailer");
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
+const GlobalCtrl = require('./global.controller.js');
+const keyToken = "my_key";
 exports.Create = function(req, res, User, name){
 
     User.findOne({ 'email': req.body.email })
@@ -21,9 +22,17 @@ exports.Create = function(req, res, User, name){
             user.save()
             .then(data => {
                 // création du token qui expire au bout de 24h
-                const token = jwt.sign({ id: user.id, name: user.name }, 'my_key',{ expiresIn: 60*60*24});
-                res.json({ token: token, name: user.name, email: user.email })
-                console.log("Create new user" + user);
+                const token = jwt.sign({ id: user._id, email: user.email }, keyToken,{ expiresIn: 60*60*24});
+                var monJson = {_id: user._id, token:token}
+                User.findByIdAndUpdate(monJson._id, monJson, {new: false}).then(data => {
+                    res.json({ data })
+                    console.log("Create new user" + user);
+                })
+                .catch(err => {
+                res.status(500).json({
+                    msg: err.message
+                });})
+
             }).catch(err => {
                 res.status(500).json({
                     msg: err.message
@@ -48,6 +57,18 @@ exports.GetByEmail = function(req, res, User, name){
     });
 }
 
+exports.GetByToken = function(req, res, User, name){
+    console.log("Request GET by token, collection: " + name);
+    User.findOne({ 'token': req.params.token })
+    .then(users => {
+        res.json(users);
+    }).catch(err => {
+        res.status(500).send({
+            msg: err.message
+        });
+    });
+}
+
 
 exports.Auth = function(req, res, User, name) {
     User.findOne({ 'email': req.body.email })
@@ -60,8 +81,17 @@ exports.Auth = function(req, res, User, name) {
             if(result)
             {
                 // création du token qui expire au bout de 24h
-                const token = jwt.sign({ id: user._id, email: user.email }, 'my_key',{ expiresIn: 60*60*24});
-                res.json({ token: token, name: user.name, email: user.email })
+                const token = jwt.sign({ id: user._id, email: user.email }, keyToken,{ expiresIn: 60*60*24});
+                var monJson = {_id: user._id, token: token}
+                User.findByIdAndUpdate(monJson._id, monJson, {new: true}).then(data => {
+                    //data.token = monJson.token;
+                    res.json(data)
+                    console.log("Create new user" + user);
+                })
+                .catch(err => {
+                res.status(500).json({
+                    msg: err.message
+                });})
             }
             else {
                 res.json({ "check_password": "false" });
@@ -73,9 +103,70 @@ exports.Auth = function(req, res, User, name) {
     })
 }
 
+exports.VerifyRights = function(idUser, token, User, name) {
+            jsonToken = { 'token': token };
+            return Promise.resolve(
+            jwt.verify(token, keyToken, (err, data) => {  
+                if (err) {
+                    return Promise.resolve(false);
+                }
+                return Promise.resolve(User.findOne(jsonToken)
+                .then(users => {
+                    console.log(users._id, idUser)
+                    if(users._id == idUser)
+                    {
+                        console.log("yeees");
+                        return true;
+                    }
+                    else
+                    {
+                        console.log("nooo");
+                        return false;
+                    }
+                })
+                .catch());
+              })
+            .then(data =>{return data})
+            .catch(err => {return err.message}));
+
+
+/*
+    return new Promise(function(idUser, token, User, name)
+    {
+        jwt.verify(token, keyToken, (err, data) => {
+        if (err) {
+            return false;
+        } else {
+            jsonToken = { 'token': token };
+            User.findOne(jsonToken)
+            .then(users => {
+                console.log(users._id, idUser)
+                if(users._id == idUser)
+                {
+                    console.log("yeees");
+                    return true;
+                }
+                else
+                {
+                    console.log("nooo");
+                    return false;
+                }
+                
+            })
+            .catch(err => {
+                console.log(err);
+                return false;
+        });
+        }
+        })
+    })
+    .then( data => {console.log("ta maman"); return data;})
+    .catch(err => {console.log(err.message)})
+*/
+}
+
 exports.TestToken = function(req, res, User, name) {
-    //app.get('/api/test', ensureToken, (req, res) => {
-    jwt.verify(req.body.token, 'my_key', (err, data) => {
+    jwt.verify(req.body.token, keyToken, (err, data) => {
       if (err) {
         res.status(403).json(err);
       } else {
@@ -85,11 +176,6 @@ exports.TestToken = function(req, res, User, name) {
         });
       }
     });
-// });
-}
-
-exports.VerifyRights = function(id, token) {
-  return true;
 }
 
 exports.SendEmail = function(req, res){
