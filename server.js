@@ -56,7 +56,7 @@ app.options('*', function (request, response) {
 
 app.listen(port,ip, () => {
 
-  truffle_connect.web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
+  truffle_connect.web3 = new Web3(new Web3.providers.HttpProvider("http://eirbmon.hopto.org:8545"));
 
 
   console.log("Express Listening at http://localhost:" + port);
