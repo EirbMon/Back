@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 exports.Create = function(req, res, User, name){
