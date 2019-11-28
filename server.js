@@ -7,6 +7,7 @@ const Web3 = require('web3');
 const truffle_connect = require('./connection/app.js');
 const bodyParser = require('body-parser');
 const ip = ConfParam.ip;
+const ipBlockchain = ConfParam.ipBlockchain;
 var schedule = require('node-schedule');
 
 // parse application/x-www-form-urlencoded & application/json
@@ -60,10 +61,10 @@ app.options('*', function (request, response) {
 
 
 app.listen(port,ip, () => {
-  // mise à jour de la base de données tous les jours à 0
+  // mise à jour de la base de données tous les jours à minuit
   schedule.scheduleJob('0 0 0 * * *', function(){
     EirbmonCtrl.UpdateEirbmonTable(Eirbmon,blockchainCtrl)
   });
-  truffle_connect.web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
+  truffle_connect.web3 = new Web3(new Web3.providers.HttpProvider(ipBlockchain));
   console.log("Express Listening at http://localhost:" + port);
 });

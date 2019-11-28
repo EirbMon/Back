@@ -64,11 +64,12 @@ exports.UpdateEirbmonTable = function (Eirbmon, blockchainCtrl) {
 exports.GetAllEirbmons = function (req, res, Eirbmon, name) {
     console.log("Request GetAllEirbmons, collection: " + name);
     Eirbmon.find()
-        .then(_Eirbmons => {
-            res.json(_Eirbmons);
-        }).catch(err => {
-            res.status(500).send({
-                msg: err.message
-            });
+    .then(_Eirbmons => {
+        res.json(_Eirbmons);
+    }).catch(err => {
+        res.status(500).send({
+            msg: err.message
         });
+    });
 }
+
