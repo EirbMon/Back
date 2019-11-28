@@ -1,7 +1,6 @@
 module.exports = function(app,Eirbmon) {
     const EirbmonCtrl = require('../controllers/eirbmon.controller.js');
     const GlobalCtrl = require('../controllers/global.controller.js');
-    const blockchainCtrl = require('../controllers/blockchain.controller.js');
 
     // Create a new Eirbmon
     app.post('/api/eirbmon', (req, res) => {
@@ -9,8 +8,8 @@ module.exports = function(app,Eirbmon) {
     });
 
     //Update Eirbmon table with the blockchain
-       app.get('/api/eirbmon/update', (req, res) => {
-        EirbmonCtrl.UpdateEirbmonTable(res,Eirbmon,EirbmonCtrl,blockchainCtrl,'eirbmon');
+    app.get('/api/eirbmon/all', (req, res) => {
+        EirbmonCtrl.GetAllEirbmons(req, res, Eirbmon, 'eirbmon');
     });
 
     // Retrieve all User

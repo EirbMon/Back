@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const EirbmonSchema = new Schema({
+  idInBlockchain : {type: Number, required: true},
   type: {type: String, required: true}, 
   name: {type: String}, 
   owner_id: {type: String, required: true}, 
