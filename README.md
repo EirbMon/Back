@@ -3,7 +3,10 @@ To deploy corrcectly the back server you need to run the Blockchain network (Gan
 Directory connection connect the back server to our Blockchain
 You need to run the initBlockchain.sh file in the Blockchain directory to deploy the Ethereum Blockchain before using the back server.
 
-dans le fichier server.js => changer http://eirbmon.hopto.org:8545 par http://127.0.0.1:8545  
+----------dans le fichier conf.js----------------
+const ip = 'localhost';
+const ipBlockchain = "http://127.0.0.1:8545"
+--------------------------------------
 
 #install dependecies
 npm install
