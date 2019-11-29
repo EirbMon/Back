@@ -26,3 +26,9 @@ exports.getMyEirbmon = function(req, res){
   })
   .catch(err => {console.log(err.message)});
 }
+
+exports.getAllEirbmons = function(callback){
+  // if (UserCtrl.VerifyRights(req.body._id, req.body.token)) {
+    truffle_connect.getAllEirbmons(callback)
+  // }
+}
