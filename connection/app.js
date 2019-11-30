@@ -8,13 +8,11 @@ module.exports = {
 
     // Bootstrap the Eirbmon abstraction for Use.
     Eirbmon.setProvider(self.web3.currentProvider);
-
     self.web3.eth.getCoinbase(function(err, account) {
       if (err === null) {
         console.log(account);
       }else{
         console.log("account");
-
       }
     });
     // Get the initial account balance so it can be displayed.
@@ -77,7 +75,32 @@ module.exports = {
     })
 
   },
+  getEirbmonById: function(idEirbmon,callback) {
+    var self = this;
+    Eirbmon.setProvider(self.web3.currentProvider);
+    Eirbmon.deployed().then((instance) =>{
+      eirbmonInstance = instance;
+      return eirbmonInstance._Eirbmons(idEirbmon);
+    }).then(_Eirbmon=>{
+       callback([_Eirbmon])
+    })
+  },
 
+  parseEirbmon : function(Eirbmons){
+    var parseEirbmonTab = [];
+    Eirbmons.forEach(element => {
+      parseEirbmonTab.push({
+        id : element[0].toNumber(),
+        name : element[1],
+        owner : element[2],
+        level : element[3].toNumber(),
+        field : element[4], 
+        atk : element[5],
+        hp : element[6].toNumber(),
+      })
+    });
+    return parseEirbmonTab;
+  }
 }
 
 

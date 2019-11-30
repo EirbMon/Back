@@ -7,11 +7,23 @@ module.exports = function(app,Eirbmon) {
         EirbmonCtrl.CreateEirbmon(req, res, Eirbmon, 'eirbmon');
     });
 
-    //Update Eirbmon table with the blockchain
+    // Retreive all Eirbmon
     app.get('/api/eirbmon/all', (req, res) => {
         EirbmonCtrl.GetAllEirbmons(req, res, Eirbmon, 'eirbmon');
     });
 
+    // 
+    app.get('/api/eirbmon/idEirbmon', (req, res) => {
+        EirbmonCtrl.getEirbmonById(req, res,Eirbmon);
+    });
+
+    // update Eirbmon Owner in mongo
+    app.put('/api/eirbmon/updateowner', (req, res) => {
+        EirbmonCtrl.updateMongoEirbmonOwner(req, res,Eirbmon);
+    });
+
+    
+    
     // Retrieve all User
     app.get('/api/eirbmon/owner/:owner_id', (req, res) => {
         console.log("Route Eirbmon by Owner (or Orphelin)")

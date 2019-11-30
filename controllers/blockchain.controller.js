@@ -32,3 +32,15 @@ exports.getAllEirbmons = function(callback){
     truffle_connect.getAllEirbmons(callback)
   // }
 }
+
+exports.getEirbmonById = function(idEirbmon,callback){
+  // if (UserCtrl.VerifyRights(req.body._id, req.body.token)) {
+    truffle_connect.getEirbmonById(idEirbmon,callback)
+  // }
+}
+
+exports.parseEirbmon = function(Eirbmons){
+  // if (UserCtrl.VerifyRights(req.body._id, req.body.token)) {
+    return truffle_connect.parseEirbmon(Eirbmons)
+  // }
+}

@@ -66,5 +66,6 @@ app.listen(port,ip, () => {
     EirbmonCtrl.UpdateEirbmonTable(Eirbmon,blockchainCtrl)
   });
   truffle_connect.web3 = new Web3(new Web3.providers.HttpProvider(ipBlockchain));
+
   console.log("Express Listening at http://localhost:" + port);
 });
