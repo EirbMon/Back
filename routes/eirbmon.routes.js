@@ -12,10 +12,16 @@ module.exports = function(app,Eirbmon) {
         EirbmonCtrl.GetAllEirbmons(req, res, Eirbmon, 'eirbmon');
     });
 
-    // Retrieve all User
-    app.get('/api/eirbmon/owner/:owner_id', (req, res) => {
-        console.log("Route Eirbmon by Owner (or Orphelin)")
-        EirbmonCtrl.GetOwnerEirbmons(req, res, Eirbmon, 'eirbmon');
+    // Retrieve all eirbmons by User
+    app.get('/api/eirbmon/allOwner/:owner_id', (req, res) => {
+        console.log("Route All Eirbmon by Owner (or Orphelin)")
+        EirbmonCtrl.GetAllEirbmonsByOwner(req, res, Eirbmon, 'eirbmon');
+    });
+
+    // Retrieve n eirbmons by User
+    app.get('/api/eirbmon/anyOwner/:owner_id', (req, res) => {
+        console.log("Route Any Eirbmon by Owner (or Orphelin)")
+        EirbmonCtrl.GetAnyEirbmonsByOwner(req, res, Eirbmon, 'eirbmon');
     });
        
     // Retrieve a single Eirbmon by Id
