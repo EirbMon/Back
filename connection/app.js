@@ -71,15 +71,19 @@ module.exports = {
     }).then(function(eirbmonsCount) {
       var response = [];
       var tabProm = [];
+      var breakFor = false;
       for (var i = 1; i <= eirbmonsCount; i++) {
         tabProm[i] = eirbmonInstance._Eirbmons(i);
         tabProm[i].then(function(pokemon) {
           if("0x0000000000000000000000000000000000000000" == pokemon[2]){
             response.push(pokemon);
+            console.log(breakFor)
           }
          })
+         if(breakFor)
+          break;
       }
-      Promise.all(tabProm).then(()=>callback(response),()=>console.log('error'));
+      Promise.all(tabProm).then(()=>callback(response[0]),()=>console.log('error'));
     })
 
   },
