@@ -1,4 +1,4 @@
-module.exports = function(app) {
+module.exports = function(app,User) {
     const truffle_connect = require('../connection/app.js');
     const blockchainCtrl = require('../controllers/blockchain.controller.js');
 
@@ -7,12 +7,24 @@ module.exports = function(app) {
     partie blockchain
     */
     // renvoi tout les comptes
-    app.get('/getAccounts', (req, res) => {
+    app.get('/api/getAccounts', (req, res) => {
         blockchainCtrl.getAccounts(req, res);
     });
 
     // afficher mes eirbmon
-    app.get('/getMyEirbmon', (req, res) => {
+    app.get('/api/getMyEirbmon', (req, res) => {
       blockchainCtrl.getMyEirbmon(req, res);
+    });
+
+    // afficher eirbmon seuls
+    app.get('/api/getEirbmonWithoutOwner', (req, res) => {
+      blockchainCtrl.getEirbmonWithoutOwner(req, res);
+    });
+
+    
+
+    // afficher tous les eirbmons
+    app.get('/api/getAllEirbmons', (req, res) => {
+      blockchainCtrl.getAllEirbmons(req, res, User, 'user');
     });
 }

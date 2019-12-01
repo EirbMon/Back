@@ -10,12 +10,24 @@ exports.getAccounts = function(req, res){
 }
 
 exports.getMyEirbmon = function(req, res){
-  a = UserCtrl.VerifyRights(req.body._id, req.body.token, User, "user");
+      truffle_connect.getMyEirbmon(req.body.account,function (answer) {
+      res.send(answer);
+     })
+}
+
+exports.getEirbmonWithoutOwner = function(req, res){
+      truffle_connect.getEirbmonWithoutOwner(function (answer) {
+      res.send(answer);
+     })
+}
+
+exports.getAllEirbmons = function(req, res, User, name){
+  a = UserCtrl.VerifyRights(req.body._id, req.body.token, User, name);
   a.then(val => 
   {
     if (val) {
-      truffle_connect.getMyEirbmon(req.query.account,function (answer) {
-      res.send(answer);
+      truffle_connect.getAllEirbmons(function (answer) {
+        res.send(answer);
       })
     } else {
       console.log("ERROR NO RIGHTS");
@@ -25,10 +37,4 @@ exports.getMyEirbmon = function(req, res){
     }
   })
   .catch(err => {console.log(err.message)});
-}
-
-exports.getAllEirbmons = function(callback){
-  // if (UserCtrl.VerifyRights(req.body._id, req.body.token)) {
-    truffle_connect.getAllEirbmons(callback)
-  // }
 }

@@ -21,6 +21,7 @@ module.exports = {
     self.web3.eth.getAccounts(function(err, accs) {
       if (err != null) {
         console.log("There was an error fetching your accounts.");
+        console.log(err.message);
         return;
       }
 
@@ -50,6 +51,30 @@ module.exports = {
         tabProm[i] = eirbmonInstance._Eirbmons(i);
         tabProm[i].then(function(pokemon) {
           if(account == pokemon[2]){
+            response.push(pokemon);
+          }
+         })
+      }
+      Promise.all(tabProm).then(()=>callback(response),()=>console.log('error'));
+    })
+
+  },
+  getEirbmonWithoutOwner: function(callback) {
+    var self = this;
+
+    // Bootstrap the Eirbmon abstraction for Use.
+    Eirbmon.setProvider(self.web3.currentProvider);
+
+    Eirbmon.deployed().then(function(instance) {
+      eirbmonInstance = instance;
+      return eirbmonInstance.getEirbmonCount();
+    }).then(function(eirbmonsCount) {
+      var response = [];
+      var tabProm = [];
+      for (var i = 1; i <= eirbmonsCount; i++) {
+        tabProm[i] = eirbmonInstance._Eirbmons(i);
+        tabProm[i].then(function(pokemon) {
+          if("0x0000000000000000000000000000000000000000" == pokemon[2]){
             response.push(pokemon);
           }
          })
