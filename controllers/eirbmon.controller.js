@@ -5,7 +5,7 @@ exports.CreateEirbmon = function (req, res, Eirbmon, name) {
     eirbmon.name = req.body.name;
 
     if (!req.body.owner_id)
-        eirbmon.owner_id = "admin_id";
+        eirbmon.owner_id = "0x0000000000000000000000000000000000000000";
     else
         eirbmon.owner_id = req.body.owner_id;
 
