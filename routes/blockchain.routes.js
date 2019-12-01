@@ -12,7 +12,7 @@ module.exports = function(app,User) {
     });
 
     // afficher mes eirbmon
-    app.get('/api/getMyEirbmon', (req, res) => {
+    app.post('/api/getMyEirbmon', (req, res) => {
       blockchainCtrl.getMyEirbmon(req, res);
     });
 

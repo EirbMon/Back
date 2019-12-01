@@ -25,7 +25,7 @@ exports.getAllEirbmons = function(req, res, User, name){
   a = UserCtrl.VerifyRights(req.body._id, req.body.token, User, name);
   a.then(val => 
   {
-    if (val || true) {
+    if (val) {
       truffle_connect.getAllEirbmons(function (answer) {
         res.send(answer);
       })
