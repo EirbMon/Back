@@ -7,24 +7,24 @@ module.exports = function(app,User) {
     partie blockchain
     */
     // renvoi tout les comptes
-    app.get('/api/getAccounts', (req, res) => {
+    app.get('/api/blockchain/getAccounts', (req, res) => {
         blockchainCtrl.getAccounts(req, res);
     });
 
     // afficher mes eirbmon
-    app.get('/api/getMyEirbmon', (req, res) => {
+    app.post('/api/blockchain/getMyEirbmon', (req, res) => {
       blockchainCtrl.getMyEirbmon(req, res);
     });
 
     // afficher eirbmon seuls
-    app.get('/api/getEirbmonWithoutOwner', (req, res) => {
+    app.get('/api/blockchain/getEirbmonOrphelin', (req, res) => {
       blockchainCtrl.getEirbmonWithoutOwner(req, res);
     });
 
     
 
     // afficher tous les eirbmons
-    app.get('/api/getAllEirbmons', (req, res) => {
+    app.get('/api/blockchain/getAllEirbmons', (req, res) => {
       blockchainCtrl.getAllEirbmons(req, res, User, 'user');
     });
 }

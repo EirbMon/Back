@@ -22,11 +22,24 @@ exports.CreateEirbmon = function (req, res, Eirbmon, name) {
     res.json({ eirbmon })
 }
 
-exports.GetOwnerEirbmons = function (req, res, Eirbmon, name) {
-    console.log("Request GetOwnerEirbmons, collection: " + name);
+exports.GetAllEirbmonsByOwner = function (req, res, Eirbmon, name) {
+    console.log("Request GetAllByOwnerEirbmons, collection: " + name);
     Eirbmon.find({ 'owner_id': req.params.owner_id })
-        .then(users => {
-            res.json(users);
+        .then(eirbmons => {
+            res.json(eirbmons);
+        }).catch(err => {
+            res.status(500).send({
+                msg: err.message
+            });
+        });
+}
+exports.GetAnyEirbmonsByOwner = function (req, res, Eirbmon, name) {
+    console.log("Request GetAnyEirbmonsByOwner, collection: " + name);
+    Eirbmon.find({ 'owner_id': req.params.owner_id })
+        .then(eirbmons => {
+            eirbmonsRetour = eirbmons.slice(0, req.body.number)
+            console.log(eirbmonsRetour.length)
+            res.json(eirbmonsRetour);
         }).catch(err => {
             res.status(500).send({
                 msg: err.message
