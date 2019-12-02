@@ -26,6 +26,7 @@ module.exports = function(app,Eirbmon) {
     app.get('/api/eirbmon/owner/:owner_id', (req, res) => {
         console.log("Route Eirbmon by Owner (or Orphelin)")
         EirbmonCtrl.GetOwnerEirbmons(req, res, Eirbmon, 'eirbmon');
+    })
 
       // Retrieve all eirbmons by User
     app.get('/api/eirbmon/owner/all/:owner_id', (req, res) => {
