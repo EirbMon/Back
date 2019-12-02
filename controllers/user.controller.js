@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const GlobalCtrl = require('./global.controller.js');
 const keyToken = "my_key";
+
 exports.Create = function(req, res, User, name){
 
     User.findOne({ 'email': req.body.email })
@@ -106,7 +107,7 @@ exports.Auth = function(req, res, User, name) {
 exports.VerifyRights = function(idUser, token, User, name) {
             jsonToken = { 'token': token };
             return Promise.resolve(
-            jwt.verify(token, keyToken, (err, data) => {  
+            jwt.verify(token, keyToken, (err, data) => {
                 if (err) {
                     return Promise.resolve(false);
                 }
