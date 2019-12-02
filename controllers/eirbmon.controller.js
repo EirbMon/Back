@@ -37,7 +37,7 @@ exports.GetOwnerEirbmons = function (req, res, Eirbmon, name) {
 }
 
 
-exports.UpdateEirbmonTable = function (Eirbmon, blockchainCtrl) {
+exports.UpdateEirbmonTable = function (Eirbmon) {
     console.log('update Eirbmon database')
     Eirbmon.deleteMany({}, function (err) { })
     let _EirbmonsArray = [];
@@ -60,6 +60,7 @@ exports.UpdateEirbmonTable = function (Eirbmon, blockchainCtrl) {
             }
             _EirbmonsArray.push(req.body);
         }
+        console.log(_EirbmonsArray)
         Eirbmon.insertMany(_EirbmonsArray, function (error, docs) { });
     })
 }
@@ -97,11 +98,11 @@ exports.updateMongoEirbmonOwner = function(req, res,Eirbmon){
                     if (err) throw err;
                     console.log("owner updated");
                   });
-                res.json(blockchainCtrl.parseEirbmon(_Eirbmon))
             }
        })
     });
 
+    res.json({'response':'the owner is being updated'})
         
 
 

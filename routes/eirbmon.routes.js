@@ -17,6 +17,11 @@ module.exports = function(app,Eirbmon) {
         EirbmonCtrl.getEirbmonById(req, res,Eirbmon);
     });
 
+    // update mongo with blockchain Eirbmon
+    app.get('/api/eirbmon/update', (req, res) => {
+        EirbmonCtrl.UpdateEirbmonTable(Eirbmon);
+    });
+
     // update Eirbmon Owner in mongo
     app.put('/api/eirbmon/updateowner', (req, res) => {
         EirbmonCtrl.updateMongoEirbmonOwner(req, res,Eirbmon);
