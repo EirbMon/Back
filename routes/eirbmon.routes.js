@@ -12,11 +12,6 @@ module.exports = function(app,Eirbmon) {
         EirbmonCtrl.GetAllEirbmons(req, res, Eirbmon, 'eirbmon');
     });
 
-    // 
-    app.get('/api/eirbmon/idEirbmon', (req, res) => {
-        EirbmonCtrl.getEirbmonById(req, res,Eirbmon);
-    });
-
     // update mongo with blockchain Eirbmon
     app.get('/api/eirbmon/update', (req, res) => {
         EirbmonCtrl.UpdateEirbmonTable(Eirbmon);
@@ -26,13 +21,22 @@ module.exports = function(app,Eirbmon) {
     app.put('/api/eirbmon/updateowner', (req, res) => {
         EirbmonCtrl.updateMongoEirbmonOwner(req, res,Eirbmon);
     });
-
-    
-    
+  
     // Retrieve all User
     app.get('/api/eirbmon/owner/:owner_id', (req, res) => {
         console.log("Route Eirbmon by Owner (or Orphelin)")
         EirbmonCtrl.GetOwnerEirbmons(req, res, Eirbmon, 'eirbmon');
+
+      // Retrieve all eirbmons by User
+    app.get('/api/eirbmon/owner/all/:owner_id', (req, res) => {
+        console.log("Route All Eirbmon by Owner (or Orphelin)")
+        EirbmonCtrl.GetAllEirbmonsByOwner(req, res, Eirbmon, 'eirbmon');
+    });
+
+    // Retrieve n eirbmons by User
+    app.get('/api/eirbmon/owner/any/:owner_id', (req, res) => {
+        console.log("Route Any Eirbmon by Owner (or Orphelin)")
+        EirbmonCtrl.GetAnyEirbmonsByOwner(req, res, Eirbmon, 'eirbmon');
     });
        
     // Retrieve a single Eirbmon by Id

@@ -128,41 +128,6 @@ exports.VerifyRights = function(idUser, token, User, name) {
               })
             .then(data =>{return data})
             .catch(err => {return err.message}));
-
-
-/*
-    return new Promise(function(idUser, token, User, name)
-    {
-        jwt.verify(token, keyToken, (err, data) => {
-        if (err) {
-            return false;
-        } else {
-            jsonToken = { 'token': token };
-            User.findOne(jsonToken)
-            .then(users => {
-                console.log(users._id, idUser)
-                if(users._id == idUser)
-                {
-                    console.log("yeees");
-                    return true;
-                }
-                else
-                {
-                    console.log("nooo");
-                    return false;
-                }
-                
-            })
-            .catch(err => {
-                console.log(err);
-                return false;
-        });
-        }
-        })
-    })
-    .then( data => {console.log("ta maman"); return data;})
-    .catch(err => {console.log(err.message)})
-*/
 }
 
 exports.TestToken = function(req, res, User, name) {
