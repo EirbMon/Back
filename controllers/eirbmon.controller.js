@@ -1,3 +1,6 @@
+const blockchainCtrl = require('../controllers/blockchain.controller');
+var schedule = require('node-schedule');
+
 exports.CreateEirbmon = function (req, res, Eirbmon, name) {
     eirbmon = new Eirbmon();
     console.log("Request POST: collection: " + name);
@@ -48,28 +51,30 @@ exports.GetAnyEirbmonsByOwner = function (req, res, Eirbmon, name) {
 }
 
 
-exports.UpdateEirbmonTable = function (Eirbmon, blockchainCtrl) {
+exports.UpdateEirbmonTable = function (Eirbmon) {
     console.log('update Eirbmon database')
     Eirbmon.deleteMany({}, function (err) { })
     let _EirbmonsArray = [];
     blockchainCtrl.getAllEirbmons(function (_EirbmonsFromBlockchain) {
+        _EirbmonsFromBlockchain = blockchainCtrl.parseEirbmon(_EirbmonsFromBlockchain);
         for (let index = 0; index < _EirbmonsFromBlockchain.length; index++) {
             let req = {
                 body: {
-                    idInBlockchain: _EirbmonsFromBlockchain[index][0].toNumber(),
-                    type: _EirbmonsFromBlockchain[index][1],
-                    name: _EirbmonsFromBlockchain[index][1],
-                    owner_id: _EirbmonsFromBlockchain[index][2],
+                    idInBlockchain: _EirbmonsFromBlockchain[index].id,
+                    type: _EirbmonsFromBlockchain[index].name,
+                    name: _EirbmonsFromBlockchain[index].name,
+                    owner_id: _EirbmonsFromBlockchain[index].owner,
                     skills_id: [0],
-                    hp: _EirbmonsFromBlockchain[index][6].toNumber(),
-                    field: _EirbmonsFromBlockchain[index][4],
+                    hp: _EirbmonsFromBlockchain[index].hp,
+                    field: _EirbmonsFromBlockchain[index].field,
                     force: 0,
                     xp: 0,
-                    lvl: _EirbmonsFromBlockchain[index][3].toNumber(),
+                    lvl: _EirbmonsFromBlockchain[index].level,
                 }
             }
             _EirbmonsArray.push(req.body);
         }
+        console.log(_EirbmonsArray)
         Eirbmon.insertMany(_EirbmonsArray, function (error, docs) { });
     })
 }
@@ -87,3 +92,40 @@ exports.GetAllEirbmons = function (req, res, Eirbmon, name) {
     });
 }
 
+exports.getEirbmonById = function (req, res,Eirbmon) {
+    console.log('set the Eirbmon Owner')
+    blockchainCtrl.getEirbmonById(1,function (_Eirbmon) {
+        res.json(_Eirbmon)
+    })
+}
+
+
+exports.updateMongoEirbmonOwner = function(req, res,Eirbmon){
+    console.log('update the Eirbmon Owner')
+    var waitBlock = schedule.scheduleJob('0,10,20,30,40,50 * * * * *', function(){
+        blockchainCtrl.getEirbmonById(req.body.idEirbmonBlockchain,function (_Eirbmon) {
+            const _parseEirbmon = blockchainCtrl.parseEirbmon(_Eirbmon);
+            console.log(_parseEirbmon[0].owner)
+            if(_parseEirbmon[0].owner != "0x0000000000000000000000000000000000000000"){
+                waitBlock.cancel();
+                Eirbmon.updateOne({'idInBlockchain':req.body.idEirbmonBlockchain}, {'owner_id':_parseEirbmon[0].owner}, function(err, res) {
+                    if (err) throw err;
+                    console.log("owner updated");
+                  });
+            }
+       })
+    });
+
+    res.json({'response':'the owner is being updated'})
+        
+
+
+// blockchainCtrl.parseEirbmon(_Eirbmon)
+            // if (blockchainCtrl.parseEirbmon(_Eirbmon)){
+            //     break;
+            // }
+        // Eirbmon.find({'idInBlockchain' : req.body.idEirbmonBlockchain})
+        // .then(_Eirbmons => {
+        //     res.json(_Eirbmons);
+        // })
+}
