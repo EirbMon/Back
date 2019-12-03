@@ -26,7 +26,14 @@ exports.Create = function(req, res, User, name){
                 const token = jwt.sign({ id: user._id, email: user.email }, keyToken,{ expiresIn: 60*60*24});
                 var monJson = {_id: user._id, token:token}
                 User.findByIdAndUpdate(monJson._id, monJson, {new: false}).then(data => {
-                    res.json({ data })
+                    User.findOne({ 'email': req.body.email })
+                    .then(user => {
+                      res.json({ user })
+                    }).catch(err => {
+                        res.status(500).json({
+                            msg: err.message
+                        });
+                    });
                     console.log("Create new user" + user);
                 })
                 .catch(err => {
@@ -79,6 +86,7 @@ exports.Auth = function(req, res, User, name) {
             res.json({ "check_user": "false" });
         } else {
             result = bcrypt.compareSync(req.body.password, user.password);
+            console.log("works");
             if(result)
             {
                 // création du token qui expire au bout de 24h
