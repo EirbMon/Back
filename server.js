@@ -43,7 +43,6 @@ var User = require('./schemas/user.schema.js');
 var Eirbmon = require('./schemas/eirbmon.schema.js');
 var Skill = require('./schemas/skill.schema.js');
 
-const blockchainCtrl = require('./controllers/blockchain.controller.js');
 const EirbmonCtrl = require('./controllers/eirbmon.controller.js');
 
 // Correspond aux routes emprumter par les requètes. Ceci permet au Frontend de déclencher des requètes grâce au route.
@@ -63,8 +62,9 @@ app.options('*', function (request, response) {
 app.listen(port,ip, () => {
   // mise à jour de la base de données tous les jours à minuit
   schedule.scheduleJob('0 0 0 * * *', function(){
-    EirbmonCtrl.UpdateEirbmonTable(Eirbmon,blockchainCtrl)
+    EirbmonCtrl.UpdateEirbmonTable(Eirbmon)
   });
   truffle_connect.web3 = new Web3(new Web3.providers.HttpProvider(ipBlockchain));
+
   console.log("Express Listening at http://localhost:" + port);
 });
