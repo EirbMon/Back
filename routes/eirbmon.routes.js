@@ -22,27 +22,15 @@ module.exports = function(app,Eirbmon) {
         EirbmonCtrl.updateMongoEirbmonOwner(req, res,Eirbmon);
     });
   
-    // Retrieve all User
-    app.get('/api/eirbmon/owner/:owner_id', (req, res) => {
-        console.log("Route Eirbmon by Owner (or Orphelin)")
-        EirbmonCtrl.GetOwnerEirbmons(req, res, Eirbmon, 'eirbmon');
-    })
-
-      // Retrieve all eirbmons by User
-    app.get('/api/eirbmon/owner/all/:owner_id', (req, res) => {
-        console.log("Route All Eirbmon by Owner (or Orphelin)")
-        EirbmonCtrl.GetAllEirbmonsByOwner(req, res, Eirbmon, 'eirbmon');
-    });
-
     // Retrieve n eirbmons by User
-    app.get('/api/eirbmon/owner/any/:owner_id', (req, res) => {
-        console.log("Route Any Eirbmon by Owner (or Orphelin)")
+    app.get('/api/eirbmon/owner/:owner_id/:number', (req, res) => {
+        console.log("Route Eirbmon by Owner (or Orphelin)")
         EirbmonCtrl.GetAnyEirbmonsByOwner(req, res, Eirbmon, 'eirbmon');
     });
        
     // Retrieve a single Eirbmon by Id
-    app.get('/api/eirbmon/:_id', (req, res) => {
-        GlobalCtrl.GetById(req, res,  Eirbmon, 'eirbmon');
+    app.get('/api/eirbmon/:idInBlockchain', (req, res) => {
+        EirbmonCtrl.GetEirbmonByidInBlockchain(req, res,  Eirbmon, 'eirbmon');
     });
 
     // Retrieve All Eirbmon 
@@ -52,7 +40,7 @@ module.exports = function(app,Eirbmon) {
 
     // Retrieve a single Eirbmon by name
     app.get('/api/eirbmon/name/:name', (req, res) => {
-        GlobalCtrl.GetByName(req, res, Eirbmon, 'eirbmon');
+       GlobalCtrl.GetByName(req, res, Eirbmon, 'eirbmon');
     });
 
     // Update a Eirbmon with Id

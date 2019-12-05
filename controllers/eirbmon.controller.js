@@ -13,6 +13,7 @@ exports.CreateEirbmon = function (req, res, Eirbmon, name) {
         eirbmon.owner_id = req.body.owner_id;
 
     eirbmon.idInBlockchain = req.body.id;
+    eirbmon.idInBlockchain = req.body.idInBlockchain;
     eirbmon.skills_id = req.body.skills_id;
     eirbmon.hp = req.body.hp;
     eirbmon.field = req.body.field;
@@ -36,19 +37,38 @@ exports.GetAllEirbmonsByOwner = function (req, res, Eirbmon, name) {
             });
         });
 }
+
 exports.GetAnyEirbmonsByOwner = function (req, res, Eirbmon, name) {
     console.log("Request GetAnyEirbmonsByOwner, collection: " + name);
+
+    if (req.params.number <= 0)
+        this.GetAllEirbmonsByOwner(req, res, Eirbmon, name);
+    else{
     Eirbmon.find({ 'owner_id': req.params.owner_id })
         .then(eirbmons => {
-            eirbmonsRetour = eirbmons.slice(0, req.body.number)
-            console.log(eirbmonsRetour.length)
+            eirbmonsRetour = eirbmons.slice(0, req.params.number);
             res.json(eirbmonsRetour);
         }).catch(err => {
             res.status(500).send({
                 msg: err.message
             });
         });
+    }
 }
+
+exports.GetEirbmonByidInBlockchain = function (req, res, Eirbmon, name) {
+    console.log("Request GetEirbmonByidInBlockchains, collection: " + name);
+    Eirbmon.find({ 'idInBlockchain': req.params.idInBlockchain })
+        .then(eirbmons => {
+            res.json(eirbmons);
+        }).catch(err => {
+            res.status(500).send({
+                msg: err.message
+            });
+        });
+}
+
+
 
 
 exports.UpdateEirbmonTable = function (Eirbmon) {
