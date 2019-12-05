@@ -99,7 +99,7 @@ PUT http://localhost:4000/api/skill/
 [
   {
     "skills_id": [],
-    "owner_id": "0xa556D88B0D19A773F1F4489D5b2b696631527dE6",
+    "owner_id": "{MY_METAMASK_ID}",
     "idInBlockchain": 1,
     "type": "Pikachu",
 		"name": "SalutCava1",
@@ -109,7 +109,7 @@ PUT http://localhost:4000/api/skill/
   },
   {
     "skills_id": [],
-    "owner_id": "0xa556D88B0D19A773F1F4489D5b2b696631527dE6",
+    "owner_id": "{MY_METAMASK_ID} ",
     "idInBlockchain": 2,
     "type": "Pikachu",
 		"name": "SalutCava2",
@@ -119,21 +119,11 @@ PUT http://localhost:4000/api/skill/
   },
   {
     "skills_id": [],
-    "owner_id": "0xa556D88B0D19A773F1F4489D5b2b696631527dE6",
+    "owner_id": "{MY_METAMASK_ID} ",
     "idInBlockchain": 4,
     "type": "Roucoul",
 		"name": "SalutCava4",
 		"lvl": 12,
-    "hp": 100,
-    "force": 50
-  },
-  {
-    "skills_id": [],
-    "owner_id": "0x48BBcecA684CDe0646B787769D30d9Fa38927E28",
-    "idInBlockchain": 3,
-    "type": "Caparuce",
-		"name": "SalutCava3",
-		"lvl": 5,
     "hp": 100,
     "force": 50
   },
