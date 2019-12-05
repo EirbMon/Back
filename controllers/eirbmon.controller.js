@@ -36,6 +36,7 @@ exports.GetAllEirbmonsByOwner = function (req, res, Eirbmon, name) {
             });
         });
 }
+
 exports.GetAnyEirbmonsByOwner = function (req, res, Eirbmon, name) {
     console.log("Request GetAnyEirbmonsByOwner, collection: " + name);
 
@@ -53,6 +54,20 @@ exports.GetAnyEirbmonsByOwner = function (req, res, Eirbmon, name) {
         });
     }
 }
+
+exports.GetEirbmonByidInBlockchain = function (req, res, Eirbmon, name) {
+    console.log("Request GetEirbmonByidInBlockchains, collection: " + name);
+    Eirbmon.find({ 'idInBlockchain': req.params.idInBlockchain })
+        .then(eirbmons => {
+            res.json(eirbmons);
+        }).catch(err => {
+            res.status(500).send({
+                msg: err.message
+            });
+        });
+}
+
+
 
 
 exports.UpdateEirbmonTable = function (Eirbmon) {

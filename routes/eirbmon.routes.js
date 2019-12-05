@@ -29,8 +29,8 @@ module.exports = function(app,Eirbmon) {
     });
        
     // Retrieve a single Eirbmon by Id
-    app.get('/api/eirbmon/:_id', (req, res) => {
-        GlobalCtrl.GetById(req, res,  Eirbmon, 'eirbmon');
+    app.get('/api/eirbmon/:idInBlockchain', (req, res) => {
+        EirbmonCtrl.GetEirbmonByidInBlockchain(req, res,  Eirbmon, 'eirbmon');
     });
 
     // Retrieve All Eirbmon 
