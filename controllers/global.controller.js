@@ -49,6 +49,8 @@ exports.GetByName = function (req, res, Collection, name){
 
 exports.Update = function(req, res, Collection, name){
     console.log("Request PUT: collection: " + name);
+    console.log({ "idInBlockchain" : req.body.idInBlockchain });
+    console.log(req.body);
         Collection.findOneAndUpdate({ "idInBlockchain" : req.body.idInBlockchain }, req.body, {new: true})
         .then(object => {
             if(!object) {
@@ -60,6 +62,7 @@ exports.Update = function(req, res, Collection, name){
             res.json(object);
          })
          .catch(err => {
+             console.log(err);
             return res.status(500).json({
                 msg: err.message
             });

@@ -12,7 +12,7 @@ module.exports = {
       if (err === null) {
         console.log(account);
       }else{
-        console.log("account");
+        console.log("error with account");
       }
     });
     // Get the initial account balance so it can be displayed.
