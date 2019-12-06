@@ -48,17 +48,13 @@ exports.GetByName = function (req, res, Collection, name){
 
 
 exports.Update = function(req, res, Collection, name){
-    console.log("Request PUT: collection: " + name);
-    console.log({ "idInBlockchain" : req.body.idInBlockchain });
-    console.log(req.body);
-        Collection.findOneAndUpdate({ "idInBlockchain" : req.body.idInBlockchain }, req.body, {new: true})
+        Collection.findByIdAndUpdate()
         .then(object => {
             if(!object) {
                 return res.status(404).json({
                     msg: name + " not found with id " + req.params._id  + ", req: Update"
                 });
             }
-            console.log(object);
             res.json(object);
          })
          .catch(err => {
