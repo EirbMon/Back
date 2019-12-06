@@ -15,7 +15,7 @@ exports.Create = function(req, res, User, name){
             user = new User();
             user.created_date = Date.now(); // Directly set "time" as the current date.
             console.log("Request POST: collection: "+ name);
-            user.wallet_id = req.body.wallet_id;
+            user.wallet_id = req.body.wallet_id.toLowerCase();
             user.password = bcrypt.hashSync(req.body.password,10); // Hash Real Password
             user.email = req.body.email;
             user.name = req.body.name;

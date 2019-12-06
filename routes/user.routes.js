@@ -46,6 +46,10 @@ module.exports = function(app,User) {
       a.then(val => 
       {
         if (val) {
+          if(req.body.wallet_id != undefined)
+          {
+            req.body.wallet_id = req.body.wallet_id.toLowerCase();
+          }
           GlobalCtrl.Update(req, res, User, 'user');
         } else {
           console.log("ERROR NO RIGHTS");
