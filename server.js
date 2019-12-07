@@ -1,4 +1,4 @@
-const ConfParam = require('./conf.js');
+const ConfParam = require('./config.js');
 
 const express = require('express');
 const app = express();
