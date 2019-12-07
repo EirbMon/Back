@@ -15,7 +15,7 @@ exports.Create = function(req, res, User, name){
             user = new User();
             user.created_date = Date.now(); // Directly set "time" as the current date.
             console.log("Request POST: collection: "+ name);
-            user.wallet_id = req.body.wallet_id.toLowerCase();
+            user.owner_id = req.body.owner_id.toLowerCase();
             user.password = bcrypt.hashSync(req.body.password,10); // Hash Real Password
             user.email = req.body.email;
             user.name = req.body.name;
@@ -80,7 +80,7 @@ exports.GetByToken = function(req, res, User, name){
 exports.Update = function(req, res, Collection, name){
     console.log("Request PUT: collection: " + name);
     console.log(req.body);
-        Collection.findOneAndUpdate({ "email" : req.body.email }, req.body, {new: true})
+        Collection.findOneAndUpdate({ "owner_id" : req.body.owner_id }, req.body, {new: true})
         .then(object => {
             if(!object) {
                 return res.status(404).json({

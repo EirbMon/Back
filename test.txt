@@ -2,7 +2,7 @@ USERS FUNCTION :
 
 POST http://localhost:4000/api/users
 {
-  "wallet_id":  "xx_user_xxx",
+  "owner_id":  "xx_user_xxx",
   "email": "user.test@gmail.com", 
   "password": "1234",
   "name": "User Test",
