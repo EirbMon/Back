@@ -10,7 +10,7 @@ const UserSchema = new Schema({
   permission: { type: Number, min: 0, max: 5},
   token: {type: String}, 
   key: {type: String}, // ???
-  addrBlockchain: {type: String} // ???
+  addrBlockchain: {type: String} 
 });
 
 module.exports = mongoose.model('User', UserSchema, 'users');

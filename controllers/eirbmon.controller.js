@@ -10,7 +10,7 @@ exports.CreateEirbmon = function (req, res, Eirbmon, name) {
     if (!req.body.owner_id)
         eirbmon.owner_id = "0x0000000000000000000000000000000000000000";
     else
-        eirbmon.owner_id = req.body.owner_id;
+        eirbmon.owner_id = req.body.owner_id.toLowerCase();
 
     eirbmon.idInBlockchain = req.body.id;
     eirbmon.idInBlockchain = req.body.idInBlockchain;
@@ -106,7 +106,7 @@ exports.UpdateEirbmonTable = function (Eirbmon) {
                     idInBlockchain: _EirbmonsFromBlockchain[index].id,
                     type: _EirbmonsFromBlockchain[index].name,
                     name: _EirbmonsFromBlockchain[index].name,
-                    owner_id: _EirbmonsFromBlockchain[index].owner,
+                    owner_id: _EirbmonsFromBlockchain[index].owner.toLowerCase(),
                     skills_id: [0],
                     hp: _EirbmonsFromBlockchain[index].hp,
                     field: _EirbmonsFromBlockchain[index].field,
