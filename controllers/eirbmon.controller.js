@@ -74,6 +74,10 @@ exports.GetEirbmonByidInBlockchain = function (req, res, Eirbmon, name) {
 exports.Update = function(req, res, Collection, name){
     console.log("Request PUT: collection: " + name);
     console.log(req.body);
+    if(req.body.owner_id != undefined)
+    {
+        req.body.owner_id = req.body.owner_id.lower_case();
+    }
         Collection.findOneAndUpdate({ "idInBlockchain" : req.body.idInBlockchain }, req.body, {new: true})
         .then(object => {
             if(!object) {
@@ -151,7 +155,7 @@ exports.updateMongoEirbmonOwner = function(req, res,Eirbmon){
             console.log(_parseEirbmon[0].owner)
             if(_parseEirbmon[0].owner != "0x0000000000000000000000000000000000000000"){
                 waitBlock.cancel();
-                Eirbmon.updateOne({'idInBlockchain':req.body.idEirbmonBlockchain}, {'owner_id':_parseEirbmon[0].owner}, function(err, res) {
+                Eirbmon.updateOne({'idInBlockchain':req.body.idEirbmonBlockchain}, {'owner_id':_parseEirbmon[0].owner.lower_case()}, function(err, res) {
                     if (err) throw err;
                     console.log("owner updated");
                   });
