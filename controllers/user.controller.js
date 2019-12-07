@@ -77,6 +77,26 @@ exports.GetByToken = function(req, res, User, name){
     });
 }
 
+exports.Update = function(req, res, Collection, name){
+    console.log("Request PUT: collection: " + name);
+    console.log(req.body);
+        Collection.findOneAndUpdate({ "owner_id" : req.body.owner_id }, req.body, {new: true})
+        .then(object => {
+            if(!object) {
+                return res.status(404).json({
+                    msg: name + " not found with id " + req.params._id  + ", req: Update"
+                });
+            }
+            res.json(object);
+         })
+         .catch(err => {
+             console.log(err);
+            return res.status(500).json({
+                msg: err.message
+            });
+         });
+}
+
 
 exports.Auth = function(req, res, User, name) {
     User.findOne({ 'email': req.body.email })

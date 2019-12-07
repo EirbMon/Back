@@ -535,7 +535,7 @@ definitions:
         type: "string"
       password:
         type: "string"
-      wallet_id:
+      owner_id:
         type: "string"
       permission:
         type: "integer"
@@ -604,7 +604,7 @@ definitions:
         type: "string"
       password:
         type: "string"
-      wallet_id:
+      owner_id:
         type: "string"
       permission:
         type: "integer"
