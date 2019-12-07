@@ -12,7 +12,7 @@ module.exports = {
       if (err === null) {
         console.log(account);
       }else{
-        console.log("account");
+        console.log("error with account");
       }
     });
     // Get the initial account balance so it can be displayed.
@@ -48,7 +48,7 @@ module.exports = {
       for (var i = 1; i <= eirbmonsCount; i++) {
         tabProm[i] = eirbmonInstance._Eirbmons(i);
         tabProm[i].then(function(pokemon) {
-          if(account == pokemon[2]){
+          if(account.toLowerCase() == pokemon[2].toLowerCase()){
             response.push(pokemon);
           }
          })
@@ -73,7 +73,7 @@ module.exports = {
       for (var i = 1; i <= eirbmonsCount; i++) {
         tabProm[i] = eirbmonInstance._Eirbmons(i);
         tabProm[i].then(function(pokemon) {
-          if("0x0000000000000000000000000000000000000000" == pokemon[2]){
+          if("0x0000000000000000000000000000000000000000".toLowerCase() == pokemon[2].toLowerCase()){
             response.push(pokemon);
             console.log(breakFor)
           }

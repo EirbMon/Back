@@ -46,7 +46,11 @@ module.exports = function(app,User) {
       a.then(val => 
       {
         if (val) {
-          GlobalCtrl.Update(req, res, User, 'user');
+          if(req.body.owner_id != undefined)
+          {
+            req.body.owner_id = req.body.owner_id.toLowerCase();
+          }
+          UserCtrl.Update(req, res, User, 'user');
         } else {
           console.log("ERROR NO RIGHTS");
           res.status(500).json({

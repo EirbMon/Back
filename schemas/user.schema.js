@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  wallet_id:  {type: String},
+  owner_id:  {type: String}, //ex wallet_id
   email: {type: String, required: true}, 
   password: {type: String, required: true},
   name: {type: String, required: true},
@@ -10,7 +10,7 @@ const UserSchema = new Schema({
   permission: { type: Number, min: 0, max: 5},
   token: {type: String}, 
   key: {type: String}, // ???
-  addrBlockchain: {type: String} // ???
+  addrBlockchain: {type: String} 
 });
 
 module.exports = mongoose.model('User', UserSchema, 'users');

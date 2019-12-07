@@ -10,9 +10,10 @@ exports.CreateEirbmon = function (req, res, Eirbmon, name) {
     if (!req.body.owner_id)
         eirbmon.owner_id = "0x0000000000000000000000000000000000000000";
     else
-        eirbmon.owner_id = req.body.owner_id;
+        eirbmon.owner_id = req.body.owner_id.toLowerCase();
 
     eirbmon.idInBlockchain = req.body.id;
+    eirbmon.idInBlockchain = req.body.idInBlockchain;
     eirbmon.skills_id = req.body.skills_id;
     eirbmon.hp = req.body.hp;
     eirbmon.field = req.body.field;
@@ -36,19 +37,65 @@ exports.GetAllEirbmonsByOwner = function (req, res, Eirbmon, name) {
             });
         });
 }
+
 exports.GetAnyEirbmonsByOwner = function (req, res, Eirbmon, name) {
     console.log("Request GetAnyEirbmonsByOwner, collection: " + name);
+
+    if (req.params.number == undefined)
+        req.params.number = 0;
+
+    if (req.params.number <= 0)
+        this.GetAllEirbmonsByOwner(req, res, Eirbmon, name);
+    else{
     Eirbmon.find({ 'owner_id': req.params.owner_id })
         .then(eirbmons => {
-            eirbmonsRetour = eirbmons.slice(0, req.body.number)
-            console.log(eirbmonsRetour.length)
+            eirbmonsRetour = eirbmons.slice(0, req.params.number);
             res.json(eirbmonsRetour);
         }).catch(err => {
             res.status(500).send({
                 msg: err.message
             });
         });
+    }
 }
+
+exports.GetEirbmonByidInBlockchain = function (req, res, Eirbmon, name) {
+    console.log("Request GetEirbmonByidInBlockchains, collection: " + name);
+    Eirbmon.find({ 'idInBlockchain': req.params.idInBlockchain })
+        .then(eirbmons => {
+            res.json(eirbmons);
+        }).catch(err => {
+            res.status(500).send({
+                msg: err.message
+            });
+        });
+}
+
+exports.Update = function(req, res, Collection, name){
+    console.log("Request PUT: collection: " + name);
+    console.log(req.body);
+    if(req.body.owner_id != undefined)
+    {
+        req.body.owner_id = req.body.owner_id.lower_case();
+    }
+        Collection.findOneAndUpdate({ "idInBlockchain" : req.body.idInBlockchain }, req.body, {new: true})
+        .then(object => {
+            if(!object) {
+                return res.status(404).json({
+                    msg: name + " not found with id " + req.params._id  + ", req: Update"
+                });
+            }
+            res.json(object);
+         })
+         .catch(err => {
+             console.log(err);
+            return res.status(500).json({
+                msg: err.message
+            });
+         });
+}
+
+
 
 
 exports.UpdateEirbmonTable = function (Eirbmon) {
@@ -63,7 +110,7 @@ exports.UpdateEirbmonTable = function (Eirbmon) {
                     idInBlockchain: _EirbmonsFromBlockchain[index].id,
                     type: _EirbmonsFromBlockchain[index].name,
                     name: _EirbmonsFromBlockchain[index].name,
-                    owner_id: _EirbmonsFromBlockchain[index].owner,
+                    owner_id: _EirbmonsFromBlockchain[index].owner.toLowerCase(),
                     skills_id: [0],
                     hp: _EirbmonsFromBlockchain[index].hp,
                     field: _EirbmonsFromBlockchain[index].field,
@@ -108,7 +155,7 @@ exports.updateMongoEirbmonOwner = function(req, res,Eirbmon){
             console.log(_parseEirbmon[0].owner)
             if(_parseEirbmon[0].owner != "0x0000000000000000000000000000000000000000"){
                 waitBlock.cancel();
-                Eirbmon.updateOne({'idInBlockchain':req.body.idEirbmonBlockchain}, {'owner_id':_parseEirbmon[0].owner}, function(err, res) {
+                Eirbmon.updateOne({'idInBlockchain':req.body.idEirbmonBlockchain}, {'owner_id':_parseEirbmon[0].owner.lower_case()}, function(err, res) {
                     if (err) throw err;
                     console.log("owner updated");
                   });

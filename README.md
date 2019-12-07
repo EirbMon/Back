@@ -17,8 +17,8 @@ npm start
 
 
 open a browser in (for example) :
- http://localhost:8080/getAccounts 
- http://localhost:8080/api/users
+ http://localhost:4000/getAccounts 
+ http://localhost:4000/api/users
 
 
 UTILISATION EN LOCAL:

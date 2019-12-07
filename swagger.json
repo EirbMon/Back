@@ -762,7 +762,7 @@
         "password": {
           "type": "string"
         },
-        "wallet_id": {
+        "owner_id": {
           "type": "string"
         },
         "permission": {
@@ -853,7 +853,7 @@
         "password": {
           "type": "string"
         },
-        "wallet_id": {
+        "owner_id": {
           "type": "string"
         },
         "permission": {

@@ -36,7 +36,8 @@ exports.getAllEirbmons = function(req, res, User, name){
       })
     }
   })
-  .catch(err => {console.log(err.message)});
+  .catch(err => {
+        console.log(err.message); res.status(err.message)});
 }
 
 exports.getAllEirbmons = function(callback){
