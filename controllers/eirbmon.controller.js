@@ -28,7 +28,7 @@ exports.CreateEirbmon = function (req, res, Eirbmon, name) {
 
 exports.GetAllEirbmonsByOwner = function (req, res, Eirbmon, name) {
     console.log("Request GetAllByOwnerEirbmons, collection: " + name);
-    Eirbmon.find({ 'owner_id': req.params.owner_id })
+    Eirbmon.find({ 'owner_id': req.params.owner_id.toLowerCase() })
         .then(eirbmons => {
             res.json(eirbmons);
         }).catch(err => {
