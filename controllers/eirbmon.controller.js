@@ -47,7 +47,7 @@ exports.GetAnyEirbmonsByOwner = function (req, res, Eirbmon, name) {
     if (req.params.number <= 0)
         this.GetAllEirbmonsByOwner(req, res, Eirbmon, name);
     else{
-    Eirbmon.find({ 'owner_id': req.params.owner_id })
+    Eirbmon.find({ 'owner_id': req.params.owner_id.toLowerCase() })
         .then(eirbmons => {
             eirbmonsRetour = eirbmons.slice(0, req.params.number);
             res.json(eirbmonsRetour);
