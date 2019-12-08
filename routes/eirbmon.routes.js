@@ -14,12 +14,13 @@ module.exports = function(app,Eirbmon) {
 
     // update mongo with blockchain Eirbmon
     app.get('/api/eirbmon/update', (req, res) => {
-        EirbmonCtrl.UpdateEirbmonTable(Eirbmon);
+        EirbmonCtrl.UpdateEirbmonTable(res,Eirbmon);
+
     });
 
-    // update Eirbmon Owner in mongo
+    // update Eirbmon Owner in mongo accordingly to the blockchain
     app.put('/api/eirbmon/updateowner', (req, res) => {
-        EirbmonCtrl.updateMongoEirbmonOwner(req, res,Eirbmon);
+        EirbmonCtrl.updateMongoEirbmonOwnerAccordingBlockchain(req, res,Eirbmon);
     });
   
     // Retrieve n eirbmons by User, :number? signifie que le paramètre est optionnel.

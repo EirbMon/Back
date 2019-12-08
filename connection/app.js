@@ -129,6 +129,17 @@ module.exports = {
       })
     });
     return parseEirbmonTab;
+  },
+
+  _getEirbmonCount:function(callback){
+    var self = this;
+    Eirbmon.setProvider(self.web3.currentProvider);
+    Eirbmon.deployed().then((instance) =>{
+      eirbmonInstance = instance;
+      return eirbmonInstance.getEirbmonCount();
+    }).then(count=>{
+       callback(count)
+    })
   }
 }
 

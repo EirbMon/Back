@@ -58,3 +58,9 @@ exports.parseEirbmon = function(Eirbmons){
   // }
 }
 
+exports.getEirbmonCount = function(callback){
+  // if (UserCtrl.VerifyRights(req.body._id, req.body.token)) {
+    truffle_connect._getEirbmonCount(callback)
+  // }
+}
+
