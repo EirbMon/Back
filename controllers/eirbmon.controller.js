@@ -46,16 +46,16 @@ exports.GetAnyEirbmonsByOwner = function (req, res, Eirbmon, name) {
 
     if (req.params.number <= 0)
         this.GetAllEirbmonsByOwner(req, res, Eirbmon, name);
-    else{
-    Eirbmon.find({ 'owner_id': req.params.owner_id.toLowerCase() })
-        .then(eirbmons => {
-            eirbmonsRetour = eirbmons.slice(0, req.params.number);
-            res.json(eirbmonsRetour);
-        }).catch(err => {
-            res.status(500).send({
-                msg: err.message
+    else {
+        Eirbmon.find({ 'owner_id': req.params.owner_id.toLowerCase() })
+            .then(eirbmons => {
+                eirbmonsRetour = eirbmons.slice(0, req.params.number);
+                res.json(eirbmonsRetour);
+            }).catch(err => {
+                res.status(500).send({
+                    msg: err.message
+                });
             });
-        });
     }
 }
 
@@ -71,34 +71,33 @@ exports.GetEirbmonByidInBlockchain = function (req, res, Eirbmon, name) {
         });
 }
 
-exports.Update = function(req, res, Collection, name){
+exports.Update = function (req, res, Collection, name) {
     console.log("Request PUT: collection: " + name);
     console.log(req.body);
-    if(req.body.owner_id != undefined)
-    {
+    if (req.body.owner_id != undefined) {
         req.body.owner_id = req.body.owner_id.lower_case();
     }
-        Collection.findOneAndUpdate({ "idInBlockchain" : req.body.idInBlockchain }, req.body, {new: true})
+    Collection.findOneAndUpdate({ "idInBlockchain": req.body.idInBlockchain }, req.body, { new: true })
         .then(object => {
-            if(!object) {
+            if (!object) {
                 return res.status(404).json({
-                    msg: name + " not found with id " + req.params._id  + ", req: Update"
+                    msg: name + " not found with id " + req.params._id + ", req: Update"
                 });
             }
             res.json(object);
-         })
-         .catch(err => {
-             console.log(err);
+        })
+        .catch(err => {
+            console.log(err);
             return res.status(500).json({
                 msg: err.message
             });
-         });
+        });
 }
 
 
 
 
-exports.UpdateEirbmonTable = function (res,Eirbmon) {
+exports.UpdateEirbmonTable = function (res, Eirbmon) {
     console.log('update Eirbmon database')
     Eirbmon.deleteMany({}, function (err) { })
     let _EirbmonsArray = [];
@@ -121,7 +120,7 @@ exports.UpdateEirbmonTable = function (res,Eirbmon) {
             }
             _EirbmonsArray.push(req.body);
         }
-        res.json({'update':'ok',_EirbmonsArray});
+        res.json({ 'update': 'ok', _EirbmonsArray });
 
         Eirbmon.insertMany(_EirbmonsArray, function (error, docs) { });
     })
@@ -131,90 +130,93 @@ exports.UpdateEirbmonTable = function (res,Eirbmon) {
 exports.GetAllEirbmons = function (req, res, Eirbmon, name) {
     console.log("Request GetAllEirbmons, collection: " + name);
     Eirbmon.find()
-    .then(_Eirbmons => {
-        res.json(_Eirbmons);
-    }).catch(err => {
-        res.status(500).send({
-            msg: err.message
+        .then(_Eirbmons => {
+            res.json(_Eirbmons);
+        }).catch(err => {
+            res.status(500).send({
+                msg: err.message
+            });
         });
-    });
 }
 
-exports.getEirbmonById = function (req, res,Eirbmon) {
+exports.getEirbmonById = function (req, res, Eirbmon) {
     console.log('set the Eirbmon Owner')
-    blockchainCtrl.getEirbmonById(1,function (_Eirbmon) {
+    blockchainCtrl.getEirbmonById(1, function (_Eirbmon) {
         res.json(_Eirbmon)
     })
 }
 
 
-exports.updateMongoEirbmonOwnerAccordingBlockchain = function(req, res,Eirbmon){
+exports.updateMongoEirbmonOwnerAccordingBlockchain = function (req, res, Eirbmon) {
     console.log('update the Eirbmon Owner')
-    var waitBlock = schedule.scheduleJob('0,10,20,30,40,50 * * * * *', function(){
-        blockchainCtrl.getEirbmonById(req.body.idEirbmonBlockchain,function (_Eirbmon) {
+    var waitBlock = schedule.scheduleJob('0,10,20,30,40,50 * * * * *', function () {
+        blockchainCtrl.getEirbmonById(req.body.idEirbmonBlockchain, function (_Eirbmon) {
             const _parseEirbmon = blockchainCtrl.parseEirbmon(_Eirbmon);
             console.log(_parseEirbmon[0].owner)
-            if(_parseEirbmon[0].owner != "0x0000000000000000000000000000000000000000"){
+            if (_parseEirbmon[0].owner != "0x0000000000000000000000000000000000000000") {
                 waitBlock.cancel();
-                Eirbmon.updateOne({'idInBlockchain':req.body.idEirbmonBlockchain}, {'owner_id':_parseEirbmon[0].owner.lower_case()}, function(err, res) {
+                Eirbmon.updateOne({ 'idInBlockchain': req.body.idEirbmonBlockchain }, { 'owner_id': _parseEirbmon[0].owner.lower_case() }, function (err, res) {
                     if (err) throw err;
                     console.log("owner updated");
-                  });
+                });
             }
-       })
-    });
-    res.json({'response':'the owner is being updated'})
-}
-
-
-exports.updateMongoEirbmonOwnerAccordingBlockchain = function(req, res,Eirbmon){
-    console.log('update the Eirbmon Owner')
-    var waitBlock = schedule.scheduleJob('0,10,20,30,40,50 * * * * *', function(){
-        blockchainCtrl.getEirbmonById(req.body.idEirbmonBlockchain,function (_Eirbmon) {
-            const _parseEirbmon = blockchainCtrl.parseEirbmon(_Eirbmon);
-            console.log(_parseEirbmon[0].owner)
-            if(_parseEirbmon[0].owner != "0x0000000000000000000000000000000000000000"){
-                waitBlock.cancel();
-                Eirbmon.updateOne({'idInBlockchain':req.body.idEirbmonBlockchain}, {'owner_id':_parseEirbmon[0].owner.lower_case()}, function(err, res) {
-                    if (err) throw err;
-                    console.log("owner updated");
-                  });
-            }
-       })
+        })
     });
     waitNewEirbmon(Eirbmon)
-    res.json({'response':'the owner is being updated'})
+    res.json({ 'response': 'the owner is being updated' })
 }
 
 // attend qu'un nouvel Eirmon soit créé pour l'ajouter à mongo
-waitNewEirbmon = function(Eirbmon){
+waitNewEirbmon = function (Eirbmon) {
     console.log('wait the creation of an new Eirbmon')
     Eirbmon.count().then((count) => {
-        var waitBlock = schedule.scheduleJob('* * * * * *', function(){
-            blockchainCtrl.getEirbmonById(count+1,(_Eirbmon)=>{
+        var waitBlock = schedule.scheduleJob('* * * * * *', function () {
+            blockchainCtrl.getEirbmonById(count + 1, (_Eirbmon) => {
                 const _parseEirbmon = blockchainCtrl.parseEirbmon(_Eirbmon);
-                if(_parseEirbmon[0].id != 0){
-                    let eirbmonToSave =  {
-                            idInBlockchain: _parseEirbmon[0].id,
-                            type: _parseEirbmon[0].name,
-                            name: _parseEirbmon[0].name,
-                            owner_id: _parseEirbmon[0].owner.toLowerCase(),
-                            skills_id: [0],
-                            hp: _parseEirbmon[0].hp,
-                            field: _parseEirbmon[0].field,
-                            force: 0,
-                            xp: 0,
-                            lvl: _parseEirbmon[0].level,
-                        };
-                    Eirbmon.create(eirbmonToSave,function(err, res) {
+                if (_parseEirbmon[0].id != 0) {
+                    let eirbmonToSave = {
+                        idInBlockchain: _parseEirbmon[0].id,
+                        type: _parseEirbmon[0].name,
+                        name: _parseEirbmon[0].name,
+                        owner_id: _parseEirbmon[0].owner.toLowerCase(),
+                        skills_id: [0],
+                        hp: _parseEirbmon[0].hp,
+                        field: _parseEirbmon[0].field,
+                        force: 0,
+                        xp: 0,
+                        lvl: _parseEirbmon[0].level,
+                    };
+                    Eirbmon.create(eirbmonToSave, function (err, res) {
                         if (err) throw err;
                         console.log("1 document inserted");
-                      })
+                    })
                     waitBlock.cancel();
                     console.log('insert ok');
                 }
             })
         });
-    })   
+    })
 }
 
+
+
+// checkEirbmonList = function(Eirbmon){
+//     console.log('Check some Eirbmons are missing')
+//     let eirbmonToSave = {
+//         idInBlockchain: 10,
+//         type: "d",
+//         name: "d",
+//         owner_id: "1",
+//         skills_id: [0],
+//         hp: 1,
+//         field: "d",
+//         force: 0,
+//         xp: 0,
+//         lvl: 1,
+//     };
+//     Eirbmon.updateOne({ 'idInBlockchain': 10 }, eirbmonToSave,{upsert : true}, 
+//     function(err, doc){
+//             if(err) throw err;
+//             console.log(`Eirbmon inserted in Mongo`);
+//     })
+// }
