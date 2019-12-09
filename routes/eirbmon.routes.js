@@ -18,8 +18,8 @@ module.exports = function(app,Eirbmon) {
 
     });
 
-    // update Eirbmon Owner in mongo accordingly to the blockchain
-    app.put('/api/eirbmon/updateowner', (req, res) => {
+    // update Eirbmon Owner in mongo accordingly to the blockchain and add the new Eirbmon
+    app.put('/api/eirbmon/catch', (req, res) => {
         EirbmonCtrl.updateMongoEirbmonOwnerAccordingBlockchain(req, res,Eirbmon);
     });
   
