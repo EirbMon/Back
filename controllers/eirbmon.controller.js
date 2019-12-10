@@ -149,8 +149,28 @@ exports.getEirbmonById = function (req, res, Eirbmon) {
 
 updateMongoEirbmonOwnerAccordingToBlockchain = function (req, Eirbmon) {
     console.log('update the Eirbmon Owner')
-    console.log(req.body.idEirbmonBlockchain)
     return new Promise(function(resolve, reject) {
+    var waitBlock = schedule.scheduleJob('0,10,20,30,40,50 * * * * *', function () {
+        blockchainCtrl.getEirbmonById(req.body.idEirbmonBlockchain, function (_Eirbmon) {
+            const _parseEirbmon = blockchainCtrl.parseEirbmon(_Eirbmon);
+            console.log(_parseEirbmon[0].owner)
+            if (_parseEirbmon[0].owner != "0x0000000000000000000000000000000000000000") {
+                waitBlock.cancel();
+                Eirbmon.updateOne({ 'idInBlockchain': req.body.idEirbmonBlockchain }, { 'owner_id': _parseEirbmon[0].owner.toLowerCase() }, function (err, res) {
+                    if (err) throw err;
+                    console.log("owner updated");
+                });
+            }
+        })
+    });
+    waitNewEirbmon(Eirbmon)
+    res.json({ 'response': 'the owner is being updated' })
+}
+
+// attend qu'un nouvel Eirmon soit créé pour l'ajouter à mongo
+waitNewEirbmon = function (Eirbmon) {
+    console.log('wait the creation of an new Eirbmon')
+    Eirbmon.count().then((count) => {
         var waitBlock = schedule.scheduleJob('* * * * * *', function () {
             console.log(req.body.idEirbmonBlockchain)
             blockchainCtrl.getEirbmonById(req.body.idEirbmonBlockchain, function (_Eirbmon) {
