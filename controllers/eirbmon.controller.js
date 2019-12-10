@@ -155,7 +155,7 @@ exports.updateMongoEirbmonOwnerAccordingBlockchain = function (req, res, Eirbmon
             console.log(_parseEirbmon[0].owner)
             if (_parseEirbmon[0].owner != "0x0000000000000000000000000000000000000000") {
                 waitBlock.cancel();
-                Eirbmon.updateOne({ 'idInBlockchain': req.body.idEirbmonBlockchain }, { 'owner_id': _parseEirbmon[0].owner.lower_case() }, function (err, res) {
+                Eirbmon.updateOne({ 'idInBlockchain': req.body.idEirbmonBlockchain }, { 'owner_id': _parseEirbmon[0].owner.toLowerCase() }, function (err, res) {
                     if (err) throw err;
                     console.log("owner updated");
                 });
