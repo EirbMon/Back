@@ -26,8 +26,14 @@ module.exports = function(app,Eirbmon) {
 
     // update Eirbmon Owner in mongo accordingly to the blockchain
     app.put('/api/eirbmon/updateOwner', (req, res) => {
-        // prend en argument l'id de l'eirbmon dans la chaine
+        // prend en argument l'id de l'eirbmon dans la chaine idEirbmonBlockchain
         EirbmonCtrl.updateOwner(req, res,Eirbmon);
+    });
+
+    // update Eirbmon Owner in mongo accordingly to the blockchain of the 2 users
+    app.put('/api/eirbmon/exchange', (req, res) => {
+        // prend en argument 2 id d'eirbmons dans la chaine idEirbmon idEirbmonBlockchain1 et idEirbmonBlockchain2
+        EirbmonCtrl.exchangeEirbmon(req, res,Eirbmon);
     });
   
     // Retrieve n eirbmons by User, :number? signifie que le paramètre est optionnel.
