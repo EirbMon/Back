@@ -9,7 +9,7 @@ module.exports = function(app,Skill) {
 
     // Retrieve All skills
     app.get('/api/skill', (req, res) => {
-        GlobalCtrl.GetAll(req, res, Skill, 'skill');
+        SkillCtrl.GetAll(req, res, Skill, 'skill');
     });
 
     // Retrieve a single skill by Id
