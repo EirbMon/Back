@@ -30,6 +30,11 @@ module.exports = function(app,Eirbmon) {
         EirbmonCtrl.updateOwner(req, res,Eirbmon);
     });
 
+    //add the first Eirbmon of a user
+    app.post('/api/eirbmon/addFirstEirbmon', (req, res) => {
+        EirbmonCtrl.addFirstEirbmon(req, res,Eirbmon);
+    });
+    
     // update Eirbmon Owner in mongo accordingly to the blockchain of the 2 users
     app.put('/api/eirbmon/exchange', (req, res) => {
         // prend en argument 2 id d'eirbmons dans la chaine idEirbmon idEirbmonBlockchain1 et idEirbmonBlockchain2

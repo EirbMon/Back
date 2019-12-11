@@ -177,7 +177,7 @@ const waitNewEirbmon = function (Eirbmon) {
             }
             Eirbmon.create(eirbmonToSave, function (err, res) {
               if (err) throw err
-              resolve('new eirbmon is being added')
+              resolve(eirbmonToSave.owner_id)
             })
             waitBlock.cancel()
           }
@@ -210,7 +210,13 @@ const exchangeEirbmon = function (req, res, Eirbmon) {
   Promise.all(tabProm).then(() => { res.json({'response':'mongo is up to date'}), () => console.log('error') })
 }
 
+const addFirstEirbmon = function (req, res, Eirbmon) {
+  req.params.owner_id = req.body.owner_id
+  waitNewEirbmon(Eirbmon).then(GetAllEirbmonsByOwner(req, res, Eirbmon, 'Eirbmon'))
+}
+
 module.exports = {
+  addFirstEirbmon:addFirstEirbmon,
   CreateEirbmon: CreateEirbmon,
   GetAnyEirbmonsByOwner: GetAnyEirbmonsByOwner,
   GetAllEirbmonsByOwner: GetAllEirbmonsByOwner,
