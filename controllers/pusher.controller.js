@@ -15,10 +15,9 @@ exports.AuthenSalon = function (req, res) {
         user_id: socketId,
         user_info: {
             name: req.body.param1,
+            accountAddress: req.body.param2,
         }
     };
-
-    console.log(channel)
 
     pusher.get({ path: `/channels/${channel}/users`, params: {} },
         function (error, request, response) {
