@@ -70,7 +70,7 @@ const Update = function (req, res, Collection, name) {
   console.log('Request PUT: collection: ' + name)
   console.log(req.body)
   if (req.body.owner_id !== undefined) {
-    req.body.owner_id = req.body.owner_id.lower_case()
+    req.body.owner_id = req.body.owner_id.toLowerCase();
   }
   Collection.findOneAndUpdate({ idInBlockchain: req.body.idInBlockchain }, req.body, { new: true })
     .then(object => {

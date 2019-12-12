@@ -9,23 +9,26 @@ const pusher = new Pusher({
 });
 
 exports.AuthenSalon = function (req, res) {
-    pusher.get({ path: '/channels/presence-my-channel/users', params: {} },
+    var socketId = req.body.socket_id;
+    var channel = req.body.channel_name;
+    var presenceData = {
+        user_id: socketId,
+        user_info: {
+            name: req.body.param1,
+            accountAddress: req.body.param2,
+        }
+    };
+
+    pusher.get({ path: `/channels/${channel}/users`, params: {} },
         function (error, request, response) {
             if (response.statusCode === 200) {
                 var result = JSON.parse(response.body);
                 var users = result.users;
+                console.log('Je suis ici', channel);
 
                 if (users.length >= 2) {
                     res.status(500).send('Too many people');
                 } else {
-                    var socketId = req.body.socket_id;
-                    var channel = req.body.channel_name;
-                    var presenceData = {
-                        user_id: socketId,
-                        user_info: {
-                            name: req.body.param1,
-                        }
-                    };
                     var auth = pusher.authenticate(socketId, channel, presenceData);
                     res.send(auth);
                 }
