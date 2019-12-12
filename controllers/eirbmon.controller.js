@@ -24,6 +24,7 @@ const CreateEirbmon = function (req, res, Eirbmon, name) {
 }
 
 const GetAllEirbmonsByOwner = function (req, res, Eirbmon, name) {
+  console.log(req.params.owner_id)
   console.log('Request GetAllByOwnerEirbmons, collection: ' + name)
   Eirbmon.find({ owner_id: req.params.owner_id.toLowerCase() })
     .then(eirbmons => {
@@ -111,9 +112,9 @@ const UpdateEirbmonTable = function (res, Eirbmon) {
       }
       _EirbmonsArray.push(req.body)
     }
+    Eirbmon.insertMany(_EirbmonsArray, function (error, docs) { })
     res.json({ update: 'ok', _EirbmonsArray })
 
-    Eirbmon.insertMany(_EirbmonsArray, function (error, docs) { })
   })
 }
 
@@ -161,6 +162,8 @@ const waitNewEirbmon = function (Eirbmon) {
     Eirbmon.count().then((count) => {
       var waitBlock = schedule.scheduleJob('* * * * * *', function () {
         blockchainCtrl.getEirbmonById(count + 1, (_Eirbmon) => {
+          console.log(_Eirbmon)
+
           const _parseEirbmon = blockchainCtrl.parseEirbmon(_Eirbmon)
           if (_parseEirbmon[0].id !== 0) {
             const eirbmonToSave = {
@@ -173,13 +176,14 @@ const waitNewEirbmon = function (Eirbmon) {
               field: _parseEirbmon[0].field,
               force: 0,
               xp: 0,
-              lvl: _parseEirbmon[0].level
+              lvl: _parseEirbmon[0].level,
+              status : "available"
             }
             Eirbmon.create(eirbmonToSave, function (err, res) {
               if (err) throw err
+              waitBlock.cancel()
               resolve(eirbmonToSave.owner_id)
             })
-            waitBlock.cancel()
           }
         })
       })
@@ -212,7 +216,7 @@ const exchangeEirbmon = function (req, res, Eirbmon) {
 
 const addFirstEirbmon = function (req, res, Eirbmon) {
   req.params.owner_id = req.body.owner_id
-  waitNewEirbmon(Eirbmon).then(GetAllEirbmonsByOwner(req, res, Eirbmon, 'Eirbmon'))
+  waitNewEirbmon(Eirbmon).then(()=>GetAllEirbmonsByOwner(req, res, Eirbmon, 'Eirbmon'))
 }
 
 module.exports = {
