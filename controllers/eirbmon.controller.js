@@ -176,8 +176,7 @@ const waitNewEirbmon = function (Eirbmon) {
               field: _parseEirbmon[0].field,
               force: 0,
               xp: 0,
-              lvl: _parseEirbmon[0].level,
-              status : "available"
+              lvl: _parseEirbmon[0].level
             }
             Eirbmon.create(eirbmonToSave, function (err, res) {
               if (err) throw err
