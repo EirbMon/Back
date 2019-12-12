@@ -15,8 +15,14 @@ module.exports = function(app,Eirbmon) {
     // update mongo with blockchain Eirbmon
     app.get('/api/eirbmon/update', (req, res) => {
         EirbmonCtrl.UpdateEirbmonTable(res,Eirbmon);
-
     });
+
+    // reset mongo with blockchain Eirbmon
+    app.get('/api/eirbmon/reset', (req, res) => {
+        EirbmonCtrl.resetEirbmonTable(res,Eirbmon);
+    });
+
+    
 
     // update Eirbmon Owner in mongo accordingly to the blockchain and add the new Eirbmon
     app.put('/api/eirbmon/catch', (req, res) => {

@@ -8,13 +8,14 @@ const EirbmonSchema = new Schema({
   owner_id: {type: String, required: true}, 
   skills_id: {type: Array},
   field: {type: String}, 
-  hp: {type: Number, required: true},
-  force: {type: Number, required: true},
-  xp: {type: Number},
+  hp: {type: Number},
+  force: {type: Number, default :0},
+  xp: {type: Number, default :0},
   lvl: {type: Number},
   created_date: Date,
   updated_date: Date,
-  catched_date: Date
+  catched_date: Date,
+  available: {type: Boolean, default : true}
 });
 
 module.exports = mongoose.model('Eirbmon', EirbmonSchema, 'eirbmons');

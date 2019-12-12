@@ -19,6 +19,7 @@ const CreateEirbmon = function (req, res, Eirbmon, name) {
   eirbmon.lvl = req.body.lvl
   eirbmon.created_date = Date.now() // Directly set "time" as the current date.
   eirbmon.updated_date = Date.now() // Directly set "time" as the current date.
+  eirbmon.available = true
   eirbmon.save()
   res.json({ eirbmon })
 }
@@ -41,10 +42,20 @@ const GetAnyEirbmonsByOwner = function (req, res, Eirbmon, name) {
 
   if (req.params.number === undefined) { req.params.number = 0 }
 
-  if (req.params.number <= 0) { this.GetAllEirbmonsByOwner(req, res, Eirbmon, name) } else {
-    Eirbmon.find({ owner_id: req.params.owner_id.toLowerCase() })
+  if (req.params.number <= 0) {
+    
+    this.GetAllEirbmonsByOwner(req, res, Eirbmon, name)
+  } else {
+    Eirbmon.find({ owner_id: req.params.owner_id.toLowerCase(),available:{$ne:false}})
       .then(eirbmons => {
         var eirbmonsRetour = eirbmons.slice(0, req.params.number)
+        // rend indisponible les eirbmon envoyés
+        // eirbmonsRetour.forEach(element => {
+        //   Eirbmon.updateOne({ idInBlockchain: element.idInBlockchain }, { available: false }, function (err, res) {
+        //     if (err) throw err
+        //   })
+        // });
+        // --------------------------------
         res.json(eirbmonsRetour)
       }).catch(err => {
         res.status(500).send({
@@ -89,34 +100,37 @@ const Update = function (req, res, Collection, name) {
     })
 }
 
+const resetEirbmonTable = function (res, Eirbmon) {
+  Eirbmon.deleteMany({}, function (err) { })
+  UpdateEirbmonTable(res, Eirbmon)
+}
+
 const UpdateEirbmonTable = function (res, Eirbmon) {
   console.log('update Eirbmon database')
-  Eirbmon.deleteMany({}, function (err) { })
-  const _EirbmonsArray = []
   blockchainCtrl.getAllEirbmons(function (_EirbmonsFromBlockchain) {
     _EirbmonsFromBlockchain = blockchainCtrl.parseEirbmon(_EirbmonsFromBlockchain)
     for (let index = 0; index < _EirbmonsFromBlockchain.length; index++) {
-      const req = {
-        body: {
-          idInBlockchain: _EirbmonsFromBlockchain[index].id,
-          type: _EirbmonsFromBlockchain[index].name,
-          name: _EirbmonsFromBlockchain[index].name,
-          owner_id: _EirbmonsFromBlockchain[index].owner.toLowerCase(),
-          skills_id: [0],
-          hp: _EirbmonsFromBlockchain[index].hp,
-          field: _EirbmonsFromBlockchain[index].field,
-          force: 0,
-          xp: 0,
-          lvl: _EirbmonsFromBlockchain[index].level
-        }
+      _EirbmonToSave = {
+        idInBlockchain: _EirbmonsFromBlockchain[index].id,
+        type: _EirbmonsFromBlockchain[index].name,
+        name: _EirbmonsFromBlockchain[index].name,
+        owner_id: _EirbmonsFromBlockchain[index].owner.toLowerCase(),
+        hp: _EirbmonsFromBlockchain[index].hp,
+        field: _EirbmonsFromBlockchain[index].field,
+        lvl: _EirbmonsFromBlockchain[index].level,
       }
-      _EirbmonsArray.push(req.body)
-    }
-    Eirbmon.insertMany(_EirbmonsArray, function (error, docs) { })
-    res.json({ update: 'ok', _EirbmonsArray })
+      if (_EirbmonToSave.owner_id !== '0x0000000000000000000000000000000000000000') {
+        _EirbmonToSave.available = false
+      }
 
+      Eirbmon.updateOne({ idInBlockchain: _EirbmonToSave.idInBlockchain }, _EirbmonToSave, { 'upsert': true }, function (err, res) {
+        if (err) throw err
+      })
+    }
+    GetAllEirbmons('req', res, Eirbmon, 'name')
   })
 }
+
 
 const GetAllEirbmons = function (req, res, Eirbmon, name) {
   console.log('Request GetAllEirbmons, collection: ' + name)
@@ -163,7 +177,6 @@ const waitNewEirbmon = function (Eirbmon) {
       var waitBlock = schedule.scheduleJob('* * * * * *', function () {
         blockchainCtrl.getEirbmonById(count + 1, (_Eirbmon) => {
           console.log(_Eirbmon)
-
           const _parseEirbmon = blockchainCtrl.parseEirbmon(_Eirbmon)
           if (_parseEirbmon[0].id !== 0) {
             const eirbmonToSave = {
@@ -177,7 +190,7 @@ const waitNewEirbmon = function (Eirbmon) {
               force: 0,
               xp: 0,
               lvl: _parseEirbmon[0].level,
-              status : "available"
+              available: true
             }
             Eirbmon.create(eirbmonToSave, function (err, res) {
               if (err) throw err
@@ -211,16 +224,16 @@ const exchangeEirbmon = function (req, res, Eirbmon) {
     updateMongoEirbmonOwnerAccordingToBlockchain(req.body.idEirbmonBlockchain1, Eirbmon, req.body.ownerId1),
     updateMongoEirbmonOwnerAccordingToBlockchain(req.body.idEirbmonBlockchain2, Eirbmon, req.body.ownerId2)
   ]
-  Promise.all(tabProm).then(() => { res.json({'response':'mongo is up to date'}), () => console.log('error') })
+  Promise.all(tabProm).then(() => { res.json({ 'response': 'mongo is up to date' }), () => console.log('error') })
 }
 
 const addFirstEirbmon = function (req, res, Eirbmon) {
   req.params.owner_id = req.body.owner_id
-  waitNewEirbmon(Eirbmon).then(()=>GetAllEirbmonsByOwner(req, res, Eirbmon, 'Eirbmon'))
+  waitNewEirbmon(Eirbmon).then(() => GetAllEirbmonsByOwner(req, res, Eirbmon, 'Eirbmon'))
 }
 
 module.exports = {
-  addFirstEirbmon:addFirstEirbmon,
+  addFirstEirbmon: addFirstEirbmon,
   CreateEirbmon: CreateEirbmon,
   GetAnyEirbmonsByOwner: GetAnyEirbmonsByOwner,
   GetAllEirbmonsByOwner: GetAllEirbmonsByOwner,
@@ -231,5 +244,6 @@ module.exports = {
   getEirbmonById: getEirbmonById,
   catchEirbmon: catchEirbmon,
   updateOwner: updateOwner,
-  exchangeEirbmon: exchangeEirbmon
+  exchangeEirbmon: exchangeEirbmon,
+  resetEirbmonTable: resetEirbmonTable
 }
