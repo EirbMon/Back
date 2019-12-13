@@ -21,8 +21,7 @@ module.exports = function(app,Eirbmon) {
     app.get('/api/eirbmon/reset', (req, res) => {
         EirbmonCtrl.resetEirbmonTable(res,Eirbmon);
     });
-
-    
+ 
 
     // update Eirbmon Owner in mongo accordingly to the blockchain and add the new Eirbmon
     app.put('/api/eirbmon/catch', (req, res) => {
@@ -32,7 +31,7 @@ module.exports = function(app,Eirbmon) {
 
     // update Eirbmon Owner in mongo accordingly to the blockchain
     app.put('/api/eirbmon/updateOwner', (req, res) => {
-        // prend en argument l'id de l'eirbmon dans la chaine idEirbmonBlockchain
+        // prend en argument l'id de l'eirbmon dans la chaine idEirbmonBlockchain et l'adresse de wallet
         EirbmonCtrl.updateOwner(req, res,Eirbmon);
     });
 

@@ -325,8 +325,144 @@ paths:
           description: "Eirbmon not found"
         500:
           description: "Could not delete Eirbmon"
-          
-          
+  
+  /api/eirbmon/update:
+    get:
+      tags:
+      - "eirbmons"
+      summary: "update mongo with blockchain Eirbmon"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+        
+  /api/eirbmon/reset:
+    get:
+      tags:
+      - "eirbmons"
+      summary: "reset mongo with blockchain Eirbmon"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+  
+  /api/eirbmon/catch:
+    put:
+      tags:
+      - "eirbmons"
+      summary: "update Eirbmon Owner in mongo accordingly to the blockchain and add the new Eirbmon to mongo"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+            type: object
+            required:
+              - owner_id
+            properties:
+              owner_id:
+                type: integer
+              id_eirbmon_blockchain:
+                type: integer
+              
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Eirbmon"
+
+  /api/eirbmon/updateOwner:
+    put:
+      tags:
+      - "eirbmons"
+      summary: "update Eirbmon Owner in mongo accordingly to the blockchain"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+            type: object
+            required:
+              - owner_id
+            properties:
+              owner_id:
+                type: integer
+              id_eirbmon_blockchain:
+                type: integer
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Eirbmon"
+  
+  /api/eirbmon/addFirstEirbmon:
+    put:
+      tags:
+      - "eirbmons"
+      summary: "add the first Eirbmon of a user"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+            type: object
+            required:
+              - owner_id
+            properties:
+              owner_id:
+                type: integer
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Eirbmon"  
+            
+  /api/eirbmon/exchange:
+    put:
+      tags:
+      - "eirbmons"
+      summary: "update Eirbmon Owner in mongo accordingly to the blockchain of the 2 users"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+            type: object
+            required:
+              - owner_id
+            properties:
+              id_eirbmon_blockchain_1:
+                type: integer
+              id_eirbmon_blockchain_2:
+                type: integer
+              owner_id_1:
+                type: integer
+              owner_id_2:
+                type: integer
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Eirbmon"
+  
   /api/eirbmon/name/:name:
     get:
       tags:
@@ -347,7 +483,7 @@ paths:
           description: "successful operation"
         404:
           description: "Eirbmon not found by name"
-          
+  
           
   /getAccounts:
     get:

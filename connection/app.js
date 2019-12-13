@@ -69,17 +69,14 @@ module.exports = {
     }).then(function(eirbmonsCount) {
       var response = [];
       var tabProm = [];
-      var breakFor = false;
       for (var i = 1; i <= eirbmonsCount; i++) {
         tabProm[i] = eirbmonInstance._Eirbmons(i);
         tabProm[i].then(function(pokemon) {
           if("0x0000000000000000000000000000000000000000".toLowerCase() == pokemon[2].toLowerCase()){
             response.push(pokemon);
-            console.log(breakFor)
+            break;
           }
          })
-         if(breakFor)
-          break;
       }
       Promise.all(tabProm).then(()=>callback(response[0]),()=>console.log('error'));
     })
@@ -111,6 +108,7 @@ module.exports = {
       eirbmonInstance = instance;
       return eirbmonInstance._Eirbmons(idEirbmon);
     }).then(_Eirbmon=>{
+       console.log(_Eirbmon[3])
        callback([_Eirbmon])
     })
   },
