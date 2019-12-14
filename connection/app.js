@@ -111,7 +111,6 @@ module.exports = {
       eirbmonInstance = instance;
       return eirbmonInstance._Eirbmons(idEirbmon);
     }).then(_Eirbmon=>{
-       console.log(_Eirbmon[3])
        callback([_Eirbmon])
     })
   },
