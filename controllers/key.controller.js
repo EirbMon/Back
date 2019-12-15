@@ -28,7 +28,7 @@ const getKey = function getKey(req,res,Key){
 }
 
 const takeKey = function(req,res,Key){    
-    Key.findOneAndUpdate({key:req.body.key},{$set: {"owner_id": req.body.owner_id}, available: req.body.available},{ new: true })
+    Key.findOneAndUpdate({key:req.body.key},{$set: {"owner_id": req.body.owner_id}, available: req.body.available},false,true)
     .then(_keys =>{
         res.json(_keys)
       }).catch(err => {
