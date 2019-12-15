@@ -1,19 +1,19 @@
 module.exports = function(app,Key) {
     const KeyCtrl = require('../controllers/key.controller.js');
 
-    app.get('/api/addkey', (req, res) => {
+    app.get('/api/key/reset', (req, res) => {
         KeyCtrl.addKey(req, res,Key);
     });
 
-    app.get('/api/getKey', (req, res) => {
-        KeyCtrl.addKey(req, res,Key);
-    });
+    //app.get('/api/getKey', (req, res) => {
+    //    KeyCtrl.addKey(req, res,Key);
+    //});
 
-    app.get('/api/availableKey', (req, res) => {
+    app.get('/api/key', (req, res) => {
         KeyCtrl.availableKey(req, res,Key);
     });
 
-    app.post('/api/takeKey', (req, res) => {
+    app.put('/api/key', (req, res) => {
         KeyCtrl.takeKey(req, res,Key);
     });
 }

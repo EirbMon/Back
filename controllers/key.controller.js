@@ -6,7 +6,7 @@ const addKey = function(req,res,Key){
         var data = [];
         keys.forEach(element => {
             data.push({
-                key :element.key.slice(element.key.indexOf(')')+2,element.key.length).toLowerCase(),
+                key :element.key.slice(element.key.indexOf(')')+2,element.key.length),
                 available : true
             })
         });
@@ -28,9 +28,9 @@ const getKey = function getKey(req,res,Key){
 }
 
 const takeKey = function(req,res,Key){    
-    Key.updateOne({key:req.body.key.toLowerCase()},{available:false})
+    Key.updateOne({key:req.body.key},{account: req.body.owner_id})
     .then(_keys =>{
-        res.json({response:'ok'})
+        res.json(_keys)
       }).catch(err => {
         res.status(500).send({
           msg: err.message
@@ -39,8 +39,9 @@ const takeKey = function(req,res,Key){
 }
 
 const availableKey = function(req,res,Key){    
-    Key.find({available:true})
+    Key.findOne({available:true})
     .then(_keys =>{
+      Key.updateOne({key:_keys},{available:false})
         res.json(_keys)
       }).catch(err => {
         res.status(500).send({
