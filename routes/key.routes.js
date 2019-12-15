@@ -13,7 +13,7 @@ module.exports = function(app,Key) {
         KeyCtrl.availableKey(req, res,Key);
     });
 
-    app.put('/api/takeKey', (req, res) => {
+    app.post('/api/takeKey', (req, res) => {
         KeyCtrl.takeKey(req, res,Key);
     });
 }

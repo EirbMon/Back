@@ -15,9 +15,76 @@ tags:
   description: "Information about the skills"
 - name: "blockchain"
   description: "Information about the blockchain"
+- name: "key"
+  description: "Information about the key"
 
   
 paths:
+
+  /api/addKey:
+    get:
+      tags:
+      - "key"
+      summary: "Delete and add all the keys to mongo"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+  
+  /api/availableKey:
+    get:
+      tags:
+      - "key"
+      summary: "get available Keys"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Key"
+          
+  /api/getKey:
+    get:
+      tags:
+      - "key"
+      summary: "get all the Keys"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Key"
+  
+  /api/takeKey:
+    post:
+      tags:
+      - "key"
+      summary: "set a key to not available"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "the chosen key"
+        required: true
+        schema:
+            type: object
+            required:
+              - key
+            properties:
+              key:
+                type: string
+      responses:
+        200:
+          description: "OK"
+          
+        
+
   /api/inscription:
     post:
       tags:
@@ -720,6 +787,18 @@ definitions:
         format: "int32"
       field:
         type: "string"
+  
+  Key:
+    type: "object"
+    properties:
+      _id:
+        type: "integer"
+        format: "int32"
+      available:
+        type: "boolean"
+      key:
+        type: "string"
+
         
   ListSkill:
     type: "array"
