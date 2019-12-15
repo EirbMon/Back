@@ -140,6 +140,7 @@ const UpdateEirbmonTable = function (res, Eirbmon) {
         hp: _EirbmonsFromBlockchain[index].hp,
         field: _EirbmonsFromBlockchain[index].field,
         lvl: _EirbmonsFromBlockchain[index].level,
+        skills_id: [_EirbmonsFromBlockchain[0].atk1,_EirbmonsFromBlockchain[0].atk2,_EirbmonsFromBlockchain[0].atk3],
       }
       promiseTab.push(Eirbmon.updateOne({ idInBlockchain: _EirbmonToSave.idInBlockchain }, _EirbmonToSave, { 'upsert': true }, function (err, res) {
         if (err) throw err
@@ -206,7 +207,7 @@ const waitNewEirbmon = function (Eirbmon) {
               type: _parseEirbmon[0].name,
               name: _parseEirbmon[0].name,
               owner_id: _parseEirbmon[0].owner.toLowerCase(),
-              skills_id: [0],
+              skills_id: [_parseEirbmon[0].atk1,_parseEirbmon[0].atk2,_parseEirbmon[0].atk3],
               hp: _parseEirbmon[0].hp,
               field: _parseEirbmon[0].field,
               force: 0,

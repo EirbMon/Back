@@ -124,8 +124,10 @@ module.exports = {
         owner : element[2],
         level : element[3].toNumber(),
         field : element[4], 
-        atk : element[5],
-        hp : element[6].toNumber(),
+        atk1 : element[5].toNumber(),
+        atk2 : element[6].toNumber(),
+        atk3 : element[7].toNumber(),
+        hp : element[8].toNumber(),
       })
     });
     return parseEirbmonTab;
