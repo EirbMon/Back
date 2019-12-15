@@ -161,7 +161,7 @@ const updateMongoEirbmonOwnerAccordingToBlockchain = function (idEirbmonBlockcha
     var waitBlock = schedule.scheduleJob('* * * * * *', function () {
       blockchainCtrl.getEirbmonById(idEirbmonBlockchain, function (_Eirbmon) {
         const _parseEirbmon = blockchainCtrl.parseEirbmon(_Eirbmon)
-        // console.log('update :'+_parseEirbmon[0].owner)
+        console.log('update :'+_parseEirbmon[0].owner)
         if (_parseEirbmon[0].owner !== previousOwner.toLowerCase() && _parseEirbmon[0].owner === newOwner.toLowerCase()) {
           waitBlock.cancel()
           Eirbmon.updateOne({ idInBlockchain: idEirbmonBlockchain }, { owner_id: _parseEirbmon[0].owner.toLowerCase() }, function (err, res) {
@@ -183,7 +183,6 @@ const waitNewEirbmon = function (Eirbmon) {
     Eirbmon.count().then((count) => {
       var waitBlock = schedule.scheduleJob('* * * * * *', function () {
         blockchainCtrl.getEirbmonById(count + 1, (_Eirbmon) => {
-          console.log(_Eirbmon[0][3])
           const _parseEirbmon = blockchainCtrl.parseEirbmon(_Eirbmon)
           if (_parseEirbmon[0].id !== 0) {
             const eirbmonToSave = {
@@ -214,7 +213,7 @@ const catchEirbmon = function (req, res, Eirbmon) {
   var catchedEirbmon;
   var tabProm = [
     updateMongoEirbmonOwnerAccordingToBlockchain(req.body.id_eirbmon_blockchain, Eirbmon, '0x0000000000000000000000000000000000000000',req.params.owner_id).then(data => {console.log(data); return catchedEirbmon = data}),
-    waitNewEirbmon(Eirbmon).then(data => console.log(data))
+    waitNewEirbmon(Eirbmon).then(data => console.log('wait'+data))
   ]
   Promise.all(tabProm).then(() => { res.json(catchedEirbmon) }, () => console.log('error'))
 }
