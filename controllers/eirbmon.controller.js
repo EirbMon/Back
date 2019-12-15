@@ -29,6 +29,7 @@ const GetAllEirbmonsByOwner = function (req, res, Eirbmon, name) {
   console.log('Request GetAllByOwnerEirbmons, collection: ' + name)
   Eirbmon.find({ owner_id: req.params.owner_id.toLowerCase() })
     .then(eirbmons => {
+      console.log(eirbmons);
       res.json(eirbmons)
     }).catch(err => {
       res.status(500).send({
@@ -55,7 +56,9 @@ const GetAnyEirbmonsByOwner = function (req, res, Eirbmon, name) {
 
   if (req.params.number <= 0) {
     this.GetAllEirbmonsByOwner(req, res, Eirbmon, name)
+
   } else {
+    if (req.params.owner_id == '0x0000000000000000000000000000000000000000'){
     Eirbmon.find({ owner_id: req.params.owner_id.toLowerCase(),available:{$ne:false}})
     // Eirbmon.find({ owner_id: req.params.owner_id.toLowerCase()})
       .then(eirbmons => {
@@ -67,8 +70,20 @@ const GetAnyEirbmonsByOwner = function (req, res, Eirbmon, name) {
           msg: err.message
         })
       })
+    }
+    else{
+      Eirbmon.find({ owner_id: req.params.owner_id.toLowerCase()})
+        .then(eirbmons => {
+          res.json(eirbmons)
+        }).catch(err => {
+          res.status(500).send({
+            msg: err.message
+          })
+        })
+      }
+    }
   }
-}
+
 
 const GetEirbmonByidInBlockchain = function (req, res, Eirbmon, name) {
   console.log('Request GetEirbmonByidInBlockchains, collection: ' + name)
@@ -158,6 +173,7 @@ const getEirbmonById = function (req, res, Eirbmon) {
 const updateMongoEirbmonOwnerAccordingToBlockchain = function (idEirbmonBlockchain, Eirbmon, previousOwner,newOwner) {
   console.log('update the Eirbmon Owner')
   return new Promise(function (resolve, reject) {
+    console.log("We're here");
     var waitBlock = schedule.scheduleJob('* * * * * *', function () {
       blockchainCtrl.getEirbmonById(idEirbmonBlockchain, function (_Eirbmon) {
         const _parseEirbmon = blockchainCtrl.parseEirbmon(_Eirbmon)
@@ -210,12 +226,14 @@ const waitNewEirbmon = function (Eirbmon) {
 }
 
 const catchEirbmon = function (req, res, Eirbmon) {
+  console.log("We're here 0");
   req.params.owner_id = req.body.owner_id
   var catchedEirbmon;
   var tabProm = [
     updateMongoEirbmonOwnerAccordingToBlockchain(req.body.id_eirbmon_blockchain, Eirbmon, '0x0000000000000000000000000000000000000000',req.params.owner_id).then(data => {console.log(data); return catchedEirbmon = data}),
     waitNewEirbmon(Eirbmon).then(data => console.log(data))
   ]
+  console.log("We're here 2");
   Promise.all(tabProm).then(() => { res.json(catchedEirbmon) }, () => console.log('error'))
 }
 
