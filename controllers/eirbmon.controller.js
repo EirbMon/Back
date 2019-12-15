@@ -180,7 +180,7 @@ const updateMongoEirbmonOwnerAccordingToBlockchain = function (idEirbmonBlockcha
         console.log('update :'+_parseEirbmon[0].owner)
         if (_parseEirbmon[0].owner !== previousOwner.toLowerCase() && _parseEirbmon[0].owner === newOwner.toLowerCase()) {
           waitBlock.cancel()
-          Eirbmon.updateOne({ idInBlockchain: idEirbmonBlockchain }, { owner_id: _parseEirbmon[0].owner.toLowerCase() }, function (err, res) {
+          Eirbmon.updateOne({ idInBlockchain: idEirbmonBlockchain }, { owner_id: _parseEirbmon[0].owner.toLowerCase(),available : true}, function (err, res) {
             if (err) throw err
             Eirbmon.find({idInBlockchain: idEirbmonBlockchain}).then (data =>{
               resolve(data)
