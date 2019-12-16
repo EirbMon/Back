@@ -199,6 +199,7 @@ const waitNewEirbmon = function (Eirbmon) {
   return new Promise(function (resolve, reject) {
     Eirbmon.count().then((count) => {
       // var waitBlock = schedule.scheduleJob('* * * * * *', function () {
+        sleep(5)
         blockchainCtrl.getEirbmonById(count + 1, (_Eirbmon) => {
           const _parseEirbmon = blockchainCtrl.parseEirbmon(_Eirbmon)
           console.log(_parseEirbmon[0].id)
