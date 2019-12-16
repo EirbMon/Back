@@ -185,9 +185,10 @@ const updateMongoEirbmonOwnerAccordingToBlockchain = function (idEirbmonBlockcha
               resolve(data)
             })      
           })
+        }else{
+          reject(new Error('Eirbmon not found in the blockchain'))
         }
       })
-      reject(new Error('Eirbmon not found in the blockchain'))
     })
 }
 
