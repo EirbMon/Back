@@ -7,7 +7,8 @@ const addKey = function(req,res,Key){
         keys.forEach(element => {
             data.push({
                 key :element.key.slice(element.key.indexOf(')')+2,element.key.length),
-                available : true
+                available : true,
+                owner_id: "0"
             })
         });
         Key.insertMany(data,()=>{
