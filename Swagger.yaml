@@ -21,7 +21,7 @@ tags:
   
 paths:
 
-  /api/addKey:
+  /api/key/reset:
     get:
       tags:
       - "key"
@@ -32,11 +32,11 @@ paths:
         200:
           description: "OK"
   
-  /api/availableKey:
+  /api/key:
     get:
       tags:
       - "key"
-      summary: "get available Keys"
+      summary: "get available key"
       produces:
       - "application/json"
       responses:
@@ -44,45 +44,18 @@ paths:
           description: "OK"
           schema:
             $ref: "#/definitions/Key"
-          
-  /api/getKey:
-    get:
+      
+    put:
       tags:
       - "key"
-      summary: "get all the Keys"
+      summary: "update the key"
       produces:
       - "application/json"
       responses:
         200:
           description: "OK"
           schema:
-            $ref: "#/definitions/Key"
-  
-  /api/takeKey:
-    post:
-      tags:
-      - "key"
-      summary: "set a key to not available"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "the chosen key"
-        required: true
-        schema:
-            type: object
-            required:
-              - key
-            properties:
-              key:
-                type: string
-      responses:
-        200:
-          description: "OK"
-          
+            $ref: "#/definitions/Key"          
         
 
   /api/inscription:
