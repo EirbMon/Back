@@ -198,9 +198,10 @@ const waitNewEirbmon = function (Eirbmon) {
   console.log('wait the creation of an new Eirbmon')
   return new Promise(function (resolve, reject) {
     Eirbmon.count().then((count) => {
-      var waitBlock = schedule.scheduleJob('* * * * * *', function () {
+      // var waitBlock = schedule.scheduleJob('* * * * * *', function () {
         blockchainCtrl.getEirbmonById(count + 1, (_Eirbmon) => {
           const _parseEirbmon = blockchainCtrl.parseEirbmon(_Eirbmon)
+          console.log(_parseEirbmon[0].id)
           if (_parseEirbmon[0].id !== 0) {
             const eirbmonToSave = {
               idInBlockchain: _parseEirbmon[0].id,
@@ -215,12 +216,14 @@ const waitNewEirbmon = function (Eirbmon) {
               lvl: _parseEirbmon[0].level            }
             Eirbmon.create(eirbmonToSave, function (err, res) {
               if (err) throw err
-              waitBlock.cancel()
+              // waitBlock.cancel()
               resolve(eirbmonToSave.owner_id)
             })
+          }else{
+            console.log('pas trouvé')
           }
         })
-      })
+      // })
     })
   })
 }
