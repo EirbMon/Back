@@ -1,13 +1,13 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "This is the documentation.",
+    "description": "This is the swagger documentation for Eirbmon Project in Enseirb-Matmeca 2019/2020.",
     "version": "1.0.0",
     "title": "Eirbmon"
   },
   "externalDocs": {
-    "description": "Link to the game",
-    "url": "http://eirbmon.hopto.org:3000/"
+    "description": "Link to our wonderful game Eirbmon.",
+    "url": "http://eirbmon.hopto.org:3300/"
   },
   "tags": [
     {
