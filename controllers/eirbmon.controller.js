@@ -199,29 +199,32 @@ const waitNewEirbmon = function (Eirbmon) {
   return new Promise(function (resolve, reject) {
     Eirbmon.count().then((count) => {
       // var waitBlock = schedule.scheduleJob('* * * * * *', function () {
-        sleep(5)
-        blockchainCtrl.getEirbmonById(count + 1, (_Eirbmon) => {
-          const _parseEirbmon = blockchainCtrl.parseEirbmon(_Eirbmon)
-          console.log(_parseEirbmon[0].id)
-          if (_parseEirbmon[0].id !== 0) {
-            const eirbmonToSave = {
-              idInBlockchain: _parseEirbmon[0].id,
-              type: _parseEirbmon[0].name,
-              name: _parseEirbmon[0].name,
-              owner_id: _parseEirbmon[0].owner.toLowerCase(),
-              skills_id: [_parseEirbmon[0].atk1,_parseEirbmon[0].atk2,_parseEirbmon[0].atk3],
-              hp: _parseEirbmon[0].hp,
-              field: _parseEirbmon[0].field,
-              force: 0,
-              xp: 0,
-              lvl: _parseEirbmon[0].level            }
-            Eirbmon.create(eirbmonToSave, function (err, res) {
-              if (err) throw err
-              // waitBlock.cancel()
-              resolve(eirbmonToSave.owner_id)
-            })
-          }
-        })
+        setTimeout(function(){
+          blockchainCtrl.getEirbmonById(count + 1, (_Eirbmon) => {
+
+            const _parseEirbmon = blockchainCtrl.parseEirbmon(_Eirbmon)
+            console.log(_parseEirbmon[0].id)
+            if (_parseEirbmon[0].id !== 0) {
+              const eirbmonToSave = {
+                idInBlockchain: _parseEirbmon[0].id,
+                type: _parseEirbmon[0].name,
+                name: _parseEirbmon[0].name,
+                owner_id: _parseEirbmon[0].owner.toLowerCase(),
+                skills_id: [_parseEirbmon[0].atk1,_parseEirbmon[0].atk2,_parseEirbmon[0].atk3],
+                hp: _parseEirbmon[0].hp,
+                field: _parseEirbmon[0].field,
+                force: 0,
+                xp: 0,
+                lvl: _parseEirbmon[0].level            }
+              Eirbmon.create(eirbmonToSave, function (err, res) {
+                if (err) throw err
+                // waitBlock.cancel()
+                resolve(eirbmonToSave.owner_id)
+              })
+            }
+          })
+      }, 4000);
+       
       // })
     })
   })
