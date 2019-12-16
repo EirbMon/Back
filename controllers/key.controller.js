@@ -17,6 +17,10 @@ const addKey = function(req,res,Key){
     })
 }
 
+const updateKey = function(req,res,Key){
+  Key.updateMany({owner_id: "0", available: false},{available: true}).then((data) => res.json(data));
+}
+
 const getKey = function getKey(req,res,Key){    
     Key.find()
     .then(_keys =>{
@@ -57,5 +61,6 @@ module.exports = {
     addKey:addKey,
     getKey:getKey,
     takeKey:takeKey,
+    updateKey:updateKey,
     availableKey:availableKey
 }

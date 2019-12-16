@@ -25,9 +25,81 @@
     {
       "name": "blockchain",
       "description": "Information about the blockchain"
+    },
+    {
+      "name": "key",
+      "description": "Information about the key"
     }
   ],
   "paths": {
+    "/api/key/reset": {
+      "get": {
+        "tags": [
+          "key"
+        ],
+        "summary": "Delete and add all the keys to mongo",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/key/update": {
+      "get": {
+        "tags": [
+          "key"
+        ],
+        "summary": "Update all unavailable key with no owner to available",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/key": {
+      "get": {
+        "tags": [
+          "key"
+        ],
+        "summary": "get available key",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Key"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "key"
+        ],
+        "summary": "update the key",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Key"
+            }
+          }
+        }
+      }
+    },
     "/api/inscription": {
       "post": {
         "tags": [
@@ -473,6 +545,213 @@
         }
       }
     },
+    "/api/eirbmon/update": {
+      "get": {
+        "tags": [
+          "eirbmons"
+        ],
+        "summary": "update mongo with blockchain Eirbmon",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/eirbmon/reset": {
+      "get": {
+        "tags": [
+          "eirbmons"
+        ],
+        "summary": "reset mongo with blockchain Eirbmon",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/eirbmon/catch": {
+      "put": {
+        "tags": [
+          "eirbmons"
+        ],
+        "summary": "update Eirbmon Owner in mongo accordingly to the blockchain and add the new Eirbmon to mongo",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "owner_id"
+              ],
+              "properties": {
+                "owner_id": {
+                  "type": "integer"
+                },
+                "id_eirbmon_blockchain": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Eirbmon"
+            }
+          }
+        }
+      }
+    },
+    "/api/eirbmon/updateOwner": {
+      "put": {
+        "tags": [
+          "eirbmons"
+        ],
+        "summary": "update Eirbmon Owner in mongo accordingly to the blockchain",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "owner_id"
+              ],
+              "properties": {
+                "owner_id": {
+                  "type": "integer"
+                },
+                "id_eirbmon_blockchain": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Eirbmon"
+            }
+          }
+        }
+      }
+    },
+    "/api/eirbmon/addFirstEirbmon": {
+      "put": {
+        "tags": [
+          "eirbmons"
+        ],
+        "summary": "add the first Eirbmon of a user",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "owner_id"
+              ],
+              "properties": {
+                "owner_id": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Eirbmon"
+            }
+          }
+        }
+      }
+    },
+    "/api/eirbmon/exchange": {
+      "put": {
+        "tags": [
+          "eirbmons"
+        ],
+        "summary": "update Eirbmon Owner in mongo accordingly to the blockchain of the 2 users",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "owner_id"
+              ],
+              "properties": {
+                "id_eirbmon_blockchain_1": {
+                  "type": "integer"
+                },
+                "id_eirbmon_blockchain_2": {
+                  "type": "integer"
+                },
+                "owner_id_1": {
+                  "type": "integer"
+                },
+                "owner_id_2": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Eirbmon"
+            }
+          }
+        }
+      }
+    },
     "/api/eirbmon/name/:name": {
       "get": {
         "tags": [
@@ -826,6 +1105,21 @@
           "format": "int32"
         },
         "field": {
+          "type": "string"
+        }
+      }
+    },
+    "Key": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "available": {
+          "type": "boolean"
+        },
+        "key": {
           "type": "string"
         }
       }
