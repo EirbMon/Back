@@ -223,7 +223,7 @@ const waitNewEirbmon = function (Eirbmon) {
               })
             }
           })
-      }, 4000);
+      }, 500);
        
       // })
     })
