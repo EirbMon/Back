@@ -9,8 +9,10 @@ const bodyParser = require('body-parser');
 const ip = ConfParam.ip;
 const ipBlockchain = ConfParam.ipBlockchain;
 var schedule = require('node-schedule');
-var swaggerUi = require('swagger-ui-express'),
-    swaggerDocument = require('./swagger.json');
+
+// Swagger
+var swaggerUi = require('swagger-ui-express');
+var swaggerDocument = require('./swagger.json');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // parse application/x-www-form-urlencoded & application/json
