@@ -10,6 +10,11 @@ const ip = ConfParam.ip;
 const ipBlockchain = ConfParam.ipBlockchain;
 var schedule = require('node-schedule');
 
+// Swagger
+var swaggerUi = require('swagger-ui-express');
+var swaggerDocument = require('./swagger.json');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 // parse application/x-www-form-urlencoded & application/json
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -51,7 +56,6 @@ const EirbmonCtrl = require('./controllers/eirbmon.controller.js');
 require('./routes/user.routes.js')(app,User);
 require('./routes/eirbmon.routes.js')(app,Eirbmon);
 require('./routes/skill.routes.js')(app,Skill);
-require('./routes/doc.routes.js')(app);
 require('./routes/blockchain.routes.js')(app,User);
 require('./routes/pusher.routes.js')(app);
 require('./routes/key.routes.js')(app,Key);

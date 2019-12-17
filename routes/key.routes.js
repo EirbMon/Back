@@ -5,9 +5,9 @@ module.exports = function(app,Key) {
         KeyCtrl.addKey(req, res,Key);
     });
 
-    //app.get('/api/getKey', (req, res) => {
-    //    KeyCtrl.addKey(req, res,Key);
-    //});
+    app.get('/api/key/update', (req, res) => {
+        KeyCtrl.updateKey(req, res,Key);
+    });
 
     app.get('/api/key', (req, res) => {
         KeyCtrl.availableKey(req, res,Key);
