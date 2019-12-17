@@ -250,11 +250,7 @@ const exchangeEirbmon = function (req, res, Eirbmon) {
 
 const addFirstEirbmon = function (req, res, Eirbmon) {
   req.params.owner_id = req.body.owner_id
-  var tabProm = [
-    waitNewEirbmon(Eirbmon),
-    waitNewEirbmon(Eirbmon)
-  ]
-  Promise.all(tabProm).then(() => GetAllEirbmonsByOwner(req, res, Eirbmon, 'Eirbmon'), () => console.log('error'))
+  waitNewEirbmon(Eirbmon).then(()=>waitNewEirbmon(Eirbmon)).then(() => GetAllEirbmonsByOwner(req, res, Eirbmon, 'Eirbmon'), () => console.log('error'))
 }
 
 module.exports = {
