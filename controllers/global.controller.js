@@ -1,4 +1,3 @@
-
 exports.GetAll = function(req, res, Collection, name){
     console.log("Request GET All: collection: " + name);
     Collection.find()
@@ -86,3 +85,4 @@ exports.Delete = function(req, res, Collection, name){
         });
     });
 }
+

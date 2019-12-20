@@ -1,7 +1,6 @@
 const contract = require('truffle-contract');
 const eirbmon_artifact = require('../../Blockchain/build/contracts/Eirbmon.json');
 var Eirbmon = contract(eirbmon_artifact);
-
 module.exports = {
   start: function(callback) {
     var self = this;
