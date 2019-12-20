@@ -8,11 +8,13 @@ const CreateEirbmon = function (req, res, Eirbmon, name) {
   eirbmon.name = req.body.name
 
   if (!req.body.owner_id) { eirbmon.owner_id = '0x0000000000000000000000000000000000000000' } else { eirbmon.owner_id = req.body.owner_id.toLowerCase() }
+  if (!req.body.evolve) {eirbmon.evolve = 1} else {(eirbmon.evolve  = req.body.evolve) }
 
   eirbmon.idInBlockchain = req.body.id
   eirbmon.idInBlockchain = req.body.idInBlockchain
   eirbmon.skills_id = req.body.skills_id
   eirbmon.hp = req.body.hp
+  eirbmon.current_hp = req.body.hp
   eirbmon.field = req.body.field
   eirbmon.force = req.body.force
   eirbmon.xp = req.body.xp
