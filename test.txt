@@ -1,0 +1,150 @@
+USERS FUNCTION : 
+
+POST http://localhost:4000/api/users
+{
+  "owner_id":  "xx_user_xxx",
+  "email": "user.test@gmail.com", 
+  "password": "1234",
+  "name": "User Test",
+  "permission": 1
+}
+
+GET http://localhost:4000/api/users
+
+GET http://localhost:4000/api/users/5dcfff50d2d31030f8ad0054
+
+GET http://localhost:4000/api/users/name/User Test/
+
+GET http://localhost:4000/api/users/email/user.test@gmail.com/
+
+POST http://localhost:4000/api/users/send/
+{
+  "email": "valmalay@gmail.com", 
+  "name": "Valerian Malay"
+}
+
+PUT http://localhost:4000/api/users
+{
+  "_id": "5dcfff50d2d31030f8ad0054",
+  "permission": 2
+}
+
+POST http://localhost:4000/api/auth/
+{
+  "email": "user.test@gmail.com", 
+  "password": "1234"
+}
+
+??? GET http://localhost:4000/api/test/ 
+
+
+EIRBMON FUNCTION : 
+
+POST http://localhost:4000/api/eirbmon/ 
+{
+  "type": "Pikachu", 
+  "name": "Gerard le pikachu", 
+  "owner_id": "xxx_userOwnerId_xxx",
+  "skills_id": [1,7,32],
+  "field": "telecom", 
+  "hp": 110,
+  "force": 5,
+  "xp": 25,
+  "lvl": 7
+}
+
+GET http://localhost:4000/api/eirbmon/
+
+GET http://localhost:4000/api/eirbmon/5dce5a981c9d4400003fefdc/
+
+GET http://localhost:4000/api/eirbmon/name/Gerard le pikachu/
+
+GET http://localhost:4000/api/eirbmon/owner/0x0000000000000000000000000000000000000000
+
+GET http://localhost:4000/api/eirbmon/owner/xxx_userOwnerId_xxx
+
+PUT http://localhost:4000/api/eirbmon/
+{
+  "_id": "5dce5a981c9d4400003fefdc",
+  "name": "Jean Claude le pikachu", 
+  "hp": 130,
+  "xp": 55
+}
+
+SKILLS FUNCTION :
+
+POST http://localhost:4000/api/skill/ 
+{
+  "name": "Surf",
+  "id": 4,
+  "pp": 15,
+  "damage": 25,
+  "field": "telecom"
+}
+
+GET http://localhost:4000/api/skill/
+
+GET http://localhost:4000/api/skill/5dd00d12f1521b52940476fc/
+
+GET http://localhost:4000/api/skill/name/Surf/
+
+PUT http://localhost:4000/api/skill/ 
+{
+  "_id": "5dd00d12f1521b52940476fc",
+  "pp": 25,
+  "atk": 40
+}
+
+
+[
+  {
+    "skills_id": [],
+    "owner_id": "{MY_METAMASK_ID}",
+    "idInBlockchain": 1,
+    "type": "Pikachu",
+		"name": "SalutCava1",
+		"lvl": 47,
+    "hp": 100,
+    "force": 50
+  },
+  {
+    "skills_id": [],
+    "owner_id": "{MY_METAMASK_ID} ",
+    "idInBlockchain": 2,
+    "type": "Pikachu",
+		"name": "SalutCava2",
+		"lvl": 12,
+    "hp": 100,
+    "force": 50
+  },
+  {
+    "skills_id": [],
+    "owner_id": "{MY_METAMASK_ID} ",
+    "idInBlockchain": 4,
+    "type": "Roucoul",
+		"name": "SalutCava4",
+		"lvl": 12,
+    "hp": 100,
+    "force": 50
+  },
+  {
+    "skills_id": [],
+    "owner_id": "0x0000000000000000000000000000000000000000",
+    "idInBlockchain": 5,
+    "type": "Roucoul",
+		"name": "SalutCava5",
+		"lvl": 12,
+    "hp": 100,
+    "force": 50
+  },
+  {
+    "skills_id": [],
+    "owner_id": "0x0000000000000000000000000000000000000000",
+    "idInBlockchain": 6,
+    "type": "Caparuce",
+		"name": "SalutCava6",
+		"lvl": 12,
+    "hp": 100,
+    "force": 50
+  },
+]
