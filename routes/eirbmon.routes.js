@@ -22,9 +22,14 @@ module.exports = function(app,Eirbmon, Eirbdex) {
         EirbmonCtrl.resetEirbmonTable(res,Eirbmon);
     });
  
-    // reset mongo with blockchain Eirbmon
-    app.get('/api/eirbmon/levelup/:idInBlockchain', (req, res) => {
-        EirbmonCtrl.getLevelUp(req,res,Eirbmon,Eirbdex,'Eirbmon');
+    // evolve eirbmon
+    app.get('/api/eirbmon/evolve/:idInBlockchain', (req, res) => {
+        EirbmonCtrl.getEvolve(req,res,Eirbmon,Eirbdex,'Eirbmon');
+    });
+
+    // find my next evolution
+    app.get('/api/eirbmon/evolution/:idInBlockchain', (req, res) => {
+        EirbmonCtrl.findMyEvolution(req,res,Eirbmon,Eirbdex,'Eirbmon');
     });
 
     // update Eirbmon Owner in mongo accordingly to the blockchain and add the new Eirbmon

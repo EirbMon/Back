@@ -175,7 +175,20 @@ const getEirbmonById = function (req, res, Eirbmon) {
   })
 }
 
-const getLevelUp = function (req, res, Eirbmon, Eirbdex, name) {
+const findMyEvolution = function (req, res, Eirbmon, Eirbdex, name) {
+  console.log('Request LevelUp, collection: ' + name);
+  Eirbmon.findOne({ idInBlockchain: req.params.idInBlockchain })
+  .then(eirbmon => { 
+      Eirbdex.findOne({ type: eirbmon.type })
+      .then(eirbdex => { 
+        res.json({evolution: eirbdex.evolution, evolve: eirbmon.evolve, lvl: eirbmon.lvl});
+      }) // fermeture then 2
+      .catch(err => {res.status(500).send({msg: err.message})})
+      }) // fermeture then 1
+  .catch(err => {res.status(500).send({msg: err.message})})
+}
+
+const getEvolve = function (req, res, Eirbmon, Eirbdex, name) {
   console.log('Request LevelUp, collection: ' + name);
   Eirbmon.findOne({ idInBlockchain: req.params.idInBlockchain })
   .then(eirbmon => { 
@@ -281,6 +294,7 @@ const addFirstEirbmon = function (req, res, Eirbmon) {
 
 module.exports = {
   addFirstEirbmon: addFirstEirbmon,
+  findMyEvolution: findMyEvolution,
   CreateEirbmon: CreateEirbmon,
   GetAnyEirbmonsByOwner: GetAnyEirbmonsByOwner,
   GetAllEirbmonsByOwner: GetAllEirbmonsByOwner,
@@ -291,7 +305,7 @@ module.exports = {
   getEirbmonById: getEirbmonById,
   catchEirbmon: catchEirbmon,
   updateOwner: updateOwner,
-  getLevelUp: getLevelUp,
+  getEvolve: getEvolve,
   exchangeEirbmon: exchangeEirbmon,
   resetEirbmonTable: resetEirbmonTable
 }

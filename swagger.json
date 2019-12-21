@@ -577,12 +577,12 @@
         }
       }
     },
-    "/api/eirbmon/levelup/:idInBlockchain": {
+    "/api/eirbmon/evolve/:idInBlockchain": {
       "get": {
         "tags": [
           "eirbmons"
         ],
-        "summary": "Level Up the selected eirbmon in mongo",
+        "summary": "Evolve the selected eirbmon in mongo",
         "produces": [
           "application/json"
         ],
