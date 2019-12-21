@@ -179,10 +179,17 @@ const getLevelUp = function (req, res, Eirbmon, Eirbdex, name) {
   console.log('Request LevelUp, collection: ' + name);
   Eirbmon.findOne({ idInBlockchain: req.params.idInBlockchain })
   .then(eirbmon => { 
+      if (eirbmon.lvl < 100){
+        res.send({msg: 'The eirbmon is not lv100, you cannnot evolve it'});
+        return;
+      }
       Eirbdex.findOne({ type: eirbmon.type })
       .then(eirbdex => { 
-          console.log(eirbdex.evolution); 
-          Eirbmon.findOneAndUpdate({idInBlockchain: req.params.idInBlockchain}, {type: eirbdex.evolution}, { new: true })
+          if (eirbdex.evolution == "0"){
+          res.send({msg: 'The eirbmon is already at its max evolution, there is no evolution above, it cannnot evolve.'});
+          return;
+          }
+          Eirbmon.findOneAndUpdate({idInBlockchain: req.params.idInBlockchain}, {type: eirbdex.evolution, lvl: 0, evolve: eirbmon.evolve + 1}, { new: true })
           .then(data =>{ res.json(data)}) 
         }) // fermeture then 2
       .catch(err => {res.status(500).send({msg: err.message})})
