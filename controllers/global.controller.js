@@ -95,4 +95,3 @@ exports.Delete = function(req, res, Collection, name){
         });
     });
 }
-
