@@ -577,6 +577,22 @@
         }
       }
     },
+    "/api/eirbmon/levelup/:idInBlockchain": {
+      "get": {
+        "tags": [
+          "eirbmons"
+        ],
+        "summary": "Level Up the selected eirbmon in mongo",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/eirbmon/catch": {
       "put": {
         "tags": [

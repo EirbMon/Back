@@ -15,6 +15,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/', express.static('src'));
 
+var swaggerUi = require('swagger-ui-express');
+var swaggerDocument = require('./swagger.json');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 // Cross-origin resource sharing (CORS)
 const cors = require('cors')
 const corsOptions = {
