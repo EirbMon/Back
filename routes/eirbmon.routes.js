@@ -1,4 +1,4 @@
-module.exports = function(app,Eirbmon) {
+module.exports = function(app,Eirbmon, Eirbdex) {
     const EirbmonCtrl = require('../controllers/eirbmon.controller.js');
     const GlobalCtrl = require('../controllers/global.controller.js');
 
@@ -22,6 +22,10 @@ module.exports = function(app,Eirbmon) {
         EirbmonCtrl.resetEirbmonTable(res,Eirbmon);
     });
  
+    // reset mongo with blockchain Eirbmon
+    app.get('/api/eirbmon/levelup/:idInBlockchain', (req, res) => {
+        EirbmonCtrl.getLevelUp(req,res,Eirbmon,Eirbdex,'Eirbmon');
+    });
 
     // update Eirbmon Owner in mongo accordingly to the blockchain and add the new Eirbmon
     app.put('/api/eirbmon/catch', (req, res) => {
@@ -70,6 +74,5 @@ module.exports = function(app,Eirbmon) {
     app.delete('/api/eirbmon/:_id', (req, res) => {
         GlobalCtrl.Delete(req, res, Eirbmon, 'eirbmon');
     });
-
     
 }

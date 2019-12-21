@@ -1,3 +1,13 @@
+exports.Create = function(req, res, User, name){
+    console.log("Request POST: collection: "+ name);       
+    User.save(req.body)
+    .then(data => {
+        res.json(data);
+    }).catch(err => {
+        res.status(500).json({msg: err.message});
+    });    
+}
+
 exports.GetAll = function(req, res, Collection, name){
     console.log("Request GET All: collection: " + name);
     Collection.find()

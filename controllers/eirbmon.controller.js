@@ -89,6 +89,7 @@ const GetAnyEirbmonsByOwner = function (req, res, Eirbmon, name) {
 
 const GetEirbmonByidInBlockchain = function (req, res, Eirbmon, name) {
   console.log('Request GetEirbmonByidInBlockchains, collection: ' + name)
+  console.log(req.params.idInBlockchain);
   Eirbmon.find({ idInBlockchain: req.params.idInBlockchain })
     .then(eirbmons => {
       res.json(eirbmons)
@@ -158,6 +159,7 @@ const GetAllEirbmons = function (req, res, Eirbmon, name) {
   console.log('Request GetAllEirbmons, collection: ' + name)
   Eirbmon.find()
     .then(_Eirbmons => {
+      console.log(_Eirbmons);
       res.json(_Eirbmons)
     }).catch(err => {
       res.status(500).send({
@@ -171,6 +173,21 @@ const getEirbmonById = function (req, res, Eirbmon) {
   blockchainCtrl.getEirbmonById(1, function (_Eirbmon) {
     res.json(_Eirbmon)
   })
+}
+
+const getLevelUp = function (req, res, Eirbmon, Eirbdex, name) {
+  console.log('Request LevelUp, collection: ' + name);
+  Eirbmon.findOne({ idInBlockchain: req.params.idInBlockchain })
+  .then(eirbmon => { 
+      Eirbdex.findOne({ type: eirbmon.type })
+      .then(eirbdex => { 
+          console.log(eirbdex.evolution); 
+          Eirbmon.findOneAndUpdate({idInBlockchain: req.params.idInBlockchain}, {type: eirbdex.evolution}, { new: true })
+          .then(data =>{ res.json(data)}) 
+        }) // fermeture then 2
+      .catch(err => {res.status(500).send({msg: err.message})})
+      }) // fermeture then 1
+  .catch(err => {res.status(500).send({msg: err.message})})
 }
 
 const updateMongoEirbmonOwnerAccordingToBlockchain = function (idEirbmonBlockchain, Eirbmon, previousOwner,newOwner) {
@@ -267,6 +284,7 @@ module.exports = {
   getEirbmonById: getEirbmonById,
   catchEirbmon: catchEirbmon,
   updateOwner: updateOwner,
+  getLevelUp: getLevelUp,
   exchangeEirbmon: exchangeEirbmon,
   resetEirbmonTable: resetEirbmonTable
 }
