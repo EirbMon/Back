@@ -116,6 +116,7 @@ module.exports = {
 
   parseEirbmon : function(Eirbmons){
     var parseEirbmonTab = [];
+    console.log(Eirbmons);
     Eirbmons.forEach(element => {
       parseEirbmonTab.push({
         id : element[0].toNumber(),
@@ -127,6 +128,9 @@ module.exports = {
         atk2 : element[6].toNumber(),
         atk3 : element[7].toNumber(),
         hp : element[8].toNumber(),
+        canBeExhangedTo : element[9].toNumber(),
+        price : element[10].toNumber(),
+        canBeSelled : element[11],
       })
     });
     return parseEirbmonTab;
