@@ -138,6 +138,9 @@ const UpdateEirbmonTable = function (res, Eirbmon) {
         name: _EirbmonsFromBlockchain[index].name,
         owner_id: _EirbmonsFromBlockchain[index].owner.toLowerCase(),
         hp: _EirbmonsFromBlockchain[index].hp,
+        canBeExhangedTo : _EirbmonsFromBlockchain[index].canBeExhangedTo,
+        price : _EirbmonsFromBlockchain[index].price,
+        canBeSelled : _EirbmonsFromBlockchain[index].canBeSelled,
         field: _EirbmonsFromBlockchain[index].field,
         lvl: _EirbmonsFromBlockchain[index].level,
         skills_id: [_EirbmonsFromBlockchain[0].atk1,_EirbmonsFromBlockchain[0].atk2,_EirbmonsFromBlockchain[0].atk3],
@@ -250,11 +253,12 @@ const exchangeEirbmon = function (req, res, Eirbmon) {
 
 const addFirstEirbmon = function (req, res, Eirbmon) {
   req.params.owner_id = req.body.owner_id
-  var tabProm = [
-    waitNewEirbmon(Eirbmon),
-    waitNewEirbmon(Eirbmon)
-  ]
-  Promise.all(tabProm).then(() => GetAllEirbmonsByOwner(req, res, Eirbmon, 'Eirbmon'), () => console.log('error'))
+  // var tabProm = [
+  //   waitNewEirbmon(Eirbmon),
+  //   waitNewEirbmon(Eirbmon)
+  // ]
+  // Promise.all(tabProm).then(() => GetAllEirbmonsByOwner(req, res, Eirbmon, 'Eirbmon'), () => console.log('error'))
+  waitNewEirbmon(Eirbmon).then(()=>waitNewEirbmon(Eirbmon)).then(() => GetAllEirbmonsByOwner(req, res, Eirbmon, 'Eirbmon'), () => console.log('error'));
 }
 
 module.exports = {
