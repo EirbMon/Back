@@ -1,5 +1,6 @@
 const blockchainCtrl = require('../controllers/blockchain.controller')
 var schedule = require('node-schedule')
+const moment  = require('moment');
 
 
 const GetAllEirbmonsByOwner = function (req, res, Eirbmon, name) {
@@ -124,6 +125,7 @@ const UpdateEirbmonTable = function (res, Eirbmon) {
           evole: _parseEirbmon[index].evole,
           skills_id: [_parseEirbmon[index].atk[0],_parseEirbmon[index].atk[1],_parseEirbmon[index].atk[2]],
           value : _parseEirbmon[index].value,
+          created_date : moment.unix(_parseEirbmon[index].birthDate).toDate(),
         }
         promiseTab.push(Eirbmon.updateOne({ idInBlockchain: _EirbmonToSave.idInBlockchain }, _EirbmonToSave, { 'upsert': true }, function (err, res) {
           if (err) throw err
@@ -224,18 +226,18 @@ const waitNewEirbmon = function (Eirbmon) {
             console.log(_parseEirbmon[0].id)
             if (_parseEirbmon[0].id !== 0) {
               const eirbmonToSave = {
-                idInBlockchain: _parseEirbmon[index].id,
-                type: _parseEirbmon[index].name,
-                name: _parseEirbmon[index].name,
-                owner_id: _parseEirbmon[index].owner.toLowerCase(),
-                hp: _parseEirbmon[index].hp,
-                canBeExhangedTo : _parseEirbmon[index].canBeExhangedTo,
-                price : _parseEirbmon[index].price,
-                canBeSelled : _parseEirbmon[index].canBeSelled,
-                field: _parseEirbmon[index].field,
-                evole: _parseEirbmon[index].evole,
-                skills_id: [_parseEirbmon[index].atk[0],_parseEirbmon[index].atk[1],_parseEirbmon[index].atk[2]],
-                value : _parseEirbmon[index].value,
+                idInBlockchain: _parseEirbmon[0].id,
+                type: _parseEirbmon[0].name,
+                name: _parseEirbmon[0].name,
+                owner_id: _parseEirbmon[0].owner.toLowerCase(),
+                hp: _parseEirbmon[0].hp,
+                canBeExhangedTo : _parseEirbmon[0].canBeExhangedTo,
+                price : _parseEirbmon[0].price,
+                canBeSelled : _parseEirbmon[0].canBeSelled,
+                field: _parseEirbmon[0].field,
+                evole: _parseEirbmon[0].evole,
+                skills_id: [_parseEirbmon[0].atk[0],_parseEirbmon[0].atk[1],_parseEirbmon[0].atk[2]],
+                value : _parseEirbmon[0].value,
                }
               Eirbmon.create(eirbmonToSave, function (err, res) {
                 if (err) throw err

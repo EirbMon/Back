@@ -136,6 +136,7 @@ module.exports = {
             price : element[7].toNumber(),
             canBeSelled : element[8],
             value : element[9].toNumber(),
+            birthDate : element[10].toNumber(),
           })
         })
         
