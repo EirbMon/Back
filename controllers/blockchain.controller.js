@@ -52,9 +52,9 @@ exports.getEirbmonById = function(idEirbmon,callback){
   // }
 }
 
-exports.parseEirbmon = function(Eirbmons){
+exports.parseEirbmon = function(Eirbmons,callback){
   // if (UserCtrl.VerifyRights(req.body._id, req.body.token)) {
-    return truffle_connect.parseEirbmon(Eirbmons)
+    return truffle_connect.parseEirbmon(Eirbmons,callback)
   // }
 }
 

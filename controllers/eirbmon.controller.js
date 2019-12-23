@@ -133,27 +133,30 @@ const UpdateEirbmonTable = function (res, Eirbmon) {
   console.log('update Eirbmon database')
   var promiseTab = [];
   blockchainCtrl.getAllEirbmons(function (_EirbmonsFromBlockchain) {
-    _EirbmonsFromBlockchain = blockchainCtrl.parseEirbmon(_EirbmonsFromBlockchain)
-    for (let index = 0; index < _EirbmonsFromBlockchain.length; index++) {
-      _EirbmonToSave = {
-        idInBlockchain: _EirbmonsFromBlockchain[index].id,
-        type: _EirbmonsFromBlockchain[index].name,
-        name: _EirbmonsFromBlockchain[index].name,
-        owner_id: _EirbmonsFromBlockchain[index].owner.toLowerCase(),
-        hp: _EirbmonsFromBlockchain[index].hp,
-        canBeExhangedTo : _EirbmonsFromBlockchain[index].canBeExhangedTo,
-        price : _EirbmonsFromBlockchain[index].price,
-        canBeSelled : _EirbmonsFromBlockchain[index].canBeSelled,
-        field: _EirbmonsFromBlockchain[index].field,
-        lvl: _EirbmonsFromBlockchain[index].level,
-        skills_id: [_EirbmonsFromBlockchain[0].atk1,_EirbmonsFromBlockchain[0].atk2,_EirbmonsFromBlockchain[0].atk3],
+    blockchainCtrl.parseEirbmon(_EirbmonsFromBlockchain,(_parseEirbmon)=>{
+      for (let index = 0; index < _parseEirbmon.length; index++) {
+        _EirbmonToSave = {
+          idInBlockchain: _parseEirbmon[index].id,
+          type: _parseEirbmon[index].name,
+          name: _parseEirbmon[index].name,
+          owner_id: _parseEirbmon[index].owner.toLowerCase(),
+          hp: _parseEirbmon[index].hp,
+          canBeExhangedTo : _parseEirbmon[index].canBeExhangedTo,
+          price : _parseEirbmon[index].price,
+          canBeSelled : _parseEirbmon[index].canBeSelled,
+          field: _parseEirbmon[index].field,
+          evole: _parseEirbmon[index].evole,
+          skills_id: [_parseEirbmon[index].atk[0],_parseEirbmon[index].atk[1],_parseEirbmon[index].atk[2]],
+          value : _parseEirbmon[index].value,
+        }
+        promiseTab.push(Eirbmon.updateOne({ idInBlockchain: _EirbmonToSave.idInBlockchain }, _EirbmonToSave, { 'upsert': true }, function (err, res) {
+          if (err) throw err
+          })
+        )
       }
-      promiseTab.push(Eirbmon.updateOne({ idInBlockchain: _EirbmonToSave.idInBlockchain }, _EirbmonToSave, { 'upsert': true }, function (err, res) {
-        if (err) throw err
-        })
-      )
-    }
-    Promise.all(promiseTab).then(()=>GetAllEirbmons('req', res, Eirbmon, 'name') ,(err)=>res.status(500).send({msg: err.message}));
+      Promise.all(promiseTab).then(()=>GetAllEirbmons('req', res, Eirbmon, 'name') ,(err)=>res.status(500).send({msg: err.message}));
+    })
+    
   })
 }
 

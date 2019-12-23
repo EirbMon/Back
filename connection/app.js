@@ -114,26 +114,36 @@ module.exports = {
     })
   },
 
-  parseEirbmon : function(Eirbmons){
+  parseEirbmon : function(Eirbmons,callback){
     var parseEirbmonTab = [];
-    console.log(Eirbmons);
-    Eirbmons.forEach(element => {
-      parseEirbmonTab.push({
-        id : element[0].toNumber(),
-        name : element[1],
-        owner : element[2],
-        level : element[3].toNumber(),
-        field : element[4], 
-        atk1 : element[5].toNumber(),
-        atk2 : element[6].toNumber(),
-        atk3 : element[7].toNumber(),
-        hp : element[8].toNumber(),
-        canBeExhangedTo : element[9].toNumber(),
-        price : element[10].toNumber(),
-        canBeSelled : element[11],
-      })
-    });
-    return parseEirbmonTab;
+    var tabProm = [];
+    Eirbmon.deployed().then((instance) =>{
+      return instance;
+    }).then(eirbmonInstance=>{
+      Eirbmons.forEach(element => {
+        var prom = eirbmonInstance.getAtks(element[0].toNumber())
+        tabProm.push(prom)
+        prom.then(atk=>{
+          parseEirbmonTab.push({
+            id : element[0].toNumber(),
+            name : element[1],
+            owner : element[2],
+            evolve : element[3].toNumber(),
+            field : element[4], 
+            atk : [atk[0].toNumber(),atk[1].toNumber(),atk[2].toNumber()],
+            hp : element[5].toNumber(),
+            canBeExhangedTo : element[6].toNumber(),
+            price : element[7].toNumber(),
+            canBeSelled : element[8],
+            value : element[9].toNumber(),
+          })
+        })
+        
+      });
+      Promise.all(tabProm).then(()=>{console.log("parseEirbmonTab");callback(parseEirbmonTab)},()=>console.log('error'));
+    })
+
+
   },
 
   _getEirbmonCount:function(callback){

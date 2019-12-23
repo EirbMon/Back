@@ -15,12 +15,12 @@ const EirbmonSchema = new Schema({
   canBeSelled: {type: Boolean},
   force: {type: Number, default :0},
   xp: {type: Number, default :0},
-  lvl: {type: Number},
   evolve: {type: Number, default: 1},
   created_date: Date,
   updated_date: Date,
   catched_date: Date,
-  available: {type: Boolean, default : true}
+  available: {type: Boolean, default : true},
+  value : {type : Number}
 });
 
 module.exports = mongoose.model('Eirbmon', EirbmonSchema, 'eirbmons');
