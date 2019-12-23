@@ -2,16 +2,22 @@ module.exports = function(app,Eirbmon, Eirbdex) {
     const EirbmonCtrl = require('../controllers/eirbmon.controller.js');
     const GlobalCtrl = require('../controllers/global.controller.js');
 
-    // Create a new Eirbmon
-    app.post('/api/eirbmon', (req, res) => {
-        EirbmonCtrl.CreateEirbmon(req, res, Eirbmon, 'eirbmon');
-    });
-
     // Retreive all Eirbmon
     app.get('/api/eirbmon/all', (req, res) => {
         EirbmonCtrl.GetAllEirbmons(req, res, Eirbmon, 'eirbmon');
     });
 
+    // get all eirbmon for sale
+    app.get('/api/eirbmon/forsale', (req, res) => {
+        EirbmonCtrl.getEirmonForSale(req, res, Eirbmon);
+    });
+
+    // sal an eirbmon for sale
+    app.put('/api/eirbmon/forsale', (req, res) => {
+        EirbmonCtrl.setEirmonForSale(req, res, Eirbmon);
+    });
+
+    
     // update mongo with blockchain Eirbmon
     app.get('/api/eirbmon/update', (req, res) => {
         EirbmonCtrl.UpdateEirbmonTable(res,Eirbmon);

@@ -402,40 +402,6 @@
         }
       }
     },
-    "/api/createEirbmon": {
-      "post": {
-        "tags": [
-          "eirbmons"
-        ],
-        "summary": "Create a new Eirbmon",
-        "operationId": "CreateEirbmon",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Eirbmon that must be added to MongoDB",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Eirbmon"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Eirbmon"
-            }
-          }
-        }
-      }
-    },
     "/api/eirbmon": {
       "get": {
         "tags": [
