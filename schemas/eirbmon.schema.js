@@ -14,7 +14,7 @@ const EirbmonSchema = new Schema({
   price: {type: Number},
   canBeSelled: {type: Boolean},
   force: {type: Number, default :0},
-  lvl: {type: Number},
+  lvl: {type: Number, default: 0},
   evolve: {type: Number, default: 0},
   created_date: Date,
   updated_date: Date,

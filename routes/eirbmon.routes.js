@@ -17,6 +17,10 @@ module.exports = function(app,Eirbmon, Eirbdex) {
         EirbmonCtrl.setEirmonForSale(req, res, Eirbmon);
     });
 
+    app.get('/api/eirbmon/bc/:idInBlockchain', (req, res) => {
+        EirbmonCtrl.updateMongoEirbmonAccordingToBlockchain(res, req.params.idInBlockchain,Eirbmon);
+    });
+
     
     // update mongo with blockchain Eirbmon
     app.get('/api/eirbmon/update', (req, res) => {

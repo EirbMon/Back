@@ -176,22 +176,29 @@ const getEvolve = function (req, res, Eirbmon, Eirbdex, name) {
   console.log('Request LevelUp, collection: ' + name);
   Eirbmon.findOne({ idInBlockchain: req.params.idInBlockchain })
   .then(eirbmon => { 
-      if (eirbmon.lvl < 100){
-        res.send({msg: 'The eirbmon is not lv100, you cannnot evolve it'});
-        return;
-      }
+      if (eirbmon.lvl < 100)return res.send({msg: 'The eirbmon is not lv100, you cannnot evolve it'});
       Eirbdex.findOne({ type: eirbmon.type })
       .then(eirbdex => { 
-          if (eirbdex.evolution == "0"){
-          res.send({msg: 'The eirbmon is already at its max evolution, there is no evolution above, it cannnot evolve.'});
-          return;
-          }
-          Eirbmon.findOneAndUpdate({idInBlockchain: req.params.idInBlockchain}, {type: eirbdex.evolution, lvl: 0, evolve: eirbmon.evolve + 1}, { new: true })
-          .then(data =>{ res.json(data)}) 
+        if (eirbdex.evolution == "0") return res.send({msg: 'The eirbmon is already at its max evolution, there is no evolution above, it cannnot evolve.'})
+        res.json(eirbdex)}) 
         }) // fermeture then 2
       .catch(err => {res.status(500).send({msg: err.message})})
-      }) // fermeture then 1
   .catch(err => {res.status(500).send({msg: err.message})})
+}
+
+const updateMongoEirbmonAccordingToBlockchain = function (res, idEirbmonBlockchain, Collection) {
+  console.log('update the Eirbmon');
+  console.log("ok1");
+  return new Promise(function (resolve, reject) {
+    blockchainCtrl.getEirbmonById(idEirbmonBlockchain, function (_Eirbmon) {
+      blockchainCtrl.parseEirbmon(_Eirbmon,(_parseEirbmon)=>{
+        console.log('update : '+_parseEirbmon[0])
+        Collection.findOneAndUpdate({ idInBlockchain: idEirbmonBlockchain }, _parseEirbmon[0], { new: true })
+        .then(object => res.json(object))
+        .catch(err => res.status(404).json({msg: err + ' req: Update'}))
+      })  
+    })
+  })
 }
 
 const updateMongoEirbmonOwnerAccordingToBlockchain = function (idEirbmonBlockchain, Eirbmon, previousOwner,newOwner) {
@@ -304,6 +311,7 @@ const setEirmonForSale = function(req,res,Eirbmon){
 }
 
 module.exports = {
+  updateMongoEirbmonAccordingToBlockchain: updateMongoEirbmonAccordingToBlockchain,
   addFirstEirbmon: addFirstEirbmon,
   findMyEvolution: findMyEvolution,
   GetAnyEirbmonsByOwner: GetAnyEirbmonsByOwner,
