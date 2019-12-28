@@ -12,7 +12,7 @@ module.exports = function(app,Eirbmon, Eirbdex) {
         EirbmonCtrl.getEirmonForSale(req, res, Eirbmon);
     });
 
-    // sal an eirbmon for sale
+    // set an eirbmon for sale
     app.put('/api/eirbmon/forsale', (req, res) => {
         EirbmonCtrl.setEirmonForSale(req, res, Eirbmon);
     });

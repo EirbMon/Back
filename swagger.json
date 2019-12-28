@@ -602,6 +602,63 @@
         }
       }
     },
+    "/api/eirbmon/forsale": {
+      "get": {
+        "tags": [
+          "eirbmons"
+        ],
+        "summary": "get all eirbmon for sale",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Eirbmon"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "eirbmons"
+        ],
+        "summary": "set an eirbmon for sale",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "id_eirbmon_blockchain"
+              ],
+              "properties": {
+                "id_eirbmon_blockchain": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The eirbmon is now for sale"
+          },
+          "500": {
+            "description": "The Eirbmon can not be saled"
+          }
+        }
+      }
+    },
     "/api/eirbmon/updateOwner": {
       "put": {
         "tags": [

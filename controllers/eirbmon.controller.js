@@ -143,7 +143,6 @@ const GetAllEirbmons = function (req, res, Eirbmon, name) {
   console.log('Request GetAllEirbmons, collection: ' + name)
   Eirbmon.find()
     .then(_Eirbmons => {
-      console.log(_Eirbmons);
       res.json(_Eirbmons)
     }).catch(err => {
       res.status(500).send({
@@ -188,11 +187,9 @@ const getEvolve = function (req, res, Eirbmon, Eirbdex, name) {
 
 const updateMongoEirbmonAccordingToBlockchain = function (res, idEirbmonBlockchain, Collection) {
   console.log('update the Eirbmon');
-  console.log("ok1");
   return new Promise(function (resolve, reject) {
     blockchainCtrl.getEirbmonById(idEirbmonBlockchain, function (_Eirbmon) {
       blockchainCtrl.parseEirbmon(_Eirbmon,(_parseEirbmon)=>{
-        console.log('update : '+_parseEirbmon[0])
         Collection.findOneAndUpdate({ idInBlockchain: idEirbmonBlockchain }, _parseEirbmon[0], { new: true })
         .then(object => res.json(object))
         .catch(err => res.status(404).json({msg: err + ' req: Update'}))
@@ -297,17 +294,21 @@ const getEirmonForSale = function(req,res,Eirbmon){
   .catch(err => {res.status(500).send({msg: err.message})})
 }
 
-const setEirmonForSale = function(req,res,Eirbmon){
+const setEirmonForSale = function (req, res, Eirbmon) {
   console.log('Request get for sale');
-  blockchainCtrl.getEirbmonById(idEirbmonBlockchain, function (_Eirbmon) {
-    blockchainCtrl.parseEirbmon(_EirbmonsFromBlockchain,(_parseEirbmon)=>{
-      Eirbmon.updateOne({ idInBlockchain: req.body.id_eirbmon_blockchain},{canBeSelled : true})
-        .then(data => {
-          res.json({"response":"the eirbmon is now for sale"})
-        })
-        .catch(err => {res.status(500).send({msg: err.message})})
-      })
+  blockchainCtrl.getEirbmonById(req.body.id_eirbmon_blockchain, function (_EirbmonsFromBlockchain) {
+    blockchainCtrl.parseEirbmon(_EirbmonsFromBlockchain, (_parseEirbmon) => {
+      if (_parseEirbmon[0].canBeSelled == true) {
+        Eirbmon.updateOne({ idInBlockchain: req.body.id_eirbmon_blockchain }, { canBeSelled: true })
+          .then(data => {
+            res.json({ msg : "The eirbmon is now for sale" })
+          })
+          .catch(err => { res.status(500).send({ msg: err.message }) })
+      }else{
+        return res.status(500).send({ msg: 'The Eirbmon can not be saled' })
+      }
     })
+  })
 }
 
 module.exports = {
