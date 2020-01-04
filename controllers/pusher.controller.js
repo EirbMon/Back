@@ -52,18 +52,18 @@ exports.AuthenSalonChat = function (req, res) {
 
 exports.CreateUser = function (req, res) {
     const { username } = req.body
-    
+
     chatkit.createUser({
         id: username,
         name: username,
     })
         .then(() => {
             console.log('User created successfully');
-            res.status(201).send({ message: 'User created' });
+            res.sendStatus(201)
         }).catch((err) => {
             console.log(err);
             if (err.error === 'services/chatkit/user_already_exists') {
-                res.status(200).send({ message: 'User created' });
+                res.sendStatus(200)
             } else {
                 res.status(err.status).json(err)
             }
