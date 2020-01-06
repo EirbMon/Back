@@ -31,3 +31,7 @@ exports.GetAll = function (req, res, Eirbmon, name) {
             });
         });
 }
+
+exports.GetAllSkill = function (Skill) {
+    return Skill.find().sort( { id: 1 } )
+}

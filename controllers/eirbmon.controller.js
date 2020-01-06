@@ -1,6 +1,8 @@
 const blockchainCtrl = require('../controllers/blockchain.controller')
 var schedule = require('node-schedule')
 const moment  = require('moment');
+var Skill = require('../schemas/skill.schema.js');
+const SkillCtrl = require('../controllers/skill.controller.js');
 
 
 const GetAllEirbmonsByOwner = function (req, res, Eirbmon, name) {
@@ -107,6 +109,8 @@ const resetEirbmonTable = function (res, Eirbmon) {
 }
 
 const UpdateEirbmonTable = function (res, Eirbmon) {
+  SkillCtrl.GetAllSkill(Skill).then((skill)=>{
+  console.log(skill)
   console.log('update Eirbmon database')
   var promiseTab = [];
   blockchainCtrl.getAllEirbmons(function (_EirbmonsFromBlockchain) {
@@ -124,18 +128,20 @@ const UpdateEirbmonTable = function (res, Eirbmon) {
           field: _parseEirbmon[index].field,
           evole: _parseEirbmon[index].evole,
           skills_id: [_parseEirbmon[index].atk[0],_parseEirbmon[index].atk[1],_parseEirbmon[index].atk[2]],
+          skills : [skill.find(value => value.id == _parseEirbmon[index].atk[0]),skill.find(value => value.id == _parseEirbmon[index].atk[1]),skill.find(value => value.id == _parseEirbmon[index].atk[2])],
           value : _parseEirbmon[index].value,
           created_date : moment.unix(_parseEirbmon[index].birthDate).toDate(),
         }
+        console.log(_EirbmonToSave)
         promiseTab.push(Eirbmon.updateOne({ idInBlockchain: _EirbmonToSave.idInBlockchain }, _EirbmonToSave, { 'upsert': true }, function (err, res) {
           if (err) throw err
           })
         )
       }
       Promise.all(promiseTab).then(()=>GetAllEirbmons('req', res, Eirbmon, 'name') ,(err)=>res.status(500).send({msg: err.message}));
-    })
-    
+    }) 
   })
+})
 }
 
 
@@ -222,6 +228,7 @@ const updateMongoEirbmonOwnerAccordingToBlockchain = function (idEirbmonBlockcha
 
 // attend qu'un nouvel Eirmon soit créé pour l'ajouter à mongo
 const waitNewEirbmon = function (Eirbmon) {
+
   console.log('wait the creation of an new Eirbmon')
   return new Promise(function (resolve, reject) {
     Eirbmon.count().then((count) => {
@@ -310,6 +317,9 @@ const setEirmonForSale = function (req, res, Eirbmon) {
     })
   })
 }
+
+
+
 
 module.exports = {
   updateMongoEirbmonAccordingToBlockchain: updateMongoEirbmonAccordingToBlockchain,

@@ -7,6 +7,7 @@ const EirbmonSchema = new Schema({
   name: {type: String}, 
   owner_id: {type: String, required: true}, 
   skills_id: {type: Array},
+  skills: {type: Array},
   field: {type: String}, 
   hp: {type: Number},
   current_hp: {type: Number},
