@@ -29,8 +29,8 @@ const corsOptions = {
 app.use(cors(corsOptions))
 
 // Configuring the database: MongoDB Cloud
-//const url = "mongodb+srv://damien:damien@cluster0-fwwwo.mongodb.net/enseirbmon?ssl=true&retryWrites=true"
-const url = "mongodb+srv://vmalay:1234@cluster0-4ygx9.mongodb.net/enseirbmon?ssl=true&retryWrites=true"; // url de MongoDB Cloud
+const url = "mongodb+srv://damien:damien@cluster0-fwwwo.mongodb.net/enseirbmon?ssl=true&retryWrites=true"
+// const url = "mongodb+srv://vmalay:1234@cluster0-4ygx9.mongodb.net/enseirbmon?ssl=true&retryWrites=true"; // url de MongoDB Cloud
 const mongoose = require('mongoose'); // import des fonctions du module 'mongoose' (module de MongoDB Cloud pour NodeJS)
 mongoose.set('useFindAndModify', false); // [OPTINAL] Empeche certains warnings inutiles
 
