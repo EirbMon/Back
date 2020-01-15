@@ -2,7 +2,7 @@ const ConfParam = require('./conf.js');
 
 const express = require('express');
 const app = express();
-const port = 4000 || process.env.PORT;
+const port = 4400 || process.env.PORT;
 const Web3 = require('web3');
 const truffle_connect = require('./connection/app.js');
 const bodyParser = require('body-parser');
