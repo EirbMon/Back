@@ -231,6 +231,8 @@ const waitNewEirbmon = function (Eirbmon) {
 
   console.log('wait the creation of an new Eirbmon')
   return new Promise(function (resolve, reject) {
+    SkillCtrl.GetAllSkill(Skill).then((skill)=>{
+
     Eirbmon.count().then((count) => {
           blockchainCtrl.getEirbmonById(count + 1, (_Eirbmon) => {
             blockchainCtrl.parseEirbmon(_Eirbmon,(_parseEirbmon)=>{
@@ -260,6 +262,7 @@ const waitNewEirbmon = function (Eirbmon) {
         })
     })
   })
+})
 }
 
 const catchEirbmon = function (req, res, Eirbmon) {
