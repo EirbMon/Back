@@ -248,6 +248,7 @@ const waitNewEirbmon = function (Eirbmon) {
                 field: _parseEirbmon[0].field,
                 evole: _parseEirbmon[0].evole,
                 skills_id: [_parseEirbmon[0].atk[0],_parseEirbmon[0].atk[1],_parseEirbmon[0].atk[2]],
+                skills : [skill.find(value => value.id == _parseEirbmon[0].atk[0]),skill.find(value => value.id == _parseEirbmon[0].atk[1]),skill.find(value => value.id == _parseEirbmon[0].atk[2])],
                 value : _parseEirbmon[0].value,
                }
               Eirbmon.create(eirbmonToSave, function (err, res) {
@@ -294,11 +295,20 @@ const addFirstEirbmon = function (req, res, Eirbmon) {
 
 const getEirmonForSale = function(req,res,Eirbmon){
   console.log('Request get for sale');
-  Eirbmon.findOne({ canBeSelled: true})
-  .then(data => {
-    res.json(data)
-  })
-  .catch(err => {res.status(500).send({msg: err.message})})
+  if (!req.params.owner_id) {
+    Eirbmon.findOne({ canBeSelled: true})
+    .then(data => {
+      res.json(data)
+    })
+    .catch(err => {res.status(500).send({msg: err.message})})
+  }else{
+    Eirbmon.findOne({ canBeSelled: true,owner_id:req.params.owner_id})
+    .then(data => {
+      res.json(data)
+    })
+    .catch(err => {res.status(500).send({msg: err.message})})
+  }
+  
 }
 
 const setEirmonForSale = function (req, res, Eirbmon) {
@@ -318,6 +328,22 @@ const setEirmonForSale = function (req, res, Eirbmon) {
   })
 }
 
+const unsaleEirmon = function(req,res,Eirbmon){
+  console.log('Request unsale');
+  blockchainCtrl.getEirbmonById(req.body.id_eirbmon_blockchain, function (_EirbmonsFromBlockchain) {
+    blockchainCtrl.parseEirbmon(_EirbmonsFromBlockchain, (_parseEirbmon) => {
+      if (_parseEirbmon[0].canBeSelled == true) {
+        Eirbmon.updateOne({ idInBlockchain: req.body.id_eirbmon_blockchain }, { canBeSelled: false })
+          .then(data => {
+            res.json({ msg : "The eirbmon is now for unsale" })
+          })
+          .catch(err => { res.status(500).send({ msg: err.message }) })
+      }else{
+        return res.status(500).send({ msg: 'The Eirbmon can not be unsaled' })
+      }
+    })
+  })
+}
 
 
 
@@ -338,5 +364,6 @@ module.exports = {
   exchangeEirbmon: exchangeEirbmon,
   resetEirbmonTable: resetEirbmonTable,
   getEirmonForSale,
-  setEirmonForSale
+  setEirmonForSale,
+  unsaleEirmon
 }

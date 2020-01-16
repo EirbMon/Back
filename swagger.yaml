@@ -63,7 +63,20 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Key'
-  /api/inscription:
+
+  /api/users:
+    get:
+      tags:
+        - users
+      summary: Retrieve all users
+      operationId: GetAll
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ListUser'
     post:
       tags:
         - users
@@ -87,19 +100,6 @@ paths:
             $ref: '#/definitions/ReturnUser'
         '500':
           description: ERROR
-  /api/users:
-    get:
-      tags:
-        - users
-      summary: Retrieve all users
-      operationId: GetAll
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: OK
-          schema:
-            $ref: '#/definitions/ListUser'
     put:
       tags:
         - users
@@ -410,6 +410,44 @@ paths:
       tags:
         - eirbmons
       summary: set an eirbmon for sale
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required:
+              - id_eirbmon_blockchain
+            properties:
+              id_eirbmon_blockchain:
+                type: integer
+      responses:
+        '200':
+          description: The eirbmon is now for sale
+        '500':
+          description: The Eirbmon can not be saled
+  '/api/eirbmon/forsale/:owner_id':
+    get:
+      tags:
+        - eirbmons
+      summary: get all eirbmon forsale of owner_id
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Eirbmon'
+
+  /api/eirbmon/unsale:
+    put:
+      tags:
+        - eirbmons
+      summary: set an eirbmon for unsale
       consumes:
         - application/json
       produces:

@@ -7,14 +7,19 @@ module.exports = function(app,Eirbmon, Eirbdex) {
         EirbmonCtrl.GetAllEirbmons(req, res, Eirbmon, 'eirbmon');
     });
 
-    // get all eirbmon for sale
-    app.get('/api/eirbmon/forsale', (req, res) => {
+    // get eirbmon for sale
+    app.get('/api/eirbmon/forsale/:owner_id?', (req, res) => {
         EirbmonCtrl.getEirmonForSale(req, res, Eirbmon);
     });
 
     // set an eirbmon for sale
     app.put('/api/eirbmon/forsale', (req, res) => {
         EirbmonCtrl.setEirmonForSale(req, res, Eirbmon);
+    });
+
+    // unsale eirbmon
+    app.put('/api/eirbmon/unsale', (req, res) => {
+        EirbmonCtrl.unsaleEirmon(req, res, Eirbmon);
     });
 
     app.get('/api/eirbmon/bc/:idInBlockchain', (req, res) => {
