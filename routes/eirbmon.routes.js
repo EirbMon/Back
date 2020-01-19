@@ -26,11 +26,17 @@ module.exports = function(app,Eirbmon, Eirbdex) {
         EirbmonCtrl.updateMongoEirbmonAccordingToBlockchain(res, req.params.idInBlockchain,Eirbmon);
     });
 
+    // update mongo with blockchain Eirbmon
+    app.put('/api/eirbmon/updateOneEirbmon/', (req, res) => {
+        EirbmonCtrl.UpdateOneEirbmon(req,res,Eirbmon);
+    });
     
     // update mongo with blockchain Eirbmon
     app.get('/api/eirbmon/update', (req, res) => {
         EirbmonCtrl.UpdateEirbmonTable(res,Eirbmon);
     });
+
+    
 
     // reset mongo with blockchain Eirbmon
     app.get('/api/eirbmon/reset', (req, res) => {

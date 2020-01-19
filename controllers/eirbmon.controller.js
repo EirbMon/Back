@@ -193,7 +193,6 @@ const getEvolve = function (req, res, Eirbmon, Eirbdex, name) {
 
 const updateMongoEirbmonAccordingToBlockchain = function (res, idEirbmonBlockchain, Collection) {
   console.log('update the Eirbmon');
-  return new Promise(function (resolve, reject) {
     blockchainCtrl.getEirbmonById(idEirbmonBlockchain, function (_Eirbmon) {
       blockchainCtrl.parseEirbmon(_Eirbmon,(_parseEirbmon)=>{
         Collection.findOneAndUpdate({ idInBlockchain: idEirbmonBlockchain }, _parseEirbmon[0], { new: true })
@@ -201,7 +200,6 @@ const updateMongoEirbmonAccordingToBlockchain = function (res, idEirbmonBlockcha
         .catch(err => res.status(404).json({msg: err + ' req: Update'}))
       })  
     })
-  })
 }
 
 const updateMongoEirbmonOwnerAccordingToBlockchain = function (idEirbmonBlockchain, Eirbmon, previousOwner,newOwner) {
@@ -350,7 +348,36 @@ const unsaleEirmon = function(req,res,Eirbmon){
   })
 }
 
-
+const UpdateOneEirbmon = function(req, res, Eirbmon){
+  SkillCtrl.GetAllSkill(Skill).then((skill)=>{
+    console.log('update an Eirbmon')
+    blockchainCtrl.getEirbmonById(req.body.id_eirbmon_blockchain, function (_EirbmonsFromBlockchain) {
+      blockchainCtrl.parseEirbmon(_EirbmonsFromBlockchain,(_parseEirbmon)=>{
+          _EirbmonToSave = {
+            idInBlockchain: _parseEirbmon[0].id,
+            type: _parseEirbmon[0].name,
+            name: _parseEirbmon[0].name,
+            owner_id: _parseEirbmon[0].owner.toLowerCase(),
+            hp: _parseEirbmon[0].hp,
+            canBeExhangedTo : _parseEirbmon[0].canBeExhangedTo,
+            price : _parseEirbmon[0].price,
+            canBeSelled : _parseEirbmon[0].canBeSelled,
+            field: _parseEirbmon[0].field,
+            evole: _parseEirbmon[0].evole,
+            skills_id: [_parseEirbmon[0].atk[0],_parseEirbmon[0].atk[1],_parseEirbmon[0].atk[2]],
+            skills : [skill.find(value => value.id == _parseEirbmon[0].atk[0]),skill.find(value => value.id == _parseEirbmon[0].atk[1]),skill.find(value => value.id == _parseEirbmon[0].atk[2])],
+            value : _parseEirbmon[0].value,
+            created_date : moment.unix(_parseEirbmon[0].birthDate).toDate(),
+          }
+          console.log(_EirbmonToSave)
+          Eirbmon.updateOne({ idInBlockchain: _EirbmonToSave.idInBlockchain }, _EirbmonToSave, { 'upsert': true }, function (err, res) {
+            if (err) throw err
+          })
+        .then(()=>GetAllEirbmonsByOwner(req, res, Eirbmon, 'Eirbmon'));
+      }) 
+    })
+  })
+}
 
 module.exports = {
   updateMongoEirbmonAccordingToBlockchain: updateMongoEirbmonAccordingToBlockchain,
@@ -370,5 +397,6 @@ module.exports = {
   resetEirbmonTable: resetEirbmonTable,
   getEirmonForSale,
   setEirmonForSale,
-  unsaleEirmon
+  unsaleEirmon,
+  UpdateOneEirbmon
 }

@@ -364,6 +364,34 @@ paths:
       responses:
         '200':
           description: OK
+          
+  /api/eirbmon/updateOneEirbmon:
+    put:
+      tags:
+        - eirbmons
+      summary: >-
+        update an Eirbmon and return all the Eirbmons of the user
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              owner_id:
+                type: integer
+              id_eirbmon_blockchain:
+                type: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Eirbmon'
+            
   /api/eirbmon/catch:
     put:
       tags:
