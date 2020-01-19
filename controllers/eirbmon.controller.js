@@ -233,7 +233,8 @@ const waitNewEirbmon = function (Eirbmon) {
   return new Promise(function (resolve, reject) {
     SkillCtrl.GetAllSkill(Skill).then((skill)=>{
 
-    Eirbmon.count().then((count) => {
+    Eirbmon.countDocuments().then((count) => {
+          console.log(count)
           blockchainCtrl.getEirbmonById(count + 1, (_Eirbmon) => {
             blockchainCtrl.parseEirbmon(_Eirbmon,(_parseEirbmon)=>{
             console.log(_parseEirbmon[0].id)
@@ -255,6 +256,7 @@ const waitNewEirbmon = function (Eirbmon) {
                }
               Eirbmon.create(eirbmonToSave, function (err, res) {
                 if (err) throw err
+                console.log("a new eirbmon have been saved")
                 resolve(eirbmonToSave.owner_id)
               })
             }
