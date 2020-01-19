@@ -319,7 +319,7 @@ const setEirmonForSale = function (req, res, Eirbmon) {
   blockchainCtrl.getEirbmonById(req.body.id_eirbmon_blockchain, function (_EirbmonsFromBlockchain) {
     blockchainCtrl.parseEirbmon(_EirbmonsFromBlockchain, (_parseEirbmon) => {
       if (_parseEirbmon[0].canBeSelled == true) {
-        Eirbmon.updateOne({ idInBlockchain: req.body.id_eirbmon_blockchain }, { canBeSelled: true })
+        Eirbmon.updateOne({ idInBlockchain: req.body.id_eirbmon_blockchain }, { canBeSelled: true, price :_parseEirbmon[0].price })
           .then(data => {
             res.json({ msg : "The eirbmon is now for sale" })
           })
