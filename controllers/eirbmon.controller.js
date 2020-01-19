@@ -7,8 +7,6 @@ const SkillCtrl = require('../controllers/skill.controller.js');
 
 const GetAllEirbmonsByOwner = function (req, res, Eirbmon, name) {
   console.log(req.params.owner_id)
-  req.params.owner_id = req.body.owner_id
-
   console.log('Request GetAllByOwnerEirbmons, collection: ' + name)
   Eirbmon.find({ owner_id: req.params.owner_id.toLowerCase() })
     .then(eirbmons => {
@@ -351,6 +349,8 @@ const unsaleEirmon = function(req,res,Eirbmon){
 }
 
 const UpdateOneEirbmon = function(req, res, Eirbmon){
+  req.params.owner_id = req.body.owner_id
+
   SkillCtrl.GetAllSkill(Skill).then((skill)=>{
     console.log('update an Eirbmon')
     blockchainCtrl.getEirbmonById(req.body.id_eirbmon_blockchain, function (_EirbmonsFromBlockchain) {
