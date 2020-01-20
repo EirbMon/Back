@@ -81,7 +81,8 @@ const GetEirbmonByidInBlockchain = function (req, res, Eirbmon, name) {
 
 const Update = function (req, res, Collection, name) {
   console.log('Request PUT: collection: ' + name)
-  console.log(req.body)
+
+  console.log("Dans le body: " + req.body.lvl)
   if (req.body.owner_id !== undefined) {
     req.body.owner_id = req.body.owner_id.toLowerCase();
   }
@@ -94,7 +95,7 @@ const Update = function (req, res, Collection, name) {
           msg: name + ' not found with id ' + req.params._id + ', req: Update'
         })
       }
-      console.log(object);
+      console.log("Eirbmon updated: " + object.lvl)
       res.json(object)
     })
     .catch(err => {
@@ -113,7 +114,7 @@ const resetEirbmonTable = function (res, Eirbmon) {
 
 const UpdateEirbmonTable = function (res, Eirbmon) {
   SkillCtrl.GetAllSkill(Skill).then((skill)=>{
-  console.log(skill)
+  console.log(skill);
   console.log('update Eirbmon database')
   var promiseTab = [];
   blockchainCtrl.getAllEirbmons(function (_EirbmonsFromBlockchain) {
