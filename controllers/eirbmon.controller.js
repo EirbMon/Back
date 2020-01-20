@@ -130,6 +130,7 @@ const UpdateEirbmonTable = function (res, Eirbmon) {
           skills_id: [_parseEirbmon[index].atk[0],_parseEirbmon[index].atk[1],_parseEirbmon[index].atk[2]],
           skills : [skill.find(value => value.id == _parseEirbmon[index].atk[0]),skill.find(value => value.id == _parseEirbmon[index].atk[1]),skill.find(value => value.id == _parseEirbmon[index].atk[2])],
           value : _parseEirbmon[index].value,
+          lvl: _parseEirbmon[index].lvl,
           created_date : moment.unix(_parseEirbmon[index].birthDate).toDate(),
         }
         console.log(_EirbmonToSave)
@@ -248,6 +249,7 @@ const waitNewEirbmon = function (Eirbmon) {
                 canBeSelled : _parseEirbmon[0].canBeSelled,
                 field: _parseEirbmon[0].field,
                 evole: _parseEirbmon[0].evole,
+                lvl: _parseEirbmon[0].lvl,
                 skills_id: [_parseEirbmon[0].atk[0],_parseEirbmon[0].atk[1],_parseEirbmon[0].atk[2]],
                 skills : [skill.find(value => value.id == _parseEirbmon[0].atk[0]),skill.find(value => value.id == _parseEirbmon[0].atk[1]),skill.find(value => value.id == _parseEirbmon[0].atk[2])],
                 value : _parseEirbmon[0].value,
@@ -366,6 +368,7 @@ const UpdateOneEirbmon = function(req, res, Eirbmon){
             canBeSelled : _parseEirbmon[0].canBeSelled,
             field: _parseEirbmon[0].field,
             evole: _parseEirbmon[0].evole,
+            lvl: _parseEirbmon[0].lvl,
             skills_id: [_parseEirbmon[0].atk[0],_parseEirbmon[0].atk[1],_parseEirbmon[0].atk[2]],
             skills : [skill.find(value => value.id == _parseEirbmon[0].atk[0]),skill.find(value => value.id == _parseEirbmon[0].atk[1]),skill.find(value => value.id == _parseEirbmon[0].atk[2])],
             value : _parseEirbmon[0].value,
