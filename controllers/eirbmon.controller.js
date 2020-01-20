@@ -85,6 +85,8 @@ const Update = function (req, res, Collection, name) {
   if (req.body.owner_id !== undefined) {
     req.body.owner_id = req.body.owner_id.toLowerCase();
   }
+
+  console.log(req.body);
   Collection.findOneAndUpdate({ idInBlockchain: req.body.idInBlockchain }, req.body, { new: true })
     .then(object => {
       if (!object) {
@@ -92,6 +94,7 @@ const Update = function (req, res, Collection, name) {
           msg: name + ' not found with id ' + req.params._id + ', req: Update'
         })
       }
+      console.log(object);
       res.json(object)
     })
     .catch(err => {
