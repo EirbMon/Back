@@ -320,7 +320,7 @@ const getEirmonForSale = function(req,res,Eirbmon){
     })
     .catch(err => {res.status(500).send({msg: err.message})})
   }else{
-    Eirbmon.find({ canBeSelled: true,owner_id:req.params.owner_id})
+    Eirbmon.find({ canBeSelled: true,owner_id:req.params.owner_id.toLowerCase()})
     .then(data => {
       res.json(data)
     })
