@@ -306,13 +306,13 @@ const addFirstEirbmon = function (req, res, Eirbmon) {
 const getEirmonForSale = function(req,res,Eirbmon){
   console.log('Request get for sale');
   if (!req.params.owner_id) {
-    Eirbmon.findOne({ canBeSelled: true})
+    Eirbmon.find({ canBeSelled: true})
     .then(data => {
       res.json(data)
     })
     .catch(err => {res.status(500).send({msg: err.message})})
   }else{
-    Eirbmon.findOne({ canBeSelled: true,owner_id:req.params.owner_id})
+    Eirbmon.find({ canBeSelled: true,owner_id:req.params.owner_id})
     .then(data => {
       res.json(data)
     })
