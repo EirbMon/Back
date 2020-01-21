@@ -85,7 +85,9 @@ const GetEirbmonByidInBlockchain = function (req, res, Eirbmon, name) {
 const Update = function (req, res, Collection, name) {
   console.log('Request PUT: collection: ' + name)
 
-  console.log("Dans le body: " + req.body.lvl)
+  console.log("Dans le body: ");
+  console.log(req.body);
+
   if (req.body.owner_id !== undefined) {
     req.body.owner_id = req.body.owner_id.toLowerCase();
   }
@@ -97,7 +99,8 @@ const Update = function (req, res, Collection, name) {
           msg: name + ' not found with id ' + req.params._id + ', req: Update'
         })
       }
-      console.log("Dans la réponse: " + object.lvl)
+      console.log("Dans la réponse: ");
+      console.log(object);
       res.json(object)
     })
     .catch(err => {
@@ -137,6 +140,7 @@ const UpdateEirbmonTable = function (res, Eirbmon) {
           skills : [skill.find(value => value.id == _parseEirbmon[index].atk[0]),skill.find(value => value.id == _parseEirbmon[index].atk[1]),skill.find(value => value.id == _parseEirbmon[index].atk[2])],
           value : _parseEirbmon[index].value,
           lvl: 0,
+          current_hp: _parseEirbmon[index].hp,
           evolve: _parseEirbmon[index].evolve,
           created_date : moment.unix(_parseEirbmon[index].birthDate).toDate(),
         }
@@ -257,6 +261,7 @@ const waitNewEirbmon = function (Eirbmon) {
                 field: _parseEirbmon[0].field,
                 evole: _parseEirbmon[0].evole,
                 lvl: 0,
+                current_hp: _parseEirbmon[0].hp,
                 evolve: _parseEirbmon[0].evolve,
                 skills_id: [_parseEirbmon[0].atk[0],_parseEirbmon[0].atk[1],_parseEirbmon[0].atk[2]],
                 skills : [skill.find(value => value.id == _parseEirbmon[0].atk[0]),skill.find(value => value.id == _parseEirbmon[0].atk[1]),skill.find(value => value.id == _parseEirbmon[0].atk[2])],
@@ -377,6 +382,7 @@ const UpdateOneEirbmon = function(req, res, Eirbmon){
             field: _parseEirbmon[0].field,
             evole: _parseEirbmon[0].evole,
             lvl: 0,
+            current_hp: _parseEirbmon[0].hp,
             evolve: _parseEirbmon[0].evolve,
             skills_id: [_parseEirbmon[0].atk[0],_parseEirbmon[0].atk[1],_parseEirbmon[0].atk[2]],
             skills : [skill.find(value => value.id == _parseEirbmon[0].atk[0]),skill.find(value => value.id == _parseEirbmon[0].atk[1]),skill.find(value => value.id == _parseEirbmon[0].atk[2])],
