@@ -43,7 +43,10 @@ const GetAnyEirbmonsByOwner = function (req, res, Eirbmon, name) {
     Eirbmon.find({ owner_id: req.params.owner_id.toLowerCase(),available:{$ne:false}})
     // Eirbmon.find({ owner_id: req.params.owner_id.toLowerCase()})
       .then(eirbmons => {
-        var eirbmonsRetour = eirbmons.slice(0, req.params.number)
+        var max = eirbmons.length - 1 - req.params.number;
+        var min = 0;
+        var rand = Math.floor(Math.random() * (max - min + 1) + min);
+        var eirbmonsRetour = eirbmons.slice(rand, rand + req.params.number);
         setNotAvailable(eirbmonsRetour,Eirbmon,req.params.owner_id.toLowerCase())
         res.json(eirbmonsRetour)
       }).catch(err => {
