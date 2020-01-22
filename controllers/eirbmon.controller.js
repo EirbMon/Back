@@ -139,7 +139,6 @@ const UpdateEirbmonTable = function (res, Eirbmon) {
           skills_id: [_parseEirbmon[index].atk[0],_parseEirbmon[index].atk[1],_parseEirbmon[index].atk[2]],
           skills : [skill.find(value => value.id == _parseEirbmon[index].atk[0]),skill.find(value => value.id == _parseEirbmon[index].atk[1]),skill.find(value => value.id == _parseEirbmon[index].atk[2])],
           value : _parseEirbmon[index].value,
-          lvl: 0,
           current_hp: _parseEirbmon[index].hp,
           evolve: _parseEirbmon[index].evolve,
           created_date : moment.unix(_parseEirbmon[index].birthDate).toDate(),
@@ -244,7 +243,8 @@ const waitNewEirbmon = function (Eirbmon) {
     SkillCtrl.GetAllSkill(Skill).then((skill)=>{
 
     Eirbmon.countDocuments().then((count) => {
-          console.log(count)
+          console.log(count);
+          var rand_lvl = Math.floor(Math.random() * (25 - 1 + 1) + 1);
           blockchainCtrl.getEirbmonById(count + 1, (_Eirbmon) => {
             blockchainCtrl.parseEirbmon(_Eirbmon,(_parseEirbmon)=>{
             console.log(_parseEirbmon[0].id)
@@ -260,7 +260,7 @@ const waitNewEirbmon = function (Eirbmon) {
                 canBeSelled : _parseEirbmon[0].canBeSelled,
                 field: _parseEirbmon[0].field,
                 evole: _parseEirbmon[0].evole,
-                lvl: 0,
+                lvl: rand_lvl,
                 current_hp: _parseEirbmon[0].hp,
                 evolve: _parseEirbmon[0].evolve,
                 skills_id: [_parseEirbmon[0].atk[0],_parseEirbmon[0].atk[1],_parseEirbmon[0].atk[2]],
@@ -381,7 +381,6 @@ const UpdateOneEirbmon = function(req, res, Eirbmon){
             canBeSelled : _parseEirbmon[0].canBeSelled,
             field: _parseEirbmon[0].field,
             evole: _parseEirbmon[0].evole,
-            lvl: 0,
             current_hp: _parseEirbmon[0].hp,
             evolve: _parseEirbmon[0].evolve,
             skills_id: [_parseEirbmon[0].atk[0],_parseEirbmon[0].atk[1],_parseEirbmon[0].atk[2]],
