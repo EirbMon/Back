@@ -52,7 +52,7 @@ const GetAnyEirbmonsByOwner = function (req, res, Eirbmon, name) {
         console.log(eirbmonsRetour);
         console.log("random = " + rand);
 
-        setNotAvailable(eirbmonsRetour,Eirbmon,req.params.owner_id.toLowerCase())
+        //setNotAvailable(eirbmonsRetour,Eirbmon,req.params.owner_id.toLowerCase())
         res.json(eirbmonsRetour)
       }).catch(err => {
         res.status(500).send({
