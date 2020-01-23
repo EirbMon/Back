@@ -126,7 +126,7 @@ module.exports = {
         prom.then(atk=>{
           parseEirbmonTab.push({
             id : element[0].toNumber(),
-            name : element[1],
+            type : element[1],
             owner : element[2],
             evolve : element[3].toNumber(),
             field : element[4], 
