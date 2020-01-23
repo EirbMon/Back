@@ -132,8 +132,8 @@ const UpdateEirbmonTable = function (res, Eirbmon) {
       for (let index = 0; index < _parseEirbmon.length; index++) {
         _EirbmonToSave = {
           idInBlockchain: _parseEirbmon[index].id,
-          type: _parseEirbmon[index].name,
-          name: _parseEirbmon[index].name,
+          type: _parseEirbmon[index].type,
+          name: _parseEirbmon[index].type,
           owner_id: _parseEirbmon[index].owner.toLowerCase(),
           hp: _parseEirbmon[index].hp,
           canBeExhangedTo : _parseEirbmon[index].canBeExhangedTo,
@@ -256,8 +256,8 @@ const waitNewEirbmon = function (Eirbmon) {
             if (_parseEirbmon[0].id !== 0) {
               const eirbmonToSave = {
                 idInBlockchain: _parseEirbmon[0].id,
-                type: _parseEirbmon[0].name,
-                name: _parseEirbmon[0].name,
+                type: _parseEirbmon[0].type,
+                name: _parseEirbmon[0].type,
                 owner_id: _parseEirbmon[0].owner.toLowerCase(),
                 hp: _parseEirbmon[0].hp,
                 canBeExhangedTo : _parseEirbmon[0].canBeExhangedTo,
@@ -377,8 +377,8 @@ const UpdateOneEirbmon = function(req, res, Eirbmon){
       blockchainCtrl.parseEirbmon(_EirbmonsFromBlockchain,(_parseEirbmon)=>{
           _EirbmonToSave = {
             idInBlockchain: _parseEirbmon[0].id,
-            type: _parseEirbmon[0].name,
-            name: _parseEirbmon[0].name,
+            type: _parseEirbmon[0].type,
+            name: _parseEirbmon[0].type,
             owner_id: _parseEirbmon[0].owner.toLowerCase(),
             hp: _parseEirbmon[0].hp,
             canBeExhangedTo : _parseEirbmon[0].canBeExhangedTo,
