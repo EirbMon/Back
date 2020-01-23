@@ -75,7 +75,7 @@ const GetAnyEirbmonsByOwner = function (req, res, Eirbmon, name) {
 
 
 const GetEirbmonByidInBlockchain = function (req, res, Eirbmon, name) {
-  console.log('Request GetEirbmonByidInBlockchains, collection: ' + name)
+  console.log('Request GetEirbmonByidInBlockchains, collection : ' + name)
   console.log(req.params.idInBlockchain);
   Eirbmon.find({ idInBlockchain: req.params.idInBlockchain })
     .then(eirbmons => {
